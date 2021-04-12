@@ -14,4 +14,8 @@ class LedgerManager {
     fun getLedger(id: Long): Ledger? {
         return db.ledgerTable[id]
     }
+
+    fun getNewId(): Long {
+        return (db.ledgerTable.size + 1).toLong()
+    }
 }
