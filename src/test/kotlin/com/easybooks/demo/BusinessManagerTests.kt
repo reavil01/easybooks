@@ -24,22 +24,20 @@ class BusinessManagerTests {
         assertEquals(ledger?.total, 3000)
     }
 
-//    @Test
-//    fun createLedgerWhenClientIdNotExist() {
-//        // given
-//        val clientId = "123-456-7890"
-//        val client = Client(clientId, "테스트")
-//        clientManager.saveClient(client)
-//
-//        // when
-//        // FIX: 임시로 classNotFoundException 발생
-//        val exception = assertThrows(ClassNotFoundException::class.java) {
-//            businessManager.registerLedger("111-111-1111", 3000, LedgerType.Sell)
-//        }
-//
-//        // then
-//        // FIX: Exception 클래스가 무엇을 뱉는지 몰라 임시로 설정
-//        print(exception.message)
-////        assertEquals(ledger.total, 3000)
-//    }
+    @Test
+    fun createLedgerWhenClientIdNotExist() {
+        // given
+        val clientId = "123-456-7890"
+        val client = Client(clientId, "테스트")
+        clientManager.saveClient(client)
+
+        // when
+        val exception = assertThrows(ClientNotExistException::class.java) {
+            businessManager.registerLedger("111-111-1111", 3000, LedgerType.Sell)
+        }
+
+        // then
+        print(exception.message)
+//        assertEquals(ledger.total, 3000)
+    }
 }

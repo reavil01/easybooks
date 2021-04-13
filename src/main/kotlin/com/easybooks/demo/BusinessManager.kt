@@ -6,7 +6,7 @@ class BusinessManager {
 
     fun registerLedger(clientId: String, total: Int, type: LedgerType) {
         if(clientManager.getClient(clientId) == null) {
-            throw ClassNotFoundException()
+            throw ClientNotExistException("The client id $clientId is not exist")
         }
 
         val ledger = createLedger(clientId, total, type)
