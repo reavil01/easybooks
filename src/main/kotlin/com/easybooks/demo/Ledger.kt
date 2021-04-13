@@ -10,15 +10,3 @@ data class Ledger(
     val total: Int,
     val type: LedgerType,
 )
-
-data class SellLedger(
-    val id: String,
-    val clientId: String,
-    val total: Int,
-)
-
-data class PurchaseLedger(
-    val id: String,
-    val clientId: String,
-    val total: Int,
-)
