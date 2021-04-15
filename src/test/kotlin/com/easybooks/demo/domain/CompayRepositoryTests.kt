@@ -1,9 +1,6 @@
-package com.easybooks.demo
+package com.easybooks.demo.domain
 
-import com.easybooks.demo.domain.Company
-import com.easybooks.demo.domain.CompanyRepository
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -41,14 +38,14 @@ class CompayRepositoryTests {
 
         // then
         val com2 = compayList[0]
-        assertThat(company.number, `is`(com2.number))
-        assertThat(company.name, `is`(com2.name))
-        assertThat(company.owner, `is`(com2.owner))
-        assertThat(company.address, `is`(com2.address))
-        assertThat(company.type, `is`(com2.type))
-        assertThat(company.items, `is`(com2.items))
-        assertThat(company.email, `is`(com2.email))
-        assertThat(company.phone, `is`(com2.phone))
-        assertThat(company.fax, `is`(com2.fax))
+        assertThat(company.number).isEqualTo(com2.number)
+        assertThat(company.name).isEqualTo(com2.name)
+        assertThat(company.owner).isEqualTo(com2.owner)
+        assertThat(company.address).isEqualTo(com2.address)
+        assertThat(company.type).isEqualTo(com2.type)
+        assertThat(company.items).isEqualTo(com2.items)
+        assertThat(company.email).isEqualTo(com2.email)
+        assertThat(company.phone).isEqualTo(com2.phone)
+        assertThat(company.fax).isEqualTo(com2.fax)
     }
 }

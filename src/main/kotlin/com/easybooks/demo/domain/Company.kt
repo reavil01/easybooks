@@ -4,7 +4,7 @@ import net.bytebuddy.implementation.bind.annotation.AllArguments
 import javax.persistence.*
 
 @Entity
-data class Company (
+class Company (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
