@@ -6,6 +6,7 @@ import com.easybooks.demo.web.dto.CompanySaveRequestDto
 import com.easybooks.demo.web.dto.CompanyUpdateRequestDto
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -52,7 +53,7 @@ class CompanyApiControllerTest {
         val url = "http://localhost:$port/api/v1/company"
 
         // when
-        val responseEntity = restTemplate.postForEntity(url, requestDto, Long::class.java)
+        val responseEntity = restTemplate.postForEntity<Long>(url, requestDto, Long)
 
         // then
         assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
@@ -121,5 +122,32 @@ class CompanyApiControllerTest {
         assertThat(updatedCompany.id).isEqualTo(1)
         assertThat(updatedCompany.number).isEqualTo(expectedNumber)
         assertThat(updatedCompany.name).isEqualTo(expectedName)
+    }
+
+    @Test
+    fun company_삭제된다() {
+        // given
+        val savedCompany = companyRepository.save(
+            Company(
+                number = "123-456-7890",
+                name = "페이퍼컴퍼니",
+                owner = "나",
+                address = "없어요",
+                type = "페이퍼",
+                items = "종이",
+                email = "paper@gmail.com",
+                phone = "00000000000",
+                fax = "11111111111"
+            )
+        )
+
+        val updateId = savedCompany.id
+        val url = "http://localhost:$port/api/v1/company/$updateId"
+
+        // when
+        restTemplate.delete(url)
+
+        // then
+        assertThat(companyRepository.findAll().size).isEqualTo(0)
     }
 }

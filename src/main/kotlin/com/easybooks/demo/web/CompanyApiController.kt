@@ -23,6 +23,11 @@ class CompanyApiController {
         return companyService.update(id, requestDto)
     }
 
+    @DeleteMapping("/api/v1/company/{id}")
+    fun delete(@PathVariable id: Long) {
+        return companyService.delete(id)
+    }
+
     @GetMapping("/api/v1/company/{id}")
     fun findById(@PathVariable id: Long): CompanyResponseDto {
         return companyService.findById(id)

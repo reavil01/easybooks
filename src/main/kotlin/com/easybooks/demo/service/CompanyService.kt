@@ -29,6 +29,14 @@ class CompanyService (val companyRepository: CompanyRepository) {
         return id
     }
 
+    @Transactional
+    fun delete(id: Long) {
+        val company = companyRepository.findById(id)
+            .orElseThrow { IllegalArgumentException("해당 사업체가 없습니다. id=$id") }
+
+        companyRepository.delete(company)
+    }
+
     fun findById(id: Long): CompanyResponseDto {
         val entity = companyRepository.findById(id)
             .orElseThrow{ IllegalArgumentException("해당 사업체가 없습니다. id=$id") }
