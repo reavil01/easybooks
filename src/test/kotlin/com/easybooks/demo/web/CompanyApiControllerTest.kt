@@ -6,7 +6,6 @@ import com.easybooks.demo.web.dto.CompanySaveRequestDto
 import com.easybooks.demo.web.dto.CompanyUpdateRequestDto
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -119,7 +118,7 @@ class CompanyApiControllerTest {
         assertThat(all.size).isEqualTo(1)
 
         val updatedCompany = all[0]
-        assertThat(updatedCompany.id).isEqualTo(1)
+        assertThat(updatedCompany.id).isEqualTo(updateId)
         assertThat(updatedCompany.number).isEqualTo(expectedNumber)
         assertThat(updatedCompany.name).isEqualTo(expectedName)
     }
