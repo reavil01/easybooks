@@ -1,5 +1,7 @@
 package com.easybooks.demo
 
+import org.springframework.data.jpa.repository.Temporal
+import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
 
@@ -10,10 +12,14 @@ class Ledger(
     val id: Long = 0,
 
     @Column(nullable = false)
-    val clientId: String,
+    val companyId: String,
 
     @Column(nullable = false)
-    val date: Date,
+    val type: LedgerType,
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    val date: LocalDate,
 
     @Column(nullable = false)
     val item: String,
@@ -29,9 +35,6 @@ class Ledger(
 
     @Column(nullable = false)
     val total: Int,
-
-    @Column(nullable = false)
-    val type: LedgerType,
 )
 
 enum class LedgerType {

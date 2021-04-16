@@ -1,6 +1,5 @@
 package com.easybooks.demo.service
 
-import com.easybooks.demo.domain.Company
 import com.easybooks.demo.domain.CompanyRepository
 import com.easybooks.demo.domain.update
 import com.easybooks.demo.web.dto.*
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
 import java.util.stream.Collectors
-import kotlin.streams.toList
 
 @Service
 // 생성자가 하나인 경우 @Autowired 생략해도 injection 됨
