@@ -1,0 +1,57 @@
+{{>layout/header}}
+<h1>사업체 등록</h1>
+
+<div class="col-md-12">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label for="number">사업자 번호</label>
+                <input type="text" class="form-control"
+                       id="number" placeholder="123-456-7890">
+            </div>
+            <div class="form-group">
+                <label for="name">상호</label>
+                <input type="text" class="form-control"
+                       id="name">
+            </div>
+            <div class="form-group">
+                <label for="owner">대표자 이름</label>
+                <input type="text" class="form-control"
+                       id="owner">
+            </div>
+            <div class="form-group">
+                <label for="address">사업장 주소</label>
+                <input type="text" class="form-control"
+                       id="address">
+            </div>
+            <div class="form-group">
+                <label for="type">업태</label>
+                <input type="text" class="form-control"
+                       id="type">
+            </div>
+            <div class="form-group">
+                <label for="items">품목</label>
+                <input type="text" class="form-control"
+                       id="items">
+            </div>
+            <div class="form-group">
+                <label for="email">이메일</label>
+                <input type="text" class="form-control"
+                       id="email">
+            </div>
+            <div class="form-group">
+                <label for="phone">전화번호</label>
+                <input type="text" class="form-control"
+                       id="phone">
+            </div>
+            <div class="form-group">
+                <label for="fax">팩스번호</label>
+                <input type="text" class="form-control"
+                       id="fax">
+            </div>
+        </form>
+        <a href="/" role="button" class="btn btn-secondary">취소</a>
+        <button type="button" class="btn btn-primary" id="btn-save">등록</button>
+    </div>
+</div>
+{{>layout/footer}}

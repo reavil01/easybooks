@@ -24,8 +24,9 @@ class CompanyApiController {
     }
 
     @DeleteMapping("/api/v1/company/{id}")
-    fun delete(@PathVariable id: Long) {
-        return companyService.delete(id)
+    fun delete(@PathVariable id: Long): Long {
+        companyService.delete(id)
+        return id
     }
 
     @GetMapping("/api/v1/company/{id}")

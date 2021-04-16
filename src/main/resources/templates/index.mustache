@@ -1,0 +1,32 @@
+{{>layout/header}}
+
+<h1>EasyBooks main page</h1>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <a href="/company/save" role="button" class="btn btn-primary">사업체 등록</a>
+        </div>
+    </div>
+    <br>
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>ID</th>
+            <th>사업자번호</th>
+            <th>사업자명</th>
+            <th>대표</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#companys}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{number}}</td>
+                <td><a href="/company/update/{{id}}">{{name}}</a></td>
+                <td>{{owner}}</td>
+            </tr>
+        {{/companys}}
+        </tbody>
+    </table>
+</div>
+{{>layout/footer}}
