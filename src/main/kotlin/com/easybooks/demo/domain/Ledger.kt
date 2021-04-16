@@ -1,8 +1,8 @@
 package com.easybooks.demo
 
+import com.easybooks.demo.web.dto.LedgerUpdateRequestDto
 import org.springframework.data.jpa.repository.Temporal
 import java.time.LocalDate
-import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -12,30 +12,42 @@ class Ledger(
     val id: Long = 0,
 
     @Column(nullable = false)
-    val companyId: String,
+    var companyId: String,
 
     @Column(nullable = false)
-    val type: LedgerType,
+    var type: LedgerType,
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
-    val date: LocalDate,
+    var date: LocalDate,
 
     @Column(nullable = false)
-    val item: String,
+    var item: String,
 
-    val unitPrice: Int,
-    val quantity: Int,
-
-    @Column(nullable = false)
-    val price: Int,
+    var unitPrice: Int,
+    var quantity: Int,
 
     @Column(nullable = false)
-    val VAT: Int,
+    var price: Int,
 
     @Column(nullable = false)
-    val total: Int,
+    var VAT: Int,
+
+    @Column(nullable = false)
+    var total: Int,
 )
+
+fun Ledger.update(requestDto: LedgerUpdateRequestDto) {
+    companyId = requestDto.companyId
+    type = requestDto.type
+    date = requestDto.date
+    item = requestDto.item
+    unitPrice = requestDto.unitPrice
+    quantity = requestDto.quantity
+    price = requestDto.price
+    VAT = requestDto.VAT
+    total = requestDto.total
+}
 
 enum class LedgerType {
     Sell, Purchase
