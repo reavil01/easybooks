@@ -7,13 +7,19 @@ var index = {
 
         $('#btn-update').on('click', function () {
             _this.update();
-        })
+        });
         $('#btn-delete').on('click', function () {
             _this.delete();
-        })
+        });
         $('#btn-ledger-save').on('click', function () {
             _this.saveLedger();
-        })
+        });
+        $('#btn-ledger-update').on('click', function () {
+            _this.updateLedger();
+        });
+        $('#btn-ledger-delete').on('click', function () {
+           _this.deleteLedger();
+        });
     },
     save : function () {
         var data = {
@@ -54,7 +60,7 @@ var index = {
             fax: $('#fax').val()
         };
 
-        var id = $('#id').val()
+        var id = $('#id').val();
 
         $.ajax({
             type: 'POST',
@@ -108,10 +114,53 @@ var index = {
             data: JSON.stringify(data),
         }).done(function () {
             alert('송장이 등록되었습니다.');
+            window.location.href = '/';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
     },
+    updateLedger : function () {
+        var id = $('#id').val();
+        var data = {
+            companyNumber: $('#companyNumber').val(),
+            type: $('input[name="type"]:checked').val(),
+            date: $('#date').val(),
+            item: $('#item').val(),
+            unitPrice: $('#unitPrice').val(),
+            quantity: $('#quantity').val(),
+            price: $('#price').val(),
+            VAT: $('#VAT').val(),
+            total: $('#total').val(),
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/v1/ledger/'+id,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        }).done(function () {
+            alert('송장이 수정되었습니다.');
+            window.location.href = '/';
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
+    },
+    deleteLedger : function () {
+        var id = $('#id').val();
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/api/v1/ledger/'+id,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+        }).done(function () {
+            alert('송장이 삭제되었습니다.');
+            window.location.href = '/';
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
+    }
 };
 
 index.init();

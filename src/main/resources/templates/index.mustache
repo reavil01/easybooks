@@ -29,5 +29,27 @@
         {{/companys}}
         </tbody>
     </table>
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>ID</th>
+            <th>날짜</th>
+            <th>사업자번호</th>
+            <th>품명</th>
+            <th>총액</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#ledgers}}
+            <tr>
+                <td><a href="/ledger/update/{{id}}">{{id}}</a></td>
+                <td>{{date}}</td>
+                <td>{{companyNumber}}</td>
+                <td>{{item}}</td>
+                <td>{{total}}</td>
+            </tr>
+        {{/ledgers}}
+        </tbody>
+    </table>
 </div>
 {{>layout/footer}}

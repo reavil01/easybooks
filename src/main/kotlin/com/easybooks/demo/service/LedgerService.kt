@@ -2,13 +2,11 @@ package com.easybooks.demo.service
 
 import com.easybooks.demo.domain.LedgerRepository
 import com.easybooks.demo.update
-import com.easybooks.demo.web.dto.LedgerResponseDto
-import com.easybooks.demo.web.dto.LedgerSaveRequestDto
-import com.easybooks.demo.web.dto.LedgerUpdateRequestDto
-import com.easybooks.demo.web.dto.toEntity
+import com.easybooks.demo.web.dto.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
+import java.util.stream.Collectors
 
 @Service
 class LedgerService(val ledgerRepository: LedgerRepository) {
@@ -41,5 +39,12 @@ class LedgerService(val ledgerRepository: LedgerRepository) {
             .orElseThrow{ IllegalArgumentException("해당 송장이 없습니다. id=$id") }
 
         return LedgerResponseDto(entity)
+    }
+
+    @Transactional(readOnly = true)
+    fun findAllDesc(): List<LedgerListResponseDto> {
+        return ledgerRepository.findAllDesc().stream()
+            .map{LedgerListResponseDto(it)}
+            .collect(Collectors.toList())
     }
 }

@@ -5,9 +5,14 @@
     <div class="col-md-4">
         <form>
             <div class="form-group">
+                <label for="id">ID</label>
+                <input type="text" class="form-control"
+                       id="id" value="{{ledger.id}}" readonly>
+            </div>
+            <div class="form-group">
                 <label for="companyNumber">사업자 번호</label>
                 <input type="text" class="form-control"
-                       id="companyNumber" placeholder="123-456-7890">
+                       id="companyNumber" value="{{ledger.companyNumber}}">
             </div>
             <div class="form-group">
                 <label for="type">타입</label>
@@ -29,20 +34,21 @@
                 </tr>
                 </thead>
                 <tbody id="tbody">
-                    <tr>
-                        <td><input type="date" class="form-control" id="date"></td>
-                        <td><input type="text" class="form-control" id="item"></td>
-                        <td><input type="text" class="form-control" id="unitPrice"></td>
-                        <td><input type="text" class="form-control" id="quantity"></td>
-                        <td><input type="text" class="form-control" id="price"></td>
-                        <td><input type="text" class="form-control" id="VAT"></td>
-                        <td><input type="text" class="form-control" id="total"></td>
-                    </tr>
+                <tr>
+                    <td><input type="date" class="form-control" id="date" value="{{ledger.date}}"></td>
+                    <td><input type="text" class="form-control" id="item" value="{{ledger.item}}"></td>
+                    <td><input type="text" class="form-control" id="unitPrice" value="{{ledger.unitPrice}}"></td>
+                    <td><input type="text" class="form-control" id="quantity" value="{{ledger.quantity}}"></td>
+                    <td><input type="text" class="form-control" id="price" value="{{ledger.price}}"></td>
+                    <td><input type="text" class="form-control" id="VAT" value="{{ledger.VAT}}"></td>
+                    <td><input type="text" class="form-control" id="total" value="{{ledger.total}}"></td>
+                </tr>
                 </tbody>
             </table>
         </form>
         <a href="/" role="button" class="btn btn-secondary">취소</a>
-        <button type="button" class="btn btn-primary" id="btn-ledger-save">등록</button>
+        <button type="button" class="btn btn-primary" id="btn-ledger-update">등록</button>
+        <button type="button" class="btn btn-danger" id="btn-ledger-delete">삭제</button>
     </div>
 </div>
 {{>layout/footer}}

@@ -1,10 +1,10 @@
 package com.easybooks.demo.web
 
 import com.easybooks.demo.service.CompanyService
+import com.easybooks.demo.service.LedgerService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 
@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable
 class IndexController {
     @Autowired
     lateinit var companyService: CompanyService
+    @Autowired
+    lateinit var ledgerService: LedgerService
 
     @GetMapping("/")
     fun index(model: Model): String {
         model.addAttribute("companys", companyService.findAllDesc())
+        model.addAttribute("ledgers", ledgerService.findAllDesc())
         return "index"
     }
 
@@ -36,5 +39,14 @@ class IndexController {
     @GetMapping("/ledger/save")
     fun ledgerSave(): String {
         return "ledger-save"
+    }
+
+    @GetMapping("/ledger/update/{id}")
+    fun ledgerUpdate(@PathVariable id: Long,
+                     model: Model): String {
+        val dto = ledgerService.findById(id)
+        model.addAttribute("ledger", dto)
+
+        return "ledger-update"
     }
 }

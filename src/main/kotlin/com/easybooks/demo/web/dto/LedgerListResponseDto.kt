@@ -2,7 +2,7 @@ package com.easybooks.demo.web.dto
 
 import com.easybooks.demo.Ledger
 
-class LedgerResponseDto(ledger: Ledger) {
+class LedgerListResponseDto (ledger: Ledger) {
     val id = ledger.id
     val companyNumber = ledger.companyNumber
     val type = ledger.type
