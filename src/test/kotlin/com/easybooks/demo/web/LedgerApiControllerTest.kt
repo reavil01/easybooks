@@ -41,7 +41,7 @@ class LedgerApiControllerTest {
     fun ledger_등록된다() {
         // given
         val requestDto = LedgerSaveRequestDto(
-            companyId = "1",
+            companyNumber = "1",
             type = LedgerType.Sell,
             date = LocalDate.now(),
             item = "종이",
@@ -61,7 +61,7 @@ class LedgerApiControllerTest {
         assertThat(responseEntity.body.toString().toLong()).isGreaterThan(0L)
 
         val savedLedger = ledgerRepository.findAll()[0]
-        assertThat(savedLedger.companyId).isEqualTo(requestDto.companyId)
+        assertThat(savedLedger.companyNumber).isEqualTo(requestDto.companyNumber)
         assertThat(savedLedger.type).isEqualTo(requestDto.type)
         assertThat(savedLedger.date).isEqualTo(requestDto.date)
     }
@@ -71,7 +71,7 @@ class LedgerApiControllerTest {
         // given
         val savedLedger = ledgerRepository.save(
             Ledger(
-                companyId = "1",
+                companyNumber = "1",
                 type = LedgerType.Sell,
                 date = LocalDate.now(),
                 item = "종이",
@@ -88,7 +88,7 @@ class LedgerApiControllerTest {
         val expectedDate = LocalDate.now()
 
         val requestDto = LedgerUpdateRequestDto(
-            companyId = expectedCompanyId,
+            companyNumber = expectedCompanyId,
             type = LedgerType.Sell,
             date = expectedDate,
             item = "종이",
@@ -114,7 +114,7 @@ class LedgerApiControllerTest {
 
         val updatedLedger = all[0]
         assertThat(updatedLedger.id).isEqualTo(updateId)
-        assertThat(updatedLedger.companyId).isEqualTo(expectedCompanyId)
+        assertThat(updatedLedger.companyNumber).isEqualTo(expectedCompanyId)
         assertThat(updatedLedger.date).isEqualTo(expectedDate)
     }
 
@@ -123,7 +123,7 @@ class LedgerApiControllerTest {
         // given
         val savedLedger = ledgerRepository.save(
             Ledger(
-                companyId = "1",
+                companyNumber = "1",
                 type = LedgerType.Sell,
                 date = LocalDate.now(),
                 item = "종이",

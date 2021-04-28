@@ -12,7 +12,7 @@ class Ledger(
     val id: Long = 0,
 
     @Column(nullable = false)
-    var companyId: String,
+    var companyNumber: String,
 
     @Column(nullable = false)
     var type: LedgerType,
@@ -38,7 +38,7 @@ class Ledger(
 )
 
 fun Ledger.update(requestDto: LedgerUpdateRequestDto) {
-    companyId = requestDto.companyId
+    companyNumber = requestDto.companyNumber
     type = requestDto.type
     date = requestDto.date
     item = requestDto.item

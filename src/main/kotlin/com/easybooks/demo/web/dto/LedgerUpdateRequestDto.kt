@@ -4,7 +4,7 @@ import com.easybooks.demo.LedgerType
 import java.time.LocalDate
 
 class LedgerUpdateRequestDto (
-    val companyId: String,
+    val companyNumber: String,
     val type: LedgerType,
     val date: LocalDate,
     val item: String,

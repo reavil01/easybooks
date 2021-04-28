@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.event.annotation.AfterTestClass
 import java.time.LocalDate
-import java.util.*
 
 @SpringBootTest
 class LedgerRepositoryTests {
@@ -26,7 +25,7 @@ class LedgerRepositoryTests {
         // given
         val ledger = Ledger(
             id = 0,
-            companyId = "1",
+            companyNumber = "1",
             type = LedgerType.Sell,
             date = LocalDate.now(),
             item = "종이",
@@ -43,7 +42,7 @@ class LedgerRepositoryTests {
 
         // then
         val savedLedger = ledgerList[0]
-        assertThat(savedLedger.companyId).isEqualTo(ledger.companyId)
+        assertThat(savedLedger.companyNumber).isEqualTo(ledger.companyNumber)
         assertThat(savedLedger.type).isEqualTo(ledger.type)
         assertThat(savedLedger.date).isEqualTo(ledger.date)
         assertThat(savedLedger.item).isEqualTo(ledger.item)
