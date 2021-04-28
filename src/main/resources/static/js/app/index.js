@@ -11,6 +11,9 @@ var index = {
         $('#btn-delete').on('click', function () {
             _this.delete();
         })
+        $('#btn-ledger-save').on('click', function () {
+            _this.saveLedger();
+        })
     },
     save : function () {
         var data = {
@@ -67,7 +70,7 @@ var index = {
         });
     },
     delete : function() {
-        var id = $('#id').val()
+        var id = $('#id').val();
 
         $.ajax({
             type: 'DELETE',
@@ -77,6 +80,34 @@ var index = {
         }).done(function () {
             alert('거래처가 삭제되었습니다.');
             window.location.href = '/';
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
+    },
+    saveLedger : function () {
+        var data = {
+            companyNumber: $('#companyNumber').val(),
+            type: $('input[name="type"]:checked').val(),
+            date: $('#date').val(),
+            item: $('#item').val(),
+            unitPrice: $('#unitPrice').val(),
+            quantity: $('#quantity').val(),
+            price: $('#price').val(),
+            VAT: $('#VAT').val(),
+            total: $('#total').val(),
+        };
+
+        // print(type)
+        console.log(data['type']);
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/v1/ledger',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+        }).done(function () {
+            alert('송장이 등록되었습니다.');
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });

@@ -32,4 +32,9 @@ class IndexController {
 
         return "company-update"
     }
+
+    @GetMapping("/ledger/save")
+    fun ledgerSave(): String {
+        return "ledger-save"
+    }
 }
