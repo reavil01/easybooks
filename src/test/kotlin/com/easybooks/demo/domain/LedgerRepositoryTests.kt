@@ -32,7 +32,7 @@ class LedgerRepositoryTests {
             unitPrice = 10,
             quantity = 20,
             price = 30,
-            VAT = 40,
+            vat = 40,
             total = 50
         )
         ledgerRepository.save(ledger)

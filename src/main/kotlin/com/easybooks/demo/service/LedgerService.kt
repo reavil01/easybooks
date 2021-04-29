@@ -37,11 +37,11 @@ class LedgerService(val ledgerRepository: LedgerRepository, val companyRepositor
             throw IllegalArgumentException("단가와 수량의 곱과 가격이 일치하지 않습니다.")
         }
 
-        if((requestDto.price * 0.1).toInt() != requestDto.VAT) {
-            throw IllegalArgumentException("부가세가 잘못되었습니다.")
+        if(requestDto.price / 10 != requestDto.vat) {
+            throw IllegalArgumentException("부가세가 ${requestDto.price} + ${requestDto.vat} 잘못되었습니다.")
         }
 
-        if(requestDto.price + requestDto.VAT != requestDto.total) {
+        if(requestDto.price + requestDto.vat != requestDto.total) {
             throw IllegalArgumentException("총액이 잘못되었습니다.")
         }
     }

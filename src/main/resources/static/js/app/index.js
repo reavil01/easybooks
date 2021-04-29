@@ -22,9 +22,9 @@ function calcPrice() {
 
 function calcVATandTotal() {
     const price = parseInt($('#price').val());
-    const VAT = parseInt(price * 0.1);
-    $('#VAT').val(VAT);
-    $('#total').val(price + VAT);
+    const vat = parseInt(price * 0.1);
+    $('#vat').val(vat);
+    $('#total').val(price + vat);
 }
 
 var index = {
@@ -142,7 +142,7 @@ var index = {
             unitPrice: $('#unitPrice').val(),
             quantity: $('#quantity').val(),
             price: $('#price').val(),
-            VAT: $('#VAT').val(),
+            vat: $('#vat').val(),
             total: $('#total').val(),
         };
 
@@ -171,7 +171,7 @@ var index = {
             unitPrice: $('#unitPrice').val(),
             quantity: $('#quantity').val(),
             price: $('#price').val(),
-            VAT: $('#VAT').val(),
+            vat: $('#vat').val(),
             total: $('#total').val(),
         };
 

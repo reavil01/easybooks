@@ -12,7 +12,7 @@ class LedgerSaveAndUpdateRequestDto (
     val unitPrice: Int,
     val quantity: Int,
     val price: Int,
-    val VAT: Int,
+    val vat: Int,
     val total: Int,
 )
 
@@ -25,6 +25,6 @@ fun LedgerSaveAndUpdateRequestDto.toEntity() = Ledger(
     unitPrice = unitPrice,
     quantity = quantity,
     price = price,
-    VAT = VAT,
+    vat = vat,
     total = total
 )

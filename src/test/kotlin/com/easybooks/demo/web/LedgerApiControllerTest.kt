@@ -51,9 +51,9 @@ class LedgerApiControllerTest {
             item = "종이",
             unitPrice = 10,
             quantity = 20,
-            price = 30,
-            VAT = 40,
-            total = 50
+            price = 200,
+            vat = 20,
+            total = 220
         )
     }
 
@@ -130,7 +130,7 @@ class LedgerApiControllerTest {
                 unitPrice = 10,
                 quantity = 20,
                 price = 30,
-                VAT = 40,
+                vat = 40,
                 total = 50
             )
         )
@@ -147,7 +147,7 @@ class LedgerApiControllerTest {
             unitPrice = 10,
             quantity = 20,
             price = 30,
-            VAT = 40,
+            vat = 40,
             total = 50
         )
 
@@ -182,7 +182,7 @@ class LedgerApiControllerTest {
                 unitPrice = 10,
                 quantity = 20,
                 price = 30,
-                VAT = 40,
+                vat = 40,
                 total = 50
             )
         )

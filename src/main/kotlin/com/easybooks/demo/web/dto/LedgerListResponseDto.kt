@@ -11,6 +11,6 @@ class LedgerListResponseDto (ledger: Ledger) {
     val unitPrice = ledger.unitPrice
     val quantity = ledger.quantity
     val price = ledger.price
-    val VAT = ledger.VAT
+    val vat = ledger.vat
     val total = ledger.total
 }

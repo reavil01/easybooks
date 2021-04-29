@@ -31,7 +31,7 @@ class Ledger(
     var price: Int,
 
     @Column(nullable = false)
-    var VAT: Int,
+    var vat: Int,
 
     @Column(nullable = false)
     var total: Int,
@@ -45,7 +45,7 @@ fun Ledger.update(requestDto: LedgerSaveAndUpdateRequestDto) {
     unitPrice = requestDto.unitPrice
     quantity = requestDto.quantity
     price = requestDto.price
-    VAT = requestDto.VAT
+    vat = requestDto.vat
     total = requestDto.total
 }
 
