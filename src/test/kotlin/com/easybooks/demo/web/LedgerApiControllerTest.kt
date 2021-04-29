@@ -2,12 +2,15 @@ package com.easybooks.demo.web
 
 import com.easybooks.demo.Ledger
 import com.easybooks.demo.LedgerType
+import com.easybooks.demo.domain.Company
+import com.easybooks.demo.domain.CompanyRepository
 import com.easybooks.demo.domain.LedgerRepository
 import com.easybooks.demo.web.dto.LedgerSaveRequestDto
 import com.easybooks.demo.web.dto.LedgerUpdateRequestDto
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -18,6 +21,7 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import java.time.LocalDate
+import kotlin.math.exp
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
@@ -32,16 +36,18 @@ class LedgerApiControllerTest {
     @Autowired
     lateinit var ledgerRepository: LedgerRepository
 
+    @Autowired
+    lateinit var companyRepository: CompanyRepository
+
     @AfterEach
     fun tearDown() {
         ledgerRepository.deleteAll()
+        companyRepository.deleteAll()
     }
 
-    @Test
-    fun ledger_등록된다() {
-        // given
-        val requestDto = LedgerSaveRequestDto(
-            companyNumber = "1",
+    fun _getTestLedgerSaveRequestDto(): LedgerSaveRequestDto {
+        return LedgerSaveRequestDto(
+            companyNumber = "123",
             type = LedgerType.Sell,
             date = LocalDate.now(),
             item = "종이",
@@ -51,6 +57,54 @@ class LedgerApiControllerTest {
             VAT = 40,
             total = 50
         )
+    }
+
+    fun _setTestCompany(): Company {
+        val company = _getTestCompany()
+        return companyRepository.save(company)
+    }
+
+    fun _getTestCompany(): Company {
+        return Company(
+            number = "123",
+            name = "종이회사",
+            owner = "투명인간",
+            address = "지구어딘가",
+            type = "가짜회사",
+            items = "페이퍼",
+            email = "fake@gmail.com",
+            phone = "00000000000",
+            fax = "11111111111"
+        )
+    }
+
+    @Test
+    fun `ledger 없는 사업자번호면 등록 실패`() {
+        // given
+        val requestDto = _getTestLedgerSaveRequestDto()
+        val url = "http://localhost:$port/api/v1/ledger"
+
+        // when
+        val exception: Exception = assertThrows { restTemplate.postForEntity<Long>(url, requestDto, Long) }
+
+//        val exception = assertThatExceptionOfType(IllegalArgumentException::class.java)
+//            .isThrownBy {
+//                restTemplate.postForEntity<Long>(url, requestDto, Long)
+//            }
+//        val responseEntity = restTemplate.postForEntity<Long>(url, requestDto, Long)
+
+        // then
+        print("EXEXEX:" + exception)
+        assertThat(exception.toString()).contains("등록되지 않은 사업자번호입니다.")
+    }
+
+    @Test
+    fun `ledger 등록된 사업자번호면 등록`() {
+        // given
+        val savedCompany = _setTestCompany()
+        val requestDto = _getTestLedgerSaveRequestDto()
+        assertThat(savedCompany.number).isEqualTo(requestDto.companyNumber)
+
         val url = "http://localhost:$port/api/v1/ledger"
 
         // when
@@ -143,6 +197,5 @@ class LedgerApiControllerTest {
 
         // then
         assertThat(ledgerRepository.findAll().size).isEqualTo(0)
-
     }
 }

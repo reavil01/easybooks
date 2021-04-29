@@ -4,7 +4,6 @@ import com.easybooks.demo.service.LedgerService
 import com.easybooks.demo.web.dto.LedgerResponseDto
 import com.easybooks.demo.web.dto.LedgerSaveRequestDto
 import com.easybooks.demo.web.dto.LedgerUpdateRequestDto
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
 @RestController

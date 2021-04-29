@@ -1,5 +1,6 @@
 package com.easybooks.demo.service
 
+import com.easybooks.demo.domain.CompanyRepository
 import com.easybooks.demo.domain.LedgerRepository
 import com.easybooks.demo.update
 import com.easybooks.demo.web.dto.*
@@ -9,10 +10,12 @@ import java.lang.IllegalArgumentException
 import java.util.stream.Collectors
 
 @Service
-class LedgerService(val ledgerRepository: LedgerRepository) {
-
+class LedgerService(val ledgerRepository: LedgerRepository, val companyRepository: CompanyRepository) {
     @Transactional
     fun save(requestDto: LedgerSaveRequestDto): Long {
+        companyRepository.findByNumber(requestDto.companyNumber)
+            ?: throw IllegalArgumentException("등록되지 않은 사업자번호입니다. companyNumber=${requestDto.companyNumber}")
+
         return ledgerRepository.save(requestDto.toEntity()).id
     }
 
@@ -20,6 +23,9 @@ class LedgerService(val ledgerRepository: LedgerRepository) {
     fun update(id: Long, requestDto: LedgerUpdateRequestDto): Long {
         val ledger = ledgerRepository.findById(id)
             .orElseThrow{ IllegalArgumentException("해당 송장이 없습니다. id=$id") }
+
+        companyRepository.findByNumber(requestDto.companyNumber)
+            ?: throw IllegalArgumentException("등록되지 않은 사업자번호입니다. companyNumber=${requestDto.companyNumber}")
 
         ledger.update(requestDto)
 

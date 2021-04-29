@@ -1,3 +1,14 @@
+function isCompanyNumberValid(error) {
+    const errorMsg = JSON.stringify(error)
+    const invalidMsg = "등록되지 않은 사업자번호입니다."
+
+    if(errorMsg.indexOf(invalidMsg)) {
+        alert(invalidMsg);
+        return false;
+    }
+    return true;
+}
+
 var index = {
     init : function () {
         var _this = this;
@@ -103,9 +114,6 @@ var index = {
             total: $('#total').val(),
         };
 
-        // print(type)
-        console.log(data['type']);
-
         $.ajax({
             type: 'POST',
             url: '/api/v1/ledger',
@@ -116,12 +124,14 @@ var index = {
             alert('송장이 등록되었습니다.');
             window.location.href = '/';
         }).fail(function (error) {
-            alert(JSON.stringify(error));
+            if(isCompanyNumberValid(error)) {
+                alert(JSON.stringify(error))
+            }
         });
     },
     updateLedger : function () {
-        var id = $('#id').val();
-        var data = {
+        const id = $('#id').val();
+        const data = {
             companyNumber: $('#companyNumber').val(),
             type: $('input[name="type"]:checked').val(),
             date: $('#date').val(),
@@ -143,11 +153,13 @@ var index = {
             alert('송장이 수정되었습니다.');
             window.location.href = '/';
         }).fail(function (error) {
-            alert(JSON.stringify(error));
+            if(isCompanyNumberValid(error)) {
+                alert(JSON.stringify(error))
+            }
         });
     },
     deleteLedger : function () {
-        var id = $('#id').val();
+        const id = $('#id').val();
 
         $.ajax({
             type: 'DELETE',
@@ -160,7 +172,9 @@ var index = {
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
-    }
+    },
+
+
 };
 
 index.init();
