@@ -5,8 +5,7 @@ import com.easybooks.demo.LedgerType
 import com.easybooks.demo.domain.Company
 import com.easybooks.demo.domain.CompanyRepository
 import com.easybooks.demo.domain.LedgerRepository
-import com.easybooks.demo.web.dto.LedgerSaveRequestDto
-import com.easybooks.demo.web.dto.LedgerUpdateRequestDto
+import com.easybooks.demo.web.dto.LedgerSaveAndUpdateRequestDto
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
@@ -21,7 +20,6 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import java.time.LocalDate
-import kotlin.math.exp
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
@@ -45,8 +43,8 @@ class LedgerApiControllerTest {
         companyRepository.deleteAll()
     }
 
-    fun _getTestLedgerSaveRequestDto(): LedgerSaveRequestDto {
-        return LedgerSaveRequestDto(
+    fun _getTestLedgerSaveRequestDto(): LedgerSaveAndUpdateRequestDto {
+        return LedgerSaveAndUpdateRequestDto(
             companyNumber = "123",
             type = LedgerType.Sell,
             date = LocalDate.now(),
@@ -141,7 +139,7 @@ class LedgerApiControllerTest {
         val expectedCompanyId = "2"
         val expectedDate = LocalDate.now()
 
-        val requestDto = LedgerUpdateRequestDto(
+        val requestDto = LedgerSaveAndUpdateRequestDto(
             companyNumber = expectedCompanyId,
             type = LedgerType.Sell,
             date = expectedDate,

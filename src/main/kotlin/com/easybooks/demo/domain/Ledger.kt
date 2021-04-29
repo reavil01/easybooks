@@ -1,6 +1,6 @@
 package com.easybooks.demo
 
-import com.easybooks.demo.web.dto.LedgerUpdateRequestDto
+import com.easybooks.demo.web.dto.LedgerSaveAndUpdateRequestDto
 import org.springframework.data.jpa.repository.Temporal
 import java.time.LocalDate
 import javax.persistence.*
@@ -37,7 +37,7 @@ class Ledger(
     var total: Int,
 )
 
-fun Ledger.update(requestDto: LedgerUpdateRequestDto) {
+fun Ledger.update(requestDto: LedgerSaveAndUpdateRequestDto) {
     companyNumber = requestDto.companyNumber
     type = requestDto.type
     date = requestDto.date

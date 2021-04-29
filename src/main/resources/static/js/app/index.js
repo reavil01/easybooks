@@ -1,12 +1,30 @@
-function isCompanyNumberValid(error) {
-    const errorMsg = JSON.stringify(error)
-    const invalidMsg = "등록되지 않은 사업자번호입니다."
+function errorMessageAlert(error) {
+    const errorMsg = JSON.stringify(error);
+    const errorMsgRegx = /[가-힣| ]+\./g;
+    const msg = errorMsgRegx.exec(errorMsg);
 
-    if(errorMsg.indexOf(invalidMsg)) {
-        alert(invalidMsg);
+    if(errorMsg.indexOf(msg)) {
+        alert(msg);
         return false;
     }
     return true;
+}
+
+function calcPrice() {
+    const unitPrice = $('#unitPrice').val();
+    const quantity = $('#quantity').val();
+    const price = unitPrice * quantity;
+    $('#price').val(price);
+
+    calcVATandTotal();
+}
+
+
+function calcVATandTotal() {
+    const price = parseInt($('#price').val());
+    const VAT = parseInt(price * 0.1);
+    $('#VAT').val(VAT);
+    $('#total').val(price + VAT);
 }
 
 var index = {
@@ -30,6 +48,20 @@ var index = {
         });
         $('#btn-ledger-delete').on('click', function () {
            _this.deleteLedger();
+        });
+
+        $('#unitPrice').focusout(function () { calcPrice(); });
+
+        $('#quantity').focusout(function () { calcPrice(); });
+
+        $('#price').focusout(function () {
+            const price = $(this).val();
+            const calcedPrice = $('#unitPrice').val() * $('#quantity').val();
+            if(calcedPrice != price) {
+                $('#unitPrice').val(null);
+                $('#quantity').val(null);
+            }
+            calcVATandTotal();
         });
     },
     save : function () {
@@ -124,7 +156,7 @@ var index = {
             alert('송장이 등록되었습니다.');
             window.location.href = '/';
         }).fail(function (error) {
-            if(isCompanyNumberValid(error)) {
+            if(errorMessageAlert(error)) {
                 alert(JSON.stringify(error))
             }
         });
@@ -153,7 +185,7 @@ var index = {
             alert('송장이 수정되었습니다.');
             window.location.href = '/';
         }).fail(function (error) {
-            if(isCompanyNumberValid(error)) {
+            if(errorMessageAlert(error)) {
                 alert(JSON.stringify(error))
             }
         });

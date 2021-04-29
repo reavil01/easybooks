@@ -2,20 +2,20 @@ package com.easybooks.demo.web
 
 import com.easybooks.demo.service.LedgerService
 import com.easybooks.demo.web.dto.LedgerResponseDto
-import com.easybooks.demo.web.dto.LedgerSaveRequestDto
-import com.easybooks.demo.web.dto.LedgerUpdateRequestDto
+import com.easybooks.demo.web.dto.LedgerSaveAndUpdateRequestDto
 import org.springframework.web.bind.annotation.*
 
 @RestController
 class LedgerApiController (val ledgerService: LedgerService){
     @PostMapping("/api/v1/ledger")
-    fun save(@RequestBody requestDto: LedgerSaveRequestDto): Long {
+    fun save(@RequestBody requestDto: LedgerSaveAndUpdateRequestDto): Long {
         return ledgerService.save(requestDto)
     }
 
     @PostMapping("/api/v1/ledger/{id}")
     fun update(@PathVariable id: Long,
-               @RequestBody requestDto: LedgerUpdateRequestDto): Long {
+               @RequestBody requestDto: LedgerSaveAndUpdateRequestDto
+    ): Long {
         return ledgerService.update(id, requestDto)
     }
 
