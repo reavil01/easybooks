@@ -1,15 +1,14 @@
 package com.easybooks.demo.web
 
-import com.easybooks.demo.Ledger
 import com.easybooks.demo.LedgerType
 import com.easybooks.demo.domain.Company
 import com.easybooks.demo.domain.CompanyRepository
 import com.easybooks.demo.domain.LedgerRepository
 import com.easybooks.demo.web.dto.LedgerSaveAndUpdateRequestDto
+import com.easybooks.demo.web.dto.toEntity
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -83,17 +82,11 @@ class LedgerApiControllerTest {
         val url = "http://localhost:$port/api/v1/ledger"
 
         // when
-        val exception: Exception = assertThrows { restTemplate.postForEntity<Long>(url, requestDto, Long) }
-
-//        val exception = assertThatExceptionOfType(IllegalArgumentException::class.java)
-//            .isThrownBy {
-//                restTemplate.postForEntity<Long>(url, requestDto, Long)
-//            }
-//        val responseEntity = restTemplate.postForEntity<Long>(url, requestDto, Long)
+        val response = restTemplate.postForEntity<String>(url, requestDto, String)
 
         // then
-        print("EXEXEX:" + exception)
-        assertThat(exception.toString()).contains("등록되지 않은 사업자번호입니다.")
+        assertThat(response.statusCode).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR)
+        assertThat(response.body).contains("등록되지 않은 사업자번호입니다.")
     }
 
     @Test
@@ -106,7 +99,7 @@ class LedgerApiControllerTest {
         val url = "http://localhost:$port/api/v1/ledger"
 
         // when
-        val responseEntity = restTemplate.postForEntity<Long>(url, requestDto, Long)
+        val responseEntity = restTemplate.postForEntity<String>(url, requestDto, String)
 
         // then
         assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
@@ -121,34 +114,24 @@ class LedgerApiControllerTest {
     @Test
     fun ledger_수정된다() {
         // given
-        val savedLedger = ledgerRepository.save(
-            Ledger(
-                companyNumber = "1",
-                type = LedgerType.Sell,
-                date = LocalDate.now(),
-                item = "종이",
-                unitPrice = 10,
-                quantity = 20,
-                price = 30,
-                vat = 40,
-                total = 50
-            )
-        )
+        _setTestCompany()
+        val originalLedger = _getTestLedgerSaveRequestDto()
+        val savedLedger = ledgerRepository.save(originalLedger.toEntity())
 
         val updateId = savedLedger.id
-        val expectedCompanyId = "2"
+        val expectedItem = "지폐"
         val expectedDate = LocalDate.now()
 
         val requestDto = LedgerSaveAndUpdateRequestDto(
-            companyNumber = expectedCompanyId,
-            type = LedgerType.Sell,
+            companyNumber = savedLedger.companyNumber,
+            type = savedLedger.type,
             date = expectedDate,
-            item = "종이",
-            unitPrice = 10,
-            quantity = 20,
-            price = 30,
-            vat = 40,
-            total = 50
+            item = expectedItem,
+            unitPrice = savedLedger.unitPrice,
+            quantity = savedLedger.quantity,
+            price = savedLedger.price,
+            vat = savedLedger.vat,
+            total = savedLedger.total,
         )
 
         val url = "http://localhost:$port/api/v1/ledger/$updateId"
@@ -166,26 +149,17 @@ class LedgerApiControllerTest {
 
         val updatedLedger = all[0]
         assertThat(updatedLedger.id).isEqualTo(updateId)
-        assertThat(updatedLedger.companyNumber).isEqualTo(expectedCompanyId)
         assertThat(updatedLedger.date).isEqualTo(expectedDate)
+        assertThat(updatedLedger.item).isEqualTo(expectedItem)
+        assertThat(updatedLedger.price).isEqualTo(savedLedger.price)
+        assertThat(updatedLedger.vat).isEqualTo(savedLedger.vat)
     }
 
     @Test
     fun ledger_삭제된다() {
         // given
-        val savedLedger = ledgerRepository.save(
-            Ledger(
-                companyNumber = "1",
-                type = LedgerType.Sell,
-                date = LocalDate.now(),
-                item = "종이",
-                unitPrice = 10,
-                quantity = 20,
-                price = 30,
-                vat = 40,
-                total = 50
-            )
-        )
+        val requsetDto = _getTestLedgerSaveRequestDto()
+        val savedLedger = ledgerRepository.save(requsetDto.toEntity())
 
         val updateId = savedLedger.id
         val url = "http://localhost:$port/api/v1/ledger/$updateId"
