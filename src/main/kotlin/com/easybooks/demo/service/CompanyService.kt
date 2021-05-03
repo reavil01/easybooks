@@ -44,21 +44,21 @@ class CompanyService (val companyRepository: CompanyRepository) {
 
     @Transactional(readOnly = true)
     fun findAllDesc(): List<CompanyListResponseDto> {
-        return companyRepository.findAllDesc().stream()
+        return companyRepository.findAllByOrderByIdDesc().stream()
             .map{CompanyListResponseDto(it)}
             .collect(Collectors.toList())
     }
 
     @Transactional(readOnly = true)
-    fun findByContainNumber(number: String): List<CompanyResponseDto> {
-        return companyRepository.findByContainNumber(number).stream()
+    fun findByNumberContains(number: String): List<CompanyResponseDto> {
+        return companyRepository.findByNameContains(number).stream()
             .map{CompanyResponseDto(it)}
             .collect(Collectors.toList())
     }
 
     @Transactional(readOnly = true)
-    fun findByContainName(name: String): List<CompanyResponseDto> {
-        return companyRepository.findByContainName(name).stream()
+    fun findByNameContains(name: String): List<CompanyResponseDto> {
+        return companyRepository.findByNameContains(name).stream()
             .map{CompanyResponseDto(it)}
             .collect(Collectors.toList())
     }

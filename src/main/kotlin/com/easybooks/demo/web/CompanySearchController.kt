@@ -16,7 +16,7 @@ class CompanySearchController {
     fun searchByName(@PathVariable name: String,
                      model: Model): String {
         model.addAttribute("name", name)
-        model.addAttribute("companys", companyService.findByContainName(name))
+        model.addAttribute("companys", companyService.findByNameContains(name))
 
         return "company-search"
     }
@@ -25,7 +25,7 @@ class CompanySearchController {
     fun searchByNumber(@PathVariable number: String,
                      model: Model): String {
         model.addAttribute("number", number)
-        model.addAttribute("companys", companyService.findByContainNumber(number))
+        model.addAttribute("companys", companyService.findByNumberContains(number))
 
         return "company-search"
     }
