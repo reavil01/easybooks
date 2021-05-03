@@ -49,4 +49,9 @@ class IndexController {
 
         return "ledger-update"
     }
+
+    @GetMapping("/company/search")
+    fun companySearch(): String{
+        return "company-search"
+    }
 }
