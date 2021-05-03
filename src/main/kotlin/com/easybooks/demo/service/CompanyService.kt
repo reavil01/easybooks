@@ -48,4 +48,18 @@ class CompanyService (val companyRepository: CompanyRepository) {
             .map{CompanyListResponseDto(it)}
             .collect(Collectors.toList())
     }
+
+    @Transactional(readOnly = true)
+    fun findByContainNumber(number: String): List<CompanyResponseDto> {
+        return companyRepository.findByContainNumber(number).stream()
+            .map{CompanyResponseDto(it)}
+            .collect(Collectors.toList())
+    }
+
+    @Transactional(readOnly = true)
+    fun findByContainName(name: String): List<CompanyResponseDto> {
+        return companyRepository.findByContainName(name).stream()
+            .map{CompanyResponseDto(it)}
+            .collect(Collectors.toList())
+    }
 }

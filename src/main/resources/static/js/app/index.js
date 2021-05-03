@@ -63,6 +63,13 @@ var index = {
             }
             calcVATandTotal();
         });
+
+        $('#btn-company-name-search').click(function () {
+           _this.searchCompanyByName();
+        });
+        $('#btn-company-number-search').click(function () {
+            _this.searchCompanyByNumber();
+        });
     },
     save : function () {
         var data = {
@@ -205,7 +212,14 @@ var index = {
             alert(JSON.stringify(error));
         });
     },
-
+    searchCompanyByName: function () {
+        const name = $('#search-by-company-name').val();
+        location.href = '/company/search&name='+ name
+    },
+    searchCompanyByNumber: function () {
+        const number = $('#search-by-company-number').val();
+        location.href = '/company/search&number='+number
+    }
 
 };
 

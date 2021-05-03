@@ -1,0 +1,43 @@
+{{>layout/header}}
+
+<div class="col-md-12">
+    <div class="form-group">
+        <form>
+            <label for="name">사업자번호:</label>
+            <input type="text" id="search-by-company-number">
+            <button type="button" class="btn btn-primary" id="btn-company-number-search">검색</button>
+
+            <label>사업자명:</label>
+            <input type="text" id="search-by-company-name" {{#name}}value="{{name}}"{{/name}}>
+            <button type="button" class="btn btn-primary" id="btn-company-name-search">검색</button>
+        </form>
+
+    </div>
+</div>
+
+<div class="col-md-12">
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>ID</th>
+            <th>사업자번호</th>
+            <th>사업자명</th>
+            <th>대표</th>
+            <th>미수금</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#companys}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{number}}</td>
+                <td><a href="/company/update/{{id}}">{{name}}</a></td>
+                <td>{{owner}}</td>
+                <td>{{name}}</td>
+            </tr>
+        {{/companys}}
+        </tbody>
+    </table>
+</div>
+
+{{>layout/footer}}
