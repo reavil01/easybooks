@@ -10,7 +10,11 @@ import java.util.stream.Collectors
 
 @Service
 // 생성자가 하나인 경우 @Autowired 생략해도 injection 됨
-class CompanyService (val companyRepository: CompanyRepository) {
+class CompanyService (
+    val companyRepository: CompanyRepository,
+    val ledgerRepository: LedgerRepository,
+    val transactionRepository: TransactionRepository
+) {
 
     @Transactional
     fun save(requestDto: CompanySaveRequestDto): Long {
@@ -51,7 +55,7 @@ class CompanyService (val companyRepository: CompanyRepository) {
 
     @Transactional(readOnly = true)
     fun findByNumberContains(number: String): List<CompanyResponseDto> {
-        return companyRepository.findByNameContains(number).stream()
+        return companyRepository.findByNumberContains(number).stream()
             .map{CompanyResponseDto(it)}
             .collect(Collectors.toList())
     }
@@ -60,6 +64,30 @@ class CompanyService (val companyRepository: CompanyRepository) {
     fun findByNameContains(name: String): List<CompanyResponseDto> {
         return companyRepository.findByNameContains(name).stream()
             .map{CompanyResponseDto(it)}
+            .collect(Collectors.toList())
+    }
+
+    @Transactional(readOnly = true)
+    fun findByNumberContainsAndUnpaidPrice(number: String): List<CompanyWithUnpaidResponseDto> {
+        return companyRepository.findByNumberContains(number).stream()
+            .map{
+                val total = ledgerRepository.getSumofTotalPrcie(it.number) ?: 0
+                val paid = transactionRepository.getSumofTotalPrcie(it.number) ?: 0
+                val unpaid = total - paid
+                CompanyWithUnpaidResponseDto(it, unpaid)
+            }
+            .collect(Collectors.toList())
+    }
+
+    @Transactional(readOnly = true)
+    fun findByNameContainsAndUnpaidPrice(name: String): List<CompanyWithUnpaidResponseDto> {
+        return companyRepository.findByNameContains(name).stream()
+            .map{
+                val total = ledgerRepository.getSumofTotalPrcie(it.number) ?: 0
+                val paid = transactionRepository.getSumofTotalPrcie(it.number) ?: 0
+                val unpaid = total - paid
+                CompanyWithUnpaidResponseDto(it, unpaid)
+            }
             .collect(Collectors.toList())
     }
 }

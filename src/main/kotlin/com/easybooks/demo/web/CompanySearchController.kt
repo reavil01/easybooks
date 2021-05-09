@@ -25,7 +25,7 @@ class CompanySearchController {
     fun searchByNumber(@PathVariable number: String,
                      model: Model): String {
         model.addAttribute("number", number)
-        model.addAttribute("companys", companyService.findByNumberContains(number))
+        model.addAttribute("companys", companyService.findByNumberContainsAndUnpaidPrice(number))
 
         return "company-search"
     }
