@@ -21,11 +21,29 @@ class CompanySearchController {
         return "company-search"
     }
 
-    @GetMapping("/company/search&unpaid&number={number}")
+    @GetMapping("/company/search&number={number}")
     fun searchByNumber(@PathVariable number: String,
                      model: Model): String {
         model.addAttribute("number", number)
+        model.addAttribute("companys", companyService.findByNumberContains(number))
+
+        return "company-search"
+    }
+
+    @GetMapping("/company/search/unpaid&number={number}")
+    fun searchByNumberWithUnpaid(@PathVariable number: String,
+                            model: Model): String {
+        model.addAttribute("number", number)
         model.addAttribute("companys", companyService.findByNumberContainsAndUnpaidPrice(number))
+
+        return "company-search"
+    }
+
+    @GetMapping("/company/search/unpaid&name={name}")
+    fun searchByNameWithUnpaid(@PathVariable name: String,
+                            model: Model): String {
+        model.addAttribute("name", name)
+        model.addAttribute("companys", companyService.findByNameContainsAndUnpaidPrice(name))
 
         return "company-search"
     }

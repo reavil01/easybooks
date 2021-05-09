@@ -63,7 +63,7 @@ class LedgerService(val ledgerRepository: LedgerRepository, val companyRepositor
 
     @Transactional(readOnly = true)
     fun findAllDesc(): List<LedgerListResponseDto> {
-        return ledgerRepository.findAllDesc().stream()
+        return ledgerRepository.findAllByOrderByIdDesc().stream()
             .map{LedgerListResponseDto(it)}
             .collect(Collectors.toList())
     }

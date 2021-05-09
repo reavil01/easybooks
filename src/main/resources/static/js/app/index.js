@@ -65,10 +65,10 @@ var index = {
         });
 
         $('#btn-company-name-search').click(function () {
-           _this.searchCompanyByName();
+           _this.searchCompanyByNameWithUnpaid();
         });
         $('#btn-company-number-search').click(function () {
-            _this.searchCompanyByNumber();
+            _this.searchCompanyByNumberWithUnpaid();
         });
     },
     save : function () {
@@ -212,13 +212,13 @@ var index = {
             alert(JSON.stringify(error));
         });
     },
-    searchCompanyByName: function () {
+    searchCompanyByNameWithUnpaid: function () {
         const name = $('#search-by-company-name').val();
-        location.href = '/company/search&name='+ name
+        location.href = '/company/search/unpaid&name='+ name
     },
-    searchCompanyByNumber: function () {
+    searchCompanyByNumberWithUnpaid: function () {
         const number = $('#search-by-company-number').val();
-        location.href = '/company/search&number='+number
+        location.href = '/company/search/unpaid&number='+number
     }
 
 };

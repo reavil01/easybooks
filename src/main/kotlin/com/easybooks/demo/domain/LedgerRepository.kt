@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
 interface LedgerRepository: JpaRepository<Ledger, Long> {
-    @Query("SELECT l FROM Ledger l ORDER BY l.id DESC")
-    fun findAllDesc(): List<Ledger>
+    fun findAllByOrderByIdDesc(): List<Ledger>
+
+    @Query("SELECT SUM(l.total) FROM Ledger as l WHERE l.companyNumber = :companyNumber")
+    fun getSumofTotalPrcie(companyNumber: String): Int?
 }

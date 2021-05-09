@@ -1,6 +1,8 @@
 package com.easybooks.demo.service
 
 import com.easybooks.demo.domain.CompanyRepository
+import com.easybooks.demo.domain.LedgerRepository
+import com.easybooks.demo.domain.TransactionRepository
 import com.easybooks.demo.domain.update
 import com.easybooks.demo.web.dto.*
 import org.springframework.stereotype.Service

@@ -54,6 +54,8 @@ class CompanySearchControllerTest {
     @AfterEach
     fun tearDown() {
         companyRepository.deleteAll()
+        ledgerRepository.deleteAll()
+        transactionRepository.deleteAll()
     }
 
     @Test
@@ -64,7 +66,7 @@ class CompanySearchControllerTest {
         val keyword = "이퍼"
 
         // when
-        val url = "http://localhost:$port/company/search&name="+keyword
+        val url = "http://localhost:$port/company/search&name=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
@@ -81,7 +83,7 @@ class CompanySearchControllerTest {
         val keyword = "6789"
 
         // when
-        val url = "http://localhost:$port/company/search&number="+keyword
+        val url = "http://localhost:$port/company/search&number=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
@@ -118,11 +120,48 @@ class CompanySearchControllerTest {
         val keyword = "678"
 
         // when
-        val url = "http://localhost:$port/company/search&unpaid&number="+keyword
+        val url = "http://localhost:$port/company/search/unpaid&number=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
-        println(responseEntity.body)
+        assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(responseEntity.body).contains(savedCompany.name)
+        assertThat(responseEntity.body).contains(savedCompany.number)
+        assertThat(responseEntity.body).contains(unpaid.toString())
+    }
+
+    @Test
+    fun `company 이름 검색 성공하고 미수금 출력`() {
+        // given
+        val company = getTestCompany()
+        val savedCompany = companyRepository.save(company)
+
+        val ledger = Ledger(
+            id = 0,
+            companyNumber = company.number,
+            type = LedgerType.Sell,
+            date = LocalDate.now(),
+            item = "종이",
+            unitPrice = 50,
+            quantity = 100,
+            price = 5000,
+            vat = 500,
+            total = 5500
+        )
+        ledgerRepository.save(ledger)
+
+        val paid = 100
+        val transaction = getTestTransaction(company.number, paid)
+        transactionRepository.save(transaction)
+        val unpaid = ledger.total - paid
+
+        val keyword = "이퍼"
+
+        // when
+        val url = "http://localhost:$port/company/search/unpaid&name=$keyword"
+        val responseEntity = restTemplate.getForEntity<String>(url, String)
+
+        // then
         assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(responseEntity.body).contains(savedCompany.name)
         assertThat(responseEntity.body).contains(savedCompany.number)
