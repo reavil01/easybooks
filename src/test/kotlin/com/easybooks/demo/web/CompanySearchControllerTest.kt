@@ -1,7 +1,8 @@
 package com.easybooks.demo.web
 
-import com.easybooks.demo.domain.Company
-import com.easybooks.demo.domain.CompanyRepository
+import com.easybooks.demo.Ledger
+import com.easybooks.demo.LedgerType
+import com.easybooks.demo.domain.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
@@ -11,6 +12,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.getForEntity
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
+import java.time.LocalDate
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
@@ -22,10 +24,14 @@ class CompanySearchControllerTest {
 
     @Autowired
     lateinit var companyRepository: CompanyRepository
+    @Autowired
+    lateinit var transactionRepository: TransactionRepository
+    @Autowired
+    lateinit var ledgerRepository: LedgerRepository
 
     fun getTestCompany(): Company {
         return Company(
-            number = "123-456-7890",
+            number = "1234567890",
             name = "페이퍼회사",
             owner = "나",
             address = "어딘가",
@@ -36,6 +42,14 @@ class CompanySearchControllerTest {
             fax = "11111111111"
         )
     }
+
+    fun getTestTransaction(companyNumber: String, paid: Int) = Transaction(
+        id = 0,
+        companyNumber = companyNumber,
+        date = LocalDate.now(),
+        price = paid,
+        type = TransactionType.Deposit
+    )
 
     @AfterEach
     fun tearDown() {
@@ -72,7 +86,46 @@ class CompanySearchControllerTest {
 
         // then
         assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(responseEntity.body).doesNotContain(savedCompany.name)
-        assertThat(responseEntity.body).doesNotContain(savedCompany.number)
+        assertThat(responseEntity.body).contains(savedCompany.name)
+        assertThat(responseEntity.body).contains(savedCompany.number)
+    }
+
+    @Test
+    fun `company 사업자번호 검색 성공하고 미수금 출력`() {
+        // given
+        val company = getTestCompany()
+        val savedCompany = companyRepository.save(company)
+
+        val ledger = Ledger(
+            id = 0,
+            companyNumber = company.number,
+            type = LedgerType.Sell,
+            date = LocalDate.now(),
+            item = "종이",
+            unitPrice = 50,
+            quantity = 100,
+            price = 5000,
+            vat = 500,
+            total = 5500
+        )
+        ledgerRepository.save(ledger)
+
+        val paid = 100
+        val transaction = getTestTransaction(company.number, paid)
+        transactionRepository.save(transaction)
+        val unpaid = ledger.total - paid
+
+        val keyword = "678"
+
+        // when
+        val url = "http://localhost:$port/company/search&unpaid&number="+keyword
+        val responseEntity = restTemplate.getForEntity<String>(url, String)
+
+        // then
+        println(responseEntity.body)
+        assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(responseEntity.body).contains(savedCompany.name)
+        assertThat(responseEntity.body).contains(savedCompany.number)
+        assertThat(responseEntity.body).contains(unpaid.toString())
     }
 }

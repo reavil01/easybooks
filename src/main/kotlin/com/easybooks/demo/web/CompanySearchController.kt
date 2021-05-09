@@ -21,7 +21,7 @@ class CompanySearchController {
         return "company-search"
     }
 
-    @GetMapping("/company/search&number={number}")
+    @GetMapping("/company/search&unpaid&number={number}")
     fun searchByNumber(@PathVariable number: String,
                      model: Model): String {
         model.addAttribute("number", number)

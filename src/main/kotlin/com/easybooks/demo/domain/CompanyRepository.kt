@@ -8,4 +8,5 @@ interface CompanyRepository: JpaRepository<Company, Long> {
     fun findAllByOrderByIdDesc(): List<Company>
     fun findByNumber(companyNumber: String): Company?
     fun findByNameContains(name: String): List<Company>
+    fun findByNumberContains(companyNumber: String): List<Company>
 }

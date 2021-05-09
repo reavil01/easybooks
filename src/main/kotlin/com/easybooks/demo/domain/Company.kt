@@ -10,7 +10,7 @@ class Company (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20, nullable = false, unique = true)
     var number: String,
 
     @Column(length = 20, nullable = false)
