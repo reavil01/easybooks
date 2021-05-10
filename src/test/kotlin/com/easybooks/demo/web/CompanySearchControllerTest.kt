@@ -1,10 +1,8 @@
 package com.easybooks.demo.web
 
-import com.easybooks.demo.Ledger
-import com.easybooks.demo.LedgerType
 import com.easybooks.demo.domain.*
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -12,7 +10,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.getForEntity
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
-import java.time.LocalDate
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
@@ -29,29 +26,7 @@ class CompanySearchControllerTest {
     @Autowired
     lateinit var ledgerRepository: LedgerRepository
 
-    fun getTestCompany(): Company {
-        return Company(
-            number = "1234567890",
-            name = "페이퍼회사",
-            owner = "나",
-            address = "어딘가",
-            type = "종이",
-            items = "종이",
-            email = "abc@gmail.com",
-            phone = "00000000000",
-            fax = "11111111111"
-        )
-    }
-
-    fun getTestTransaction(companyNumber: String, paid: Int) = Transaction(
-        id = 0,
-        companyNumber = companyNumber,
-        date = LocalDate.now(),
-        price = paid,
-        type = TransactionType.Deposit
-    )
-
-    @AfterEach
+    @BeforeEach
     fun tearDown() {
         companyRepository.deleteAll()
         ledgerRepository.deleteAll()
@@ -98,18 +73,7 @@ class CompanySearchControllerTest {
         val company = getTestCompany()
         val savedCompany = companyRepository.save(company)
 
-        val ledger = Ledger(
-            id = 0,
-            companyNumber = company.number,
-            type = LedgerType.Sell,
-            date = LocalDate.now(),
-            item = "종이",
-            unitPrice = 50,
-            quantity = 100,
-            price = 5000,
-            vat = 500,
-            total = 5500
-        )
+        val ledger = getTestLedger(savedCompany.number)
         ledgerRepository.save(ledger)
 
         val paid = 100
@@ -136,18 +100,7 @@ class CompanySearchControllerTest {
         val company = getTestCompany()
         val savedCompany = companyRepository.save(company)
 
-        val ledger = Ledger(
-            id = 0,
-            companyNumber = company.number,
-            type = LedgerType.Sell,
-            date = LocalDate.now(),
-            item = "종이",
-            unitPrice = 50,
-            quantity = 100,
-            price = 5000,
-            vat = 500,
-            total = 5500
-        )
+        val ledger = getTestLedger(savedCompany.number)
         ledgerRepository.save(ledger)
 
         val paid = 100

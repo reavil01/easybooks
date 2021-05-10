@@ -1,11 +1,8 @@
 package com.easybooks.demo.web
 
-import com.easybooks.demo.domain.Company
 import com.easybooks.demo.domain.CompanyRepository
-import com.easybooks.demo.web.dto.CompanySaveRequestDto
-import com.easybooks.demo.web.dto.CompanyUpdateRequestDto
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -30,7 +27,7 @@ class CompanyApiControllerTest {
     @Autowired
     lateinit var companyRepository: CompanyRepository
 
-    @AfterEach
+    @BeforeEach
     fun tearDown() {
         companyRepository.deleteAll()
     }
@@ -38,17 +35,7 @@ class CompanyApiControllerTest {
     @Test
     fun Compnay_등록된다() {
         // given
-        val requestDto = CompanySaveRequestDto(
-            number = "123-456-7890",
-            name = "페이퍼회사",
-            owner = "나",
-            address = "어딘가",
-            type = "종이",
-            items = "종이",
-            email = "abc@gmail.com",
-            phone = "00000000000",
-            fax = "11111111111"
-        )
+        val requestDto = getTestCompanySaveRequestDto()
         val url = "http://localhost:$port/api/v1/company"
 
         // when
@@ -70,34 +57,14 @@ class CompanyApiControllerTest {
     fun company_수정된다() {
         // given
         val savedCompany = companyRepository.save(
-            Company(
-                number = "123-456-7890",
-                name = "페이퍼컴퍼니",
-                owner = "나",
-                address = "없어요",
-                type = "페이퍼",
-                items = "종이",
-                email = "paper@gmail.com",
-                phone = "00000000000",
-                fax = "11111111111"
-            )
+            getTestCompany()
         )
 
         val updateId = savedCompany.id
         val expectedNumber = "999-999-9999"
         val expectedName = "골판지회사"
 
-        val requestDto = CompanyUpdateRequestDto(
-            number = expectedNumber,
-            name = expectedName,
-            owner = "나",
-            address = "없어요",
-            type = "페이퍼",
-            items = "종이",
-            email = "paper@gmail.com",
-            phone = "00000000000",
-            fax = "11111111111"
-        )
+        val requestDto = getTestCompanyUpdateRequestDto(expectedNumber, expectedName)
 
         val url = "http://localhost:$port/api/v1/company/$updateId"
         val requestEntity = HttpEntity(requestDto)
@@ -127,17 +94,7 @@ class CompanyApiControllerTest {
     fun company_삭제된다() {
         // given
         val savedCompany = companyRepository.save(
-            Company(
-                number = "123-456-7890",
-                name = "페이퍼컴퍼니",
-                owner = "나",
-                address = "없어요",
-                type = "페이퍼",
-                items = "종이",
-                email = "paper@gmail.com",
-                phone = "00000000000",
-                fax = "11111111111"
-            )
+            getTestCompany()
         )
 
         val updateId = savedCompany.id
