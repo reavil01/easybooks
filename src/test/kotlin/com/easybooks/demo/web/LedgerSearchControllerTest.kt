@@ -12,6 +12,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.getForEntity
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
+import java.time.LocalDate
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
@@ -29,10 +30,10 @@ class LedgerSearchControllerTest {
     lateinit var ledgerRepository: LedgerRepository
 
     @BeforeEach
-    fun tearDown() {
-        companyRepository.deleteAll()
+    fun setup() {
         ledgerRepository.deleteAll()
         transactionRepository.deleteAll()
+        companyRepository.deleteAll()
     }
 
     @Test
@@ -48,6 +49,31 @@ class LedgerSearchControllerTest {
 
         // then
         assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(responseEntity.body).contains(savedLedger.item)
+        assertThat(responseEntity.body).contains(savedLedger.price.toString())
+        assertThat(responseEntity.body).contains(savedLedger.total.toString())
+    }
+
+    @Test
+    fun `ledger 날짜로 검색 성공`() {
+        // given
+        val startDate = LocalDate.now().minusDays(3)
+        val endDate = LocalDate.now()
+
+        val savedCompany = companyRepository.save(getTestCompany())
+        val pastLedger = getTestLedger(savedCompany)
+        pastLedger.date = startDate
+        pastLedger.item = "아무것도안샀는데!"
+        ledgerRepository.save(pastLedger)
+        val savedLedger = ledgerRepository.save(getTestLedger(savedCompany))
+
+        // when
+        val url = "http://localhost:$port/ledger/search&startDate=$startDate&endDate=$endDate"
+        val responseEntity = restTemplate.getForEntity<String>(url, String)
+
+        // then
+        assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(responseEntity.body).contains(pastLedger.item)
         assertThat(responseEntity.body).contains(savedLedger.item)
         assertThat(responseEntity.body).contains(savedLedger.price.toString())
         assertThat(responseEntity.body).contains(savedLedger.total.toString())

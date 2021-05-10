@@ -8,6 +8,7 @@ import com.easybooks.demo.web.dto.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
+import java.time.LocalDate
 import java.util.stream.Collectors
 import kotlin.streams.toList
 
@@ -76,7 +77,12 @@ class LedgerService(
     @Transactional(readOnly = true)
     fun findAllByCompanyNameContains(companyName: String): List<Ledger> {
         return ledgerRepository.findAllByCompanyNameContains(companyName)
-            .stream()
-            .toList()
+            .stream().toList()
+    }
+
+    @Transactional(readOnly = true)
+    fun findAllByDateBetween(start: LocalDate, end: LocalDate): List<Ledger> {
+        return ledgerRepository.findAllByDateBetween(start, end)
+            .stream().toList()
     }
 }
