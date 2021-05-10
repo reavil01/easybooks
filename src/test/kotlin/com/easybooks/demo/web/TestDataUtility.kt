@@ -60,9 +60,9 @@ fun getTestCompanyUpdateRequestDto(
     fax = "11111111111"
 )
 
-fun getTestLedger(companyNumber: String) = Ledger(
+fun getTestLedger(company: Company) = Ledger(
     id = 0,
-    companyNumber = companyNumber,
+    company = company,
     type = LedgerType.Sell,
     date = LocalDate.now(),
     item = "종이",

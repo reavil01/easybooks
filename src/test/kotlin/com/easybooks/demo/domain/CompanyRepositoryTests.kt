@@ -1,5 +1,6 @@
 package com.easybooks.demo.domain
 
+import com.easybooks.demo.web.getTestCompany
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,17 +21,7 @@ class CompanyRepositoryTests {
     @Test
     fun companyDAO_save_load() {
         // given
-        val company = Company(
-            number = "123-456-7890",
-            name = "페이퍼컴퍼니",
-            owner = "나",
-            address = "없어요",
-            type = "페이퍼",
-            items = "종이",
-            email = "paper@gmail.com",
-            phone = "00000000000",
-            fax = "11111111111"
-        )
+        val company = getTestCompany()
         companyRepository.save(company)
 
         // when
