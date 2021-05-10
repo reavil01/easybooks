@@ -27,6 +27,21 @@ class IndexController {
         return "company-save"
     }
 
+    @GetMapping("/company/search")
+    fun companySearch(): String{
+        return "company-search"
+    }
+
+    @GetMapping("/ledger/save")
+    fun ledgerSave(): String {
+        return "ledger-save"
+    }
+
+    @GetMapping("/ledger/search")
+    fun ledgerSearch(): String {
+        return "ledger-search"
+    }
+
     @GetMapping("/company/update/{id}")
     fun companyUpdate(@PathVariable id: Long,
                       model: Model): String {
@@ -34,11 +49,6 @@ class IndexController {
         model.addAttribute("company", dto)
 
         return "company-update"
-    }
-
-    @GetMapping("/ledger/save")
-    fun ledgerSave(): String {
-        return "ledger-save"
     }
 
     @GetMapping("/ledger/update/{id}")
@@ -50,8 +60,5 @@ class IndexController {
         return "ledger-update"
     }
 
-    @GetMapping("/company/search")
-    fun companySearch(): String{
-        return "company-search"
-    }
+
 }

@@ -4,7 +4,7 @@
     <div class="form-group">
         <form>
             <label for="name">사업자번호:</label>
-            <input type="text" id="search-by-company-number">
+            <input type="text" id="search-by-company-number" {{#number}}value="{{number}}"{{/number}}>
             <button type="button" class="btn btn-primary" id="btn-company-number-search">검색</button>
 
             <label>사업자명:</label>
@@ -33,7 +33,7 @@
                 <td>{{number}}</td>
                 <td><a href="/company/update/{{id}}">{{name}}</a></td>
                 <td>{{owner}}</td>
-                <td>{{unpaid}}</td>
+                <td>{{#unpaid}}{{unpaid}}{{/unpaid}}</td>
             </tr>
         {{/companys}}
         </tbody>
