@@ -1,10 +1,10 @@
 package com.easybooks.demo.web.dto
 
-import com.easybooks.demo.Ledger
+import com.easybooks.demo.domain.Ledger
 
-class LedgerResponseDto(ledger: Ledger) {
+open class LedgerResponseDto(ledger: Ledger) {
     val id = ledger.id
-    val companyNumber = ledger.companyNumber
+    val company = ledger.company
     val type = ledger.type
     val date = ledger.date
     val item = ledger.item

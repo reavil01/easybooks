@@ -1,7 +1,6 @@
 package com.easybooks.demo.domain
 
 import com.easybooks.demo.web.dto.CompanyUpdateRequestDto
-import net.bytebuddy.implementation.bind.annotation.AllArguments
 import javax.persistence.*
 
 @Entity

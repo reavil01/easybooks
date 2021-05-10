@@ -27,10 +27,10 @@ class CompanySearchControllerTest {
     lateinit var ledgerRepository: LedgerRepository
 
     @BeforeEach
-    fun tearDown() {
-        companyRepository.deleteAll()
+    fun setup() {
         ledgerRepository.deleteAll()
         transactionRepository.deleteAll()
+        companyRepository.deleteAll()
     }
 
     @Test
@@ -73,7 +73,7 @@ class CompanySearchControllerTest {
         val company = getTestCompany()
         val savedCompany = companyRepository.save(company)
 
-        val ledger = getTestLedger(savedCompany.number)
+        val ledger = getTestLedger(savedCompany)
         ledgerRepository.save(ledger)
 
         val paid = 100
@@ -100,7 +100,7 @@ class CompanySearchControllerTest {
         val company = getTestCompany()
         val savedCompany = companyRepository.save(company)
 
-        val ledger = getTestLedger(savedCompany.number)
+        val ledger = getTestLedger(savedCompany)
         ledgerRepository.save(ledger)
 
         val paid = 100

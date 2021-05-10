@@ -1,0 +1,61 @@
+{{>layout/header}}
+
+<div class="col-md-12">
+    <div class="form-group">
+        <form>
+            <label for="name">사업자번호:</label>
+            <input type="text" id="search-by-company-number" {{#number}}value="{{number}}"{{/number}}>
+            <button type="button" class="btn btn-primary" id="btn-company-number-search">검색</button>
+
+            <label>사업자명:</label>
+            <input type="text" id="search-by-company-name" {{#name}}value="{{name}}"{{/name}}>
+            <button type="button" class="btn btn-primary" id="btn-company-name-search">검색</button>
+
+            <label>날짜:</label>
+            <input type="date" id="search-by-date-start" {{#startDate}}value="{{startDate}}"{{/startDate}}>
+            <input type="date" id="search-by-date-end" {{#endDate}}value="{{endDate}}"{{/endDate}}>
+            <button type="button" class="btn btn-primary" id="btn-company-name-search">검색</button>
+        </form>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>ID</th>
+            <th>날짜</th>
+            <th>사업자명</th>
+            <th>품명</th>
+            <th>단가</th>
+            <th>수량</th>
+            <th>합계</th>
+            <th>부가세</th>
+            <th>총액</th>
+            <th>수정</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#ledgers}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{date}}</td>
+                <td><a href="/company/search&name={{name}}">{{name}}</td>
+                <td>{{item}}</a></td>
+                <td>{{unitPrice}}</td>
+                <td>{{quantity}}</td>
+                <td>{{price}}</td>
+                <td>{{vat}}</td>
+                <td>{{total}}</td>
+                <td>
+                    <input type="button" class="btn btn-primary"
+                           onClick="window.open('/ledger/update/{{id}}')"
+                           value="수정">
+                </td>
+            </tr>
+        {{/ledgers}}
+        </tbody>
+    </table>
+</div>
+
+{{>layout/footer}}

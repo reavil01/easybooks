@@ -1,11 +1,12 @@
 package com.easybooks.demo.web.dto
 
-import com.easybooks.demo.Ledger
-import com.easybooks.demo.LedgerType
+import com.easybooks.demo.domain.Company
+import com.easybooks.demo.domain.Ledger
+import com.easybooks.demo.domain.LedgerType
 import java.time.LocalDate
 
 class LedgerSaveAndUpdateRequestDto (
-    val companyNumber: String,
+    val company: Company,
     val type: LedgerType,
     val date: LocalDate,
     val item: String,
@@ -18,7 +19,7 @@ class LedgerSaveAndUpdateRequestDto (
 
 fun LedgerSaveAndUpdateRequestDto.toEntity() = Ledger(
     id = 0,
-    companyNumber = companyNumber,
+    company = company,
     type = type,
     date = date,
     item = item,

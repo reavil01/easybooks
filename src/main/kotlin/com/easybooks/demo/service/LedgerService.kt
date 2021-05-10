@@ -1,16 +1,21 @@
 package com.easybooks.demo.service
 
 import com.easybooks.demo.domain.CompanyRepository
+import com.easybooks.demo.domain.Ledger
 import com.easybooks.demo.domain.LedgerRepository
-import com.easybooks.demo.update
+import com.easybooks.demo.domain.update
 import com.easybooks.demo.web.dto.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
 import java.util.stream.Collectors
+import kotlin.streams.toList
 
 @Service
-class LedgerService(val ledgerRepository: LedgerRepository, val companyRepository: CompanyRepository) {
+class LedgerService(
+    val ledgerRepository: LedgerRepository,
+    val companyRepository: CompanyRepository
+) {
     @Transactional
     fun save(requestDto: LedgerSaveAndUpdateRequestDto): Long {
         _checkLedgerValidation(requestDto)
@@ -29,8 +34,8 @@ class LedgerService(val ledgerRepository: LedgerRepository, val companyRepositor
     }
 
     fun _checkLedgerValidation(requestDto: LedgerSaveAndUpdateRequestDto) {
-        companyRepository.findByNumber(requestDto.companyNumber)
-            ?: throw IllegalArgumentException("등록되지 않은 사업자번호입니다. companyNumber=${requestDto.companyNumber}")
+        companyRepository.findByNumber(requestDto.company.number)
+            ?: throw IllegalArgumentException("등록되지 않은 사업자번호입니다. companyNumber=${requestDto.company.number}")
 
         if(requestDto.unitPrice > 0 &&
             requestDto.price != requestDto.unitPrice * requestDto.quantity) {
@@ -66,5 +71,12 @@ class LedgerService(val ledgerRepository: LedgerRepository, val companyRepositor
         return ledgerRepository.findAllByOrderByIdDesc().stream()
             .map{LedgerListResponseDto(it)}
             .collect(Collectors.toList())
+    }
+
+    @Transactional(readOnly = true)
+    fun findAllByCompanyNameContains(companyName: String): List<Ledger> {
+        return ledgerRepository.findAllByCompanyNameContains(companyName)
+            .stream()
+            .toList()
     }
 }

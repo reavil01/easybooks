@@ -1,4 +1,4 @@
-package com.easybooks.demo
+package com.easybooks.demo.domain
 
 import com.easybooks.demo.web.dto.LedgerSaveAndUpdateRequestDto
 import org.springframework.data.jpa.repository.Temporal
@@ -11,8 +11,9 @@ class Ledger(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
-    @Column(nullable = false)
-    var companyNumber: String,
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    var company: Company,
 
     @Column(nullable = false)
     var type: LedgerType,
@@ -38,15 +39,15 @@ class Ledger(
 )
 
 fun Ledger.update(requestDto: LedgerSaveAndUpdateRequestDto) {
-    companyNumber = requestDto.companyNumber
-    type = requestDto.type
-    date = requestDto.date
-    item = requestDto.item
-    unitPrice = requestDto.unitPrice
-    quantity = requestDto.quantity
-    price = requestDto.price
-    vat = requestDto.vat
-    total = requestDto.total
+    requestDto.company.also { company = it }
+    requestDto.type.also { type = it }
+    requestDto.date.also { date = it }
+    requestDto.item.also { item = it }
+    requestDto.unitPrice.also { unitPrice = it }
+    requestDto.quantity.also { quantity = it }
+    requestDto.price.also { price = it }
+    requestDto.vat.also { vat = it }
+    requestDto.total.also { total = it }
 }
 
 enum class LedgerType {

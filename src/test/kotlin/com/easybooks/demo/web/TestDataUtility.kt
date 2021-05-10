@@ -1,12 +1,13 @@
 package com.easybooks.demo.web
 
-import com.easybooks.demo.Ledger
-import com.easybooks.demo.LedgerType
+import com.easybooks.demo.domain.Ledger
+import com.easybooks.demo.domain.LedgerType
 import com.easybooks.demo.domain.Company
 import com.easybooks.demo.domain.Transaction
 import com.easybooks.demo.domain.TransactionType
 import com.easybooks.demo.web.dto.CompanySaveRequestDto
 import com.easybooks.demo.web.dto.CompanyUpdateRequestDto
+import com.easybooks.demo.web.dto.LedgerSaveAndUpdateRequestDto
 import java.time.LocalDate
 
 fun getTestCompany(): Company {
@@ -70,4 +71,16 @@ fun getTestLedger(companyNumber: String) = Ledger(
     price = 5000,
     vat = 500,
     total = 5500
+)
+
+fun getTestLedgerSaveRequestDto(company: Company) = LedgerSaveAndUpdateRequestDto(
+    company = company,
+    type = LedgerType.Sell,
+    date = LocalDate.now(),
+    item = "종이",
+    unitPrice = 10,
+    quantity = 20,
+    price = 200,
+    vat = 20,
+    total = 220
 )
