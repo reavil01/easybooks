@@ -24,9 +24,9 @@ fun getTestCompany(): Company {
     )
 }
 
-fun getTestTransaction(companyNumber: String, paid: Int) = Transaction(
+fun getTestTransaction(company: Company, paid: Int) = Transaction(
     id = 0,
-    companyNumber = companyNumber,
+    company = company,
     date = LocalDate.now(),
     price = paid,
     type = TransactionType.Deposit

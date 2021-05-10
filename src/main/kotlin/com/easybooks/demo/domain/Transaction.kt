@@ -9,8 +9,9 @@ class Transaction (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
 
-    @Column(nullable = false)
-    var companyNumber: String,
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    var company: Company,
 
     @Column(nullable = false)
     var date: LocalDate,

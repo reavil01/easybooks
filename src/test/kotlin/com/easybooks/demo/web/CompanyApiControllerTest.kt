@@ -13,6 +13,7 @@ import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
+import org.springframework.test.context.event.annotation.AfterTestClass
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
@@ -28,6 +29,11 @@ class CompanyApiControllerTest {
     lateinit var companyRepository: CompanyRepository
 
     @BeforeEach
+    fun setup() {
+        companyRepository.deleteAll()
+    }
+
+    @AfterTestClass
     fun tearDown() {
         companyRepository.deleteAll()
     }

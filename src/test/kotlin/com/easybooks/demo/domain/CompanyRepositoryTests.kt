@@ -2,6 +2,7 @@ package com.easybooks.demo.domain
 
 import com.easybooks.demo.web.getTestCompany
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -13,8 +14,13 @@ class CompanyRepositoryTests {
     @Autowired
     private lateinit var companyRepository: CompanyRepository
 
-    @AfterTestClass
+    @BeforeEach
     fun cleanup() {
+        companyRepository.deleteAll()
+    }
+
+    @AfterTestClass
+    fun tearDown() {
         companyRepository.deleteAll()
     }
 

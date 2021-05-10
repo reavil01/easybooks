@@ -9,6 +9,6 @@ interface LedgerRepository: JpaRepository<Ledger, Long> {
     fun findAllByCompanyNameContains(companyName: String): List<Ledger>
     fun findAllByDateBetween(start: LocalDate, end: LocalDate): List<Ledger>
 
-    @Query("SELECT SUM(l.total) FROM Ledger as l WHERE l.company.number = :companyNumber")
-    fun getSumofTotalPrcie(companyNumber: String): Int?
+    @Query("SELECT SUM(l.total) FROM Ledger as l WHERE l.company.id = :id")
+    fun getSumofTotalPrcie(id: Long): Int?
 }

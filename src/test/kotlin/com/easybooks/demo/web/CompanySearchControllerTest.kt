@@ -10,6 +10,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.getForEntity
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpStatus
+import org.springframework.test.context.event.annotation.AfterTestClass
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
@@ -28,6 +29,13 @@ class CompanySearchControllerTest {
 
     @BeforeEach
     fun setup() {
+        ledgerRepository.deleteAll()
+        transactionRepository.deleteAll()
+        companyRepository.deleteAll()
+    }
+
+    @AfterTestClass
+    fun tearDown() {
         ledgerRepository.deleteAll()
         transactionRepository.deleteAll()
         companyRepository.deleteAll()
@@ -77,7 +85,7 @@ class CompanySearchControllerTest {
         ledgerRepository.save(ledger)
 
         val paid = 100
-        val transaction = getTestTransaction(company.number, paid)
+        val transaction = getTestTransaction(company, paid)
         transactionRepository.save(transaction)
         val unpaid = ledger.total - paid
 
@@ -104,7 +112,7 @@ class CompanySearchControllerTest {
         ledgerRepository.save(ledger)
 
         val paid = 100
-        val transaction = getTestTransaction(company.number, paid)
+        val transaction = getTestTransaction(company, paid)
         transactionRepository.save(transaction)
         val unpaid = ledger.total - paid
 

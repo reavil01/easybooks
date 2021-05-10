@@ -1,10 +1,9 @@
 package com.easybooks.demo.domain
 
-import com.easybooks.demo.domain.Ledger
-import com.easybooks.demo.domain.LedgerType
 import com.easybooks.demo.web.getTestCompany
 import com.easybooks.demo.web.getTestLedger
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -19,9 +18,16 @@ class LedgerRepositoryTests {
     @Autowired
     private lateinit var companyRepository: CompanyRepository
 
-    @AfterTestClass
+    @BeforeEach
     fun cleanup() {
         ledgerRepository.deleteAll()
+        companyRepository.deleteAll()
+    }
+
+    @AfterTestClass
+    fun tearDown() {
+        ledgerRepository.deleteAll()
+        companyRepository.deleteAll()
     }
 
     @Test

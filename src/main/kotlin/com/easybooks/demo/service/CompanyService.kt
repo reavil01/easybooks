@@ -73,8 +73,8 @@ class CompanyService (
     fun findByNumberContainsAndUnpaidPrice(number: String): List<CompanyWithUnpaidResponseDto> {
         return companyRepository.findByNumberContains(number).stream()
             .map{
-                val total = ledgerRepository.getSumofTotalPrcie(it.number) ?: 0
-                val paid = transactionRepository.getSumofTotalPrcie(it.number) ?: 0
+                val total = ledgerRepository.getSumofTotalPrcie(it.id) ?: 0
+                val paid = transactionRepository.getSumofTotalPrcie(it.id) ?: 0
                 val unpaid = total - paid
                 CompanyWithUnpaidResponseDto(it, unpaid)
             }
@@ -85,8 +85,8 @@ class CompanyService (
     fun findByNameContainsAndUnpaidPrice(name: String): List<CompanyWithUnpaidResponseDto> {
         return companyRepository.findByNameContains(name).stream()
             .map{
-                val total = ledgerRepository.getSumofTotalPrcie(it.number) ?: 0
-                val paid = transactionRepository.getSumofTotalPrcie(it.number) ?: 0
+                val total = ledgerRepository.getSumofTotalPrcie(it.id) ?: 0
+                val paid = transactionRepository.getSumofTotalPrcie(it.id) ?: 0
                 val unpaid = total - paid
                 CompanyWithUnpaidResponseDto(it, unpaid)
             }

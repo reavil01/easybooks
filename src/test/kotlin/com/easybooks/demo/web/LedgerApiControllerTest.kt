@@ -16,6 +16,7 @@ import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
+import org.springframework.test.context.event.annotation.AfterTestClass
 import java.time.LocalDate
 
 @SpringBootTest(
@@ -35,6 +36,12 @@ class LedgerApiControllerTest {
 
     @BeforeEach
     fun setup() {
+        ledgerRepository.deleteAll()
+        companyRepository.deleteAll()
+    }
+
+    @AfterTestClass
+    fun tearDown() {
         ledgerRepository.deleteAll()
         companyRepository.deleteAll()
     }
