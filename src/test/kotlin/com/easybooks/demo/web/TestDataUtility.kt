@@ -73,8 +73,8 @@ fun getTestLedger(company: Company) = Ledger(
     total = 5500
 )
 
-fun getTestLedgerSaveRequestDto(company: Company) = LedgerSaveAndUpdateRequestDto(
-    company = company,
+fun getTestLedgerSaveRequestDto(companyNumber: String) = LedgerSaveAndUpdateRequestDto(
+    companyNumber = companyNumber,
     type = LedgerType.Sell,
     date = LocalDate.now(),
     item = "종이",

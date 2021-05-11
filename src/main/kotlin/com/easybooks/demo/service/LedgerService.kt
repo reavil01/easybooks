@@ -1,9 +1,6 @@
 package com.easybooks.demo.service
 
-import com.easybooks.demo.domain.CompanyRepository
-import com.easybooks.demo.domain.Ledger
-import com.easybooks.demo.domain.LedgerRepository
-import com.easybooks.demo.domain.update
+import com.easybooks.demo.domain.*
 import com.easybooks.demo.web.dto.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -20,7 +17,7 @@ class LedgerService(
     @Transactional
     fun save(requestDto: LedgerSaveAndUpdateRequestDto): Long {
         _checkLedgerValidation(requestDto)
-        return ledgerRepository.save(requestDto.toEntity()).id
+        return ledgerRepository.save(requestDto.toEntity(company)).id
     }
 
     @Transactional
@@ -34,10 +31,12 @@ class LedgerService(
         return id
     }
 
-    fun _checkLedgerValidation(requestDto: LedgerSaveAndUpdateRequestDto) {
-        companyRepository.findByNumber(requestDto.company.number)
-            ?: throw IllegalArgumentException("등록되지 않은 사업자번호입니다. companyNumber=${requestDto.company.number}")
+    fun _getCompany(companyNumber: String): Company {
+        return companyRepository.findByNumber(companyNumber)
+            ?: throw IllegalArgumentException("등록되지 않은 사업자번호입니다. companyNumber=${companyNumber}")
+    }
 
+    fun _checkLedgerValidation(requestDto: LedgerSaveAndUpdateRequestDto) {
         if(requestDto.unitPrice > 0 &&
             requestDto.price != requestDto.unitPrice * requestDto.quantity) {
             throw IllegalArgumentException("단가와 수량의 곱과 가격이 일치하지 않습니다.")

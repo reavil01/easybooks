@@ -54,7 +54,7 @@ class LedgerApiControllerTest {
     fun `ledger 없는 사업자번호면 등록 실패`() {
         // given
         val notSavedCompany = getTestCompany()
-        val requestDto = getTestLedgerSaveRequestDto(notSavedCompany)
+        val requestDto = getTestLedgerSaveRequestDto(notSavedCompany.number)
         val url = "http://localhost:$port/api/v1/ledger"
 
         // when
@@ -69,8 +69,8 @@ class LedgerApiControllerTest {
     fun `ledger 등록된 사업자번호면 등록`() {
         // given
         val savedCompany = companyRepository.save(getTestCompany())
-        val requestDto = getTestLedgerSaveRequestDto(savedCompany)
-        assertThat(savedCompany).isEqualTo(requestDto.company)
+        val requestDto = getTestLedgerSaveRequestDto(savedCompany.number)
+        assertThat(savedCompany.number).isEqualTo(requestDto.companyNumber)
 
         val url = "http://localhost:$port/api/v1/ledger"
 
@@ -82,8 +82,7 @@ class LedgerApiControllerTest {
         assertThat(responseEntity.body.toString().toLong()).isGreaterThan(0L)
 
         val savedLedger = ledgerRepository.findAll()[0]
-        assertThat(savedLedger.company.id).isEqualTo(requestDto.company.id)
-        assertThat(savedLedger.company.number).isEqualTo(requestDto.company.number)
+        assertThat(savedLedger.company.number).isEqualTo(requestDto.companyNumber)
         assertThat(savedLedger.type).isEqualTo(requestDto.type)
         assertThat(savedLedger.date).isEqualTo(requestDto.date)
     }
@@ -92,15 +91,15 @@ class LedgerApiControllerTest {
     fun ledger_수정된다() {
         // given
         val savedCompany = companyRepository.save(getTestCompany())
-        val originalLedger = getTestLedgerSaveRequestDto(savedCompany)
-        val savedLedger = ledgerRepository.save(originalLedger.toEntity())
+        val originalLedger = getTestLedgerSaveRequestDto(savedCompany.number)
+        val savedLedger = ledgerRepository.save(originalLedger.toEntity(savedCompany))
 
         val updateId = savedLedger.id
         val expectedItem = "지폐"
         val expectedDate = LocalDate.now()
 
         val requestDto = LedgerSaveAndUpdateRequestDto(
-            company = savedLedger.company,
+            companyNumber = savedLedger.company.number,
             type = savedLedger.type,
             date = expectedDate,
             item = expectedItem,
@@ -136,8 +135,8 @@ class LedgerApiControllerTest {
     fun ledger_삭제된다() {
         // given
         val savedCompany = companyRepository.save(getTestCompany())
-        val requsetDto = getTestLedgerSaveRequestDto(savedCompany)
-        val savedLedger = ledgerRepository.save(requsetDto.toEntity())
+        val requsetDto = getTestLedgerSaveRequestDto(savedCompany.number)
+        val savedLedger = ledgerRepository.save(requsetDto.toEntity(savedCompany))
 
         val updateId = savedLedger.id
         val url = "http://localhost:$port/api/v1/ledger/$updateId"

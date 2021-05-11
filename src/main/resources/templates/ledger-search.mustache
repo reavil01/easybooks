@@ -1,20 +1,21 @@
 {{>layout/header}}
+{{>layout/navigation}}
 
 <div class="col-md-12">
     <div class="form-group">
         <form>
             <label for="name">사업자번호:</label>
-            <input type="text" id="search-by-company-number" {{#number}}value="{{number}}"{{/number}}>
-            <button type="button" class="btn btn-primary" id="btn-company-number-search">검색</button>
+            <input type="text" id="search-ledger-by-company-number" {{#number}}value="{{number}}"{{/number}}>
+            <button type="button" class="btn btn-primary" id="btn-search-ledger-by-company-number">검색</button>
 
             <label>사업자명:</label>
-            <input type="text" id="search-by-company-name" {{#name}}value="{{name}}"{{/name}}>
-            <button type="button" class="btn btn-primary" id="btn-company-name-search">검색</button>
+            <input type="text" id="search-ledger-by-company-name" {{#name}}value="{{name}}"{{/name}}>
+            <button type="button" class="btn btn-primary" id="btn-search-ledger-by-company-name">검색</button>
 
             <label>날짜:</label>
-            <input type="date" id="search-by-date-start" {{#startDate}}value="{{startDate}}"{{/startDate}}>
-            <input type="date" id="search-by-date-end" {{#endDate}}value="{{endDate}}"{{/endDate}}>
-            <button type="button" class="btn btn-primary" id="btn-company-name-search">검색</button>
+            <input type="date" id="search-ledger-by-date-start" {{#startDate}}value="{{startDate}}"{{/startDate}}>
+            <input type="date" id="search-ledger-by-date-end" {{#endDate}}value="{{endDate}}"{{/endDate}}>
+            <button type="button" class="btn btn-primary" id="btn-search-ledger-by-date">검색</button>
         </form>
     </div>
 </div>

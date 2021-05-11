@@ -39,7 +39,6 @@ class Ledger(
 )
 
 fun Ledger.update(requestDto: LedgerSaveAndUpdateRequestDto) {
-    requestDto.company.also { company = it }
     requestDto.type.also { type = it }
     requestDto.date.also { date = it }
     requestDto.item.also { item = it }

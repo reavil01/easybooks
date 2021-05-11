@@ -4,8 +4,7 @@ import com.easybooks.demo.service.CompanyService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.*
 
 @Controller
 class CompanySearchController {
@@ -31,8 +30,10 @@ class CompanySearchController {
     }
 
     @GetMapping("/company/search/unpaid&number={number}")
-    fun searchByNumberWithUnpaid(@PathVariable number: String,
-                            model: Model): String {
+    fun searchByNumberWithUnpaid(
+        @PathVariable number: String,
+        model: Model
+    ): String {
         model.addAttribute("number", number)
         model.addAttribute("companys", companyService.findByNumberContainsAndUnpaidPrice(number))
 
@@ -40,10 +41,20 @@ class CompanySearchController {
     }
 
     @GetMapping("/company/search/unpaid&name={name}")
-    fun searchByNameWithUnpaid(@PathVariable name: String,
-                            model: Model): String {
+    fun searchByNameWithUnpaid(
+        @PathVariable name: String,
+        model: Model
+    ): String {
         model.addAttribute("name", name)
         model.addAttribute("companys", companyService.findByNameContainsAndUnpaidPrice(name))
+
+        return "company-search"
+    }
+
+    @GetMapping("/company/search&pop={isPopup}")
+    fun popupSearchPage(@PathVariable isPopup: String,
+                     model: Model): String {
+        model.addAttribute("isPopup", isPopup)
 
         return "company-search"
     }

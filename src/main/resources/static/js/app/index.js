@@ -1,15 +1,3 @@
-function errorMessageAlert(error) {
-    const errorMsg = JSON.stringify(error);
-    const errorMsgRegx = /[가-힣| ]+\./g;
-    const msg = errorMsgRegx.exec(errorMsg);
-
-    if(errorMsg.indexOf(msg)) {
-        alert(msg);
-        return false;
-    }
-    return true;
-}
-
 function calcPrice() {
     const unitPrice = $('#unitPrice').val();
     const quantity = $('#quantity').val();
@@ -18,7 +6,6 @@ function calcPrice() {
 
     calcVATandTotal();
 }
-
 
 function calcVATandTotal() {
     const price = parseInt($('#price').val());
@@ -69,6 +56,37 @@ var index = {
         });
         $('#btn-company-number-search').click(function () {
             _this.searchCompanyByNumberWithUnpaid();
+        });
+        $('#btn-search-ledger-by-company-number').click(function () {
+            _this.searchLedgerByCompanyNumber();
+        });
+        $('#btn-search-ledger-by-company-name').click(function () {
+            _this.searchLedgerByCompanyName();
+        });
+        $('#btn-search-ledger-by-date').click(function () {
+            _this.searchLedgerByDate();
+        });
+        $('#btn-company-search').click(function () {
+            window.name = "parentForm";
+            openWin = window.open("/company/search&pop=true",
+                "childForm",
+                "width=800, height=600, location=no, toolbars=no, status=no")
+        });
+        $("tbody tr").mouseover(function () {
+            $(this).css('background-color' , '#f0f0f0');
+        });
+        $("tbody tr").mouseout(function () {
+            $(this).css('background-color' , '#FFFFFF');
+        });
+        $("#company-select-table tbody tr").dblclick(function () {
+            // $(this): 현재 클릭된 Row(<tr>)
+            const companyNumber = $(this).children(".company-number").text()
+            const companyName = $(this).children(".company-name").text()
+            const companyOwner = $(this).children(".company-owner").text()
+            opener.$('#companyNumber').text(companyNumber)
+            opener.$('#companyName').text(companyName)
+            opener.$('#companyOwner').text(companyOwner)
+            window.close();
         });
     },
     save : function () {
@@ -142,7 +160,7 @@ var index = {
     },
     saveLedger : function () {
         var data = {
-            companyNumber: $('#companyNumber').val(),
+            companyNumber: $('#companyNumber').text(),
             type: $('input[name="type"]:checked').val(),
             date: $('#date').val(),
             item: $('#item').val(),
@@ -163,9 +181,9 @@ var index = {
             alert('송장이 등록되었습니다.');
             window.location.href = '/';
         }).fail(function (error) {
-            if(errorMessageAlert(error)) {
-                alert(JSON.stringify(error))
-            }
+            // if(errorMessageAlert(error)) {
+            alert(JSON.stringify(error))
+            // }
         });
     },
     updateLedger : function () {
@@ -192,9 +210,9 @@ var index = {
             alert('송장이 수정되었습니다.');
             window.location.href = '/';
         }).fail(function (error) {
-            if(errorMessageAlert(error)) {
-                alert(JSON.stringify(error))
-            }
+            // if(errorMessageAlert(error)) {
+            alert(JSON.stringify(error))
+            // }
         });
     },
     deleteLedger : function () {
@@ -214,11 +232,24 @@ var index = {
     },
     searchCompanyByNameWithUnpaid: function () {
         const name = $('#search-by-company-name').val();
-        location.href = '/company/search/unpaid&name='+ name
+        location.href = '/company/search/unpaid&name=' + name;
     },
     searchCompanyByNumberWithUnpaid: function () {
         const number = $('#search-by-company-number').val();
-        location.href = '/company/search/unpaid&number='+number
+        location.href = '/company/search/unpaid&number=' + number;
+    },
+    searchLedgerByCompanyName: function () {
+        const name = $('#search-ledger-by-company-name').val();
+        location.href = "/ledger/search&companyName=" + name
+    },
+    searchLedgerByCompanyNumber: function () {
+        const number = $('#search-ledger-by-company-number').val();
+    },
+    searchLedgerByDate: function () {
+        const start = $('#search-ledger-by-date-start').val();
+        const end = $('#search-ledger-by-date-end').val();
+        location.href = "/ledger/search&startDate=" + start + "&endDate=" + end;
+
     }
 
 };

@@ -1,4 +1,7 @@
 {{>layout/header}}
+{{^isPopup}}
+    {{>layout/navigation}}
+{{/isPopup}}
 
 <div class="col-md-12">
     <div class="form-group">
@@ -16,7 +19,7 @@
 </div>
 
 <div class="col-md-12">
-    <table class="table table-horizontal table-bordered">
+    <table id="company-select-table" class="table table-horizontal table-bordered">
         <thead class="thead-strong">
         <tr>
             <th>ID</th>
@@ -29,11 +32,11 @@
         <tbody id="tbody">
         {{#companys}}
             <tr>
-                <td>{{id}}</td>
-                <td>{{number}}</td>
-                <td><a href="/company/update/{{id}}">{{name}}</a></td>
-                <td>{{owner}}</td>
-                <td>{{#unpaid}}{{unpaid}}{{/unpaid}}</td>
+                <td class="company-id">{{id}}</td>
+                <td class="company-number">{{number}}</td>
+                <td class="company-name"><a href="/company/update/{{id}}">{{name}}</a></td>
+                <td class="company-owner">{{owner}}</td>
+                <td class="company-unpaid">{{#unpaid}}{{unpaid}}{{/unpaid}}</td>
             </tr>
         {{/companys}}
         </tbody>

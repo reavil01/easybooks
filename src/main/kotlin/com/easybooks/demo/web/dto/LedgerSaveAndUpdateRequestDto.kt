@@ -6,7 +6,7 @@ import com.easybooks.demo.domain.LedgerType
 import java.time.LocalDate
 
 class LedgerSaveAndUpdateRequestDto (
-    val company: Company,
+    val companyNumber: String,
     val type: LedgerType,
     val date: LocalDate,
     val item: String,
@@ -17,15 +17,17 @@ class LedgerSaveAndUpdateRequestDto (
     val total: Int,
 )
 
-fun LedgerSaveAndUpdateRequestDto.toEntity() = Ledger(
-    id = 0,
-    company = company,
-    type = type,
-    date = date,
-    item = item,
-    unitPrice = unitPrice,
-    quantity = quantity,
-    price = price,
-    vat = vat,
-    total = total
-)
+fun LedgerSaveAndUpdateRequestDto.toEntity(company: Company): Ledger {
+    return Ledger(
+        id = 0,
+        company = company,
+        type = type,
+        date = date,
+        item = item,
+        unitPrice = unitPrice,
+        quantity = quantity,
+        price = price,
+        vat = vat,
+        total = total
+    )
+}
