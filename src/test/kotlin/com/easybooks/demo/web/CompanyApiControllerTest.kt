@@ -1,6 +1,8 @@
 package com.easybooks.demo.web
 
 import com.easybooks.demo.domain.CompanyRepository
+import com.easybooks.demo.domain.LedgerRepository
+import com.easybooks.demo.domain.TransactionRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,14 +29,22 @@ class CompanyApiControllerTest {
 
     @Autowired
     lateinit var companyRepository: CompanyRepository
+    @Autowired
+    lateinit var transactionRepository: TransactionRepository
+    @Autowired
+    lateinit var ledgerRepository: LedgerRepository
 
     @BeforeEach
     fun setup() {
+        ledgerRepository.deleteAll()
+        transactionRepository.deleteAll()
         companyRepository.deleteAll()
     }
 
     @AfterTestClass
     fun tearDown() {
+        ledgerRepository.deleteAll()
+        transactionRepository.deleteAll()
         companyRepository.deleteAll()
     }
 
