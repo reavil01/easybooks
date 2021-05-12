@@ -84,4 +84,10 @@ class LedgerService(
         return ledgerRepository.findAllByDateBetween(start, end)
             .stream().toList()
     }
+
+    @Transactional(readOnly = true)
+    fun findAllByCompanyNumberContains(number: String): List<Ledger> {
+        return ledgerRepository.findAllByCompanyNumberContains(number)
+            .stream().toList()
+    }
 }

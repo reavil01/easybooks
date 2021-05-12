@@ -9,6 +9,15 @@ import java.time.LocalDate
 
 @Controller
 class LedgerSearchController(val ledgerService: LedgerService) {
+    @GetMapping("/ledger/search&companyNumber={number}")
+    fun searchByCompanyNumberContains(@PathVariable number: String,
+                                    model: Model): String {
+        model.addAttribute("number", number)
+        model.addAttribute("ledgers", ledgerService.findAllByCompanyNumberContains(number))
+
+        return "ledger-search"
+    }
+
     @GetMapping("/ledger/search&companyName={name}")
     fun searchByCompanyNameContains(@PathVariable name: String,
                     model: Model): String {
