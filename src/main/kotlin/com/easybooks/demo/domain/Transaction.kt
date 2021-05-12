@@ -1,5 +1,6 @@
 package com.easybooks.demo.domain
 
+import com.easybooks.demo.web.dto.TransactionSaveAndUpdateDto
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -26,4 +27,10 @@ class Transaction (
 
 enum class TransactionType {
     Deposit, Withdraw
+}
+
+fun Transaction.update(requestDto: TransactionSaveAndUpdateDto) {
+    date = requestDto.date
+    price = requestDto.price
+    type = requestDto.type
 }
