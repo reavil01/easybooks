@@ -49,9 +49,7 @@
                 <td>{{vat}}</td>
                 <td>{{total}}</td>
                 <td>
-                    <input type="button" class="btn btn-primary"
-                           onClick="window.open('/ledger/update/{{id}}')"
-                           value="수정">
+                    <a href="/ledger/update/{{id}}">수정</a>
                 </td>
             </tr>
         {{/ledgers}}

@@ -3,17 +3,29 @@
 <h1>송장 등록</h1>
 
 <div class="col-md-12">
+    <div class="col-md-8">
+        <table class="table table-bordered">
+            <thead class="thead-strong">
+            <tr>
+                <th>사업자번호</th>
+                <th>사업자명</th>
+                <th>대표</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+            <tr>
+                <td id="companyNumber">{{ledger.company.number}}</td>
+                <td id="companyName">{{ledger.company.name}}</td>
+                <td id="companyOwner">{{ledger.company.owner}}</td>
+            </tr>
+            </tbody>
+        </table>
     <div class="col-md-4">
         <form>
             <div class="form-group">
                 <label for="id">ID</label>
                 <input type="text" class="form-control"
                        id="id" value="{{ledger.id}}" readonly>
-            </div>
-            <div class="form-group">
-                <label for="companyNumber">사업자 번호</label>
-                <input type="text" class="form-control"
-                       id="companyNumber" value="{{ledger.companyNumber}}">
             </div>
             <div class="form-group">
                 <label for="type">타입</label>
