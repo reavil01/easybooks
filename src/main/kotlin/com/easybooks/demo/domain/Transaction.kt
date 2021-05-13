@@ -29,7 +29,8 @@ enum class TransactionType {
     Deposit, Withdraw
 }
 
-fun Transaction.update(requestDto: TransactionSaveAndUpdateDto) {
+fun Transaction.update(requestDto:
+                       TransactionSaveAndUpdateDto) {
     date = requestDto.date
     price = requestDto.price
     type = requestDto.type

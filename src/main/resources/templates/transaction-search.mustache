@@ -1,0 +1,52 @@
+{{>layout/header}}
+{{>layout/navigation}}
+
+<div class="col-md-12">
+    <div class="form-group">
+        <form>
+            <label for="name">사업자번호:</label>
+            <input type="text" id="search-transaction-by-company-number" {{#number}}value="{{number}}"{{/number}}>
+            <button type="button" class="btn btn-primary" id="btn-search-transaction-by-company-number">검색</button>
+
+            <label>사업자명:</label>
+            <input type="text" id="search-transaction-by-company-name" {{#name}}value="{{name}}"{{/name}}>
+            <button type="button" class="btn btn-primary" id="btn-search-transaction-by-company-name">검색</button>
+
+            <label>날짜:</label>
+            <input type="date" id="search-transaction-by-date-start" {{#startDate}}value="{{startDate}}"{{/startDate}}>
+            <input type="date" id="search-transaction-by-date-end" {{#endDate}}value="{{endDate}}"{{/endDate}}>
+            <button type="button" class="btn btn-primary" id="btn-search-transaction-by-date">검색</button>
+        </form>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>ID</th>
+            <th>날짜</th>
+            <th>사업자명</th>
+            <th>가격</th>
+            <th>입/출금</th>
+            <th>수정</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#transactions}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{date}}</td>
+                <td><a href="/company/search&name={{company.name}}">{{company.name}}</td>
+                <td>{{price}}</a></td>
+                <td>{{type}}</td>
+                <td>
+                    <a href="/transaction/update/{{id}}">수정</a>
+                </td>
+            </tr>
+        {{/transactions}}
+        </tbody>
+    </table>
+</div>
+
+{{>layout/footer}}

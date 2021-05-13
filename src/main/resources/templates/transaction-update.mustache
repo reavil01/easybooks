@@ -1,0 +1,58 @@
+{{>layout/header}}
+{{>layout/navigation}}
+<h1>입/출금 내역 수정</h1>
+
+<div class="col-md-12">
+    <div class="col-md-8">
+        <table class="table table-bordered">
+            <thead class="thead-strong">
+            <tr>
+                <th>사업자번호</th>
+                <th>사업자명</th>
+                <th>대표</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+            <tr>
+                <td id="companyNumber">{{transaction.company.number}}</td>
+                <td id="companyName">{{transaction.company.name}}</td>
+                <td id="companyOwner">{{transaction.company.owner}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="col-md-4">
+            <form>
+                <div class="form-group">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control"
+                           id="id" value="{{transaction.id}}" readonly>
+                </div>
+                <div class="form-check-inline">
+                    <label class="form-check-label" for="type">타입</label>
+                    <label class="form-check-label" for="sell">입금</label>
+                    <input class="form-check-input" type="radio" id="sell" name="type" value="Deposit" {{#depositIdDefault}}checked{{/depositIdDefault}}>
+                    <label class="form-check-label" for="purchase">출금</label>
+                    <input class="form-check-input" type="radio" id="purchase" name="type" value="Withdraw" {{#withdrawIsDefault}}checked{{/withdrawIsDefault}}>
+                </div>
+                <table class="table table-horizontal table-bordered">
+                    <thead class="thead-strong">
+                    <tr>
+                        <th>날짜</th>
+                        <th>가격</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    <tr>
+                        <td><input type="date" id="date" value="{{transaction.date}}"></td>
+                        <td><input type="text" id="price" value="{{transaction.price}}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+            <a href="/" role="button" class="btn btn-secondary">취소</a>
+            <button type="button" class="btn btn-primary" id="btn-transaction-update">수정</button>
+            <button type="button" class="btn btn-danger" id="btn-transaction-delete">삭제</button>
+        </div>
+    </div>
+
+{{>layout/footer}}

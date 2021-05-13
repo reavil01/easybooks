@@ -1,14 +1,14 @@
 package com.easybooks.demo.service
 
-import com.easybooks.demo.domain.Company
-import com.easybooks.demo.domain.CompanyRepository
-import com.easybooks.demo.domain.TransactionRepository
-import com.easybooks.demo.domain.update
+import com.easybooks.demo.domain.*
+import com.easybooks.demo.web.dto.TransactionResponseDto
 import com.easybooks.demo.web.dto.TransactionSaveAndUpdateDto
 import com.easybooks.demo.web.dto.toEntity
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
+import java.time.LocalDate
+import kotlin.streams.toList
 
 @Service
 class TransactionService(
@@ -45,5 +45,33 @@ class TransactionService(
     fun getCompanyByCompanyNumber(companyNumber: String): Company {
         return companyRepository.findByNumber(companyNumber)
             ?: throw IllegalArgumentException("해당 사업체가 없습니다. company number = ${companyNumber}")
+    }
+
+    @Transactional(readOnly = true)
+    fun findById(id: Long): TransactionResponseDto {
+        val entity = transactionRepository.findById(id)
+            .orElseThrow { throw IllegalArgumentException("해당 입/출금 내역이 없습니다. transaction id = $id") }
+
+        return TransactionResponseDto(entity)
+    }
+
+    @Transactional(readOnly = true)
+    fun findByCompanyName(companyName: String): List<Transaction> {
+        return transactionRepository.findAllByCompanyNameContains(companyName)
+            .stream().toList()
+    }
+
+    @Transactional(readOnly = true)
+    fun findByCompanyNumber(companyNumber: String): List<Transaction> {
+        return transactionRepository.findAllByCompanyNumberContains(companyNumber)
+            .stream().toList()
+    }
+
+    @Transactional(readOnly = true)
+    fun findByDateBetween(startDate: String, endDate: String): List<Transaction> {
+        val start = LocalDate.parse(startDate)
+        val end = LocalDate.parse(endDate)
+        return transactionRepository.findAllByDateBetween(start, end)
+            .stream().toList()
     }
 }
