@@ -43,6 +43,6 @@ class TransactionRepositoryImpl(
     }
 
     override fun getSumofTotalPrcie(id: Long): Int {
-        return transactionRepoJPA.getSumofTotalPrcie(id)
+        return transactionRepoJPA.getSumofTotalPrcie(id) ?: 0
     }
 }

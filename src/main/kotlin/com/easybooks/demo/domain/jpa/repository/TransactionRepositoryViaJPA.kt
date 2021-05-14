@@ -11,5 +11,5 @@ interface TransactionRepositoryViaJPA: JpaRepository<Transaction, Long> {
     fun findAllByDateBetween(start: LocalDate, end: LocalDate): List<Transaction>
 
     @Query("SELECT SUM(t.price) FROM Transaction AS t WHERE t.company.id = :id")
-    fun getSumofTotalPrcie(id: Long): Int
+    fun getSumofTotalPrcie(id: Long): Int?
 }
