@@ -1,6 +1,6 @@
 package com.easybooks.demo.domain
 
-import com.easybooks.demo.web.dto.LedgerSaveAndUpdateRequestDto
+import com.easybooks.demo.web.ledger.dto.LedgerSaveAndUpdateRequestDto
 import org.springframework.data.jpa.repository.Temporal
 import java.time.LocalDate
 import javax.persistence.*

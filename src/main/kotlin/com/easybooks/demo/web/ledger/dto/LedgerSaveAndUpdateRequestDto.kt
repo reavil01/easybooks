@@ -1,4 +1,4 @@
-package com.easybooks.demo.web.dto
+package com.easybooks.demo.web.ledger.dto
 
 import com.easybooks.demo.domain.Company
 import com.easybooks.demo.domain.Ledger

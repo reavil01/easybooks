@@ -1,4 +1,4 @@
-package com.easybooks.demo.web
+package com.easybooks.demo.web.ledger
 
 import com.easybooks.demo.service.LedgerService
 import org.springframework.stereotype.Controller

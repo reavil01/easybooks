@@ -1,4 +1,4 @@
-package com.easybooks.demo.web
+package com.easybooks.demo.web.company
 
 import com.easybooks.demo.service.CompanyService
 import org.springframework.beans.factory.annotation.Autowired

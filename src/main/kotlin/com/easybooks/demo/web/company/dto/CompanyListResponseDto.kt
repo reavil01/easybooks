@@ -1,8 +1,8 @@
-package com.easybooks.demo.web.dto
+package com.easybooks.demo.web.company.dto
 
 import com.easybooks.demo.domain.Company
 
-class CompanyResponseDto(company: Company) {
+class CompanyListResponseDto (company: Company) {
     val id = company.id
     val number = company.number
     val name = company.name

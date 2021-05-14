@@ -1,9 +1,9 @@
-package com.easybooks.demo.web
+package com.easybooks.demo.web.company
 
 import com.easybooks.demo.service.CompanyService
-import com.easybooks.demo.web.dto.CompanyResponseDto
-import com.easybooks.demo.web.dto.CompanySaveRequestDto
-import com.easybooks.demo.web.dto.CompanyUpdateRequestDto
+import com.easybooks.demo.web.company.dto.CompanyResponseDto
+import com.easybooks.demo.web.company.dto.CompanySaveRequestDto
+import com.easybooks.demo.web.company.dto.CompanyUpdateRequestDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 

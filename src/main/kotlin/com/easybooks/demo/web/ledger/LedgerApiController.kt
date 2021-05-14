@@ -1,8 +1,8 @@
-package com.easybooks.demo.web
+package com.easybooks.demo.web.ledger
 
 import com.easybooks.demo.service.LedgerService
-import com.easybooks.demo.web.dto.LedgerResponseDto
-import com.easybooks.demo.web.dto.LedgerSaveAndUpdateRequestDto
+import com.easybooks.demo.web.ledger.dto.LedgerResponseDto
+import com.easybooks.demo.web.ledger.dto.LedgerSaveAndUpdateRequestDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

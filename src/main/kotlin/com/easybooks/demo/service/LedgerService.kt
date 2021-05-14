@@ -1,7 +1,10 @@
 package com.easybooks.demo.service
 
 import com.easybooks.demo.domain.*
-import com.easybooks.demo.web.dto.*
+import com.easybooks.demo.web.ledger.dto.LedgerListResponseDto
+import com.easybooks.demo.web.ledger.dto.LedgerResponseDto
+import com.easybooks.demo.web.ledger.dto.LedgerSaveAndUpdateRequestDto
+import com.easybooks.demo.web.ledger.dto.toEntity
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
@@ -69,7 +72,7 @@ class LedgerService(
     @Transactional(readOnly = true)
     fun findAllDesc(): List<LedgerListResponseDto> {
         return ledgerRepository.findAllByOrderByIdDesc().stream()
-            .map{LedgerListResponseDto(it)}
+            .map{ LedgerListResponseDto(it) }
             .collect(Collectors.toList())
     }
 

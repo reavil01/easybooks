@@ -1,7 +1,7 @@
 package com.easybooks.demo.service
 
 import com.easybooks.demo.domain.*
-import com.easybooks.demo.web.dto.*
+import com.easybooks.demo.web.company.dto.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
@@ -49,21 +49,21 @@ class CompanyService (
     @Transactional(readOnly = true)
     fun findAllDesc(): List<CompanyListResponseDto> {
         return companyRepository.findAllByOrderByIdDesc().stream()
-            .map{CompanyListResponseDto(it)}
+            .map{ CompanyListResponseDto(it) }
             .collect(Collectors.toList())
     }
 
     @Transactional(readOnly = true)
     fun findByNumberContains(number: String): List<CompanyResponseDto> {
         return companyRepository.findAllByNumberContains(number).stream()
-            .map{CompanyResponseDto(it)}
+            .map{ CompanyResponseDto(it) }
             .collect(Collectors.toList())
     }
 
     @Transactional(readOnly = true)
     fun findByNameContains(name: String): List<CompanyResponseDto> {
         return companyRepository.findAllByNameContains(name).stream()
-            .map{CompanyResponseDto(it)}
+            .map{ CompanyResponseDto(it) }
             .collect(Collectors.toList())
     }
 

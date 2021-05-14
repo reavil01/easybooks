@@ -1,11 +1,8 @@
-package com.easybooks.demo.web.dto
+package com.easybooks.demo.web.company.dto
 
 import com.easybooks.demo.domain.Company
 
-class CompanyWithUnpaidResponseDto(
-    company: Company,
-    unpaid: Int,
-) {
+class CompanyResponseDto(company: Company) {
     val id = company.id
     val number = company.number
     val name = company.name
@@ -16,5 +13,4 @@ class CompanyWithUnpaidResponseDto(
     val email = company.email
     val phone = company.phone
     val fax = company.fax
-    val unpaid = unpaid
 }

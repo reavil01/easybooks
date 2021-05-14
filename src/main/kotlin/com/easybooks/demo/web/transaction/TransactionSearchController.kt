@@ -1,4 +1,4 @@
-package com.easybooks.demo.web
+package com.easybooks.demo.web.transaction
 
 import com.easybooks.demo.service.TransactionService
 import org.springframework.stereotype.Controller

@@ -1,8 +1,11 @@
-package com.easybooks.demo.web
+package com.easybooks.demo.web.company
 
 import com.easybooks.demo.domain.CompanyRepository
 import com.easybooks.demo.domain.LedgerRepository
 import com.easybooks.demo.domain.TransactionRepository
+import com.easybooks.demo.web.getTestCompany
+import com.easybooks.demo.web.getTestCompanySaveRequestDto
+import com.easybooks.demo.web.getTestCompanyUpdateRequestDto
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

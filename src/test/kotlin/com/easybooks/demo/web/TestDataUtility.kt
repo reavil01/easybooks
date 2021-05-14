@@ -5,9 +5,9 @@ import com.easybooks.demo.domain.LedgerType
 import com.easybooks.demo.domain.Company
 import com.easybooks.demo.domain.Transaction
 import com.easybooks.demo.domain.TransactionType
-import com.easybooks.demo.web.dto.CompanySaveRequestDto
-import com.easybooks.demo.web.dto.CompanyUpdateRequestDto
-import com.easybooks.demo.web.dto.LedgerSaveAndUpdateRequestDto
+import com.easybooks.demo.web.company.dto.CompanySaveRequestDto
+import com.easybooks.demo.web.company.dto.CompanyUpdateRequestDto
+import com.easybooks.demo.web.ledger.dto.LedgerSaveAndUpdateRequestDto
 import java.time.LocalDate
 
 fun getTestCompany(): Company {

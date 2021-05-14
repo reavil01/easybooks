@@ -1,7 +1,7 @@
-package com.easybooks.demo.web
+package com.easybooks.demo.web.transaction
 
 import com.easybooks.demo.service.TransactionService
-import com.easybooks.demo.web.dto.TransactionSaveAndUpdateDto
+import com.easybooks.demo.web.transaction.dto.TransactionSaveAndUpdateDto
 import org.springframework.web.bind.annotation.*
 
 @RestController
