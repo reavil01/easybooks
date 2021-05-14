@@ -20,7 +20,7 @@ class TransactionApiController(
     }
 
     @DeleteMapping("/api/v1/transaction/{id}")
-    fun deleteTransaction(@RequestBody id: Long): Long {
+    fun deleteTransaction(@PathVariable id: Long): Long {
         transactionService.delete(id)
         return id
     }
