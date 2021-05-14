@@ -1,6 +1,7 @@
 package com.easybooks.demo.service
 
 import com.easybooks.demo.domain.*
+import com.easybooks.demo.web.dto.TransactionListResponseDto
 import com.easybooks.demo.web.dto.TransactionResponseDto
 import com.easybooks.demo.web.dto.TransactionSaveAndUpdateDto
 import com.easybooks.demo.web.dto.toEntity
@@ -56,22 +57,28 @@ class TransactionService(
     }
 
     @Transactional(readOnly = true)
-    fun findByCompanyName(companyName: String): List<Transaction> {
+    fun findByCompanyName(companyName: String): List<TransactionListResponseDto> {
         return transactionRepository.findAllByCompanyNameContains(companyName)
-            .stream().toList()
+            .stream()
+            .map{ TransactionListResponseDto(it) }
+            .toList()
     }
 
     @Transactional(readOnly = true)
-    fun findByCompanyNumber(companyNumber: String): List<Transaction> {
+    fun findByCompanyNumber(companyNumber: String): List<TransactionListResponseDto> {
         return transactionRepository.findAllByCompanyNumberContains(companyNumber)
-            .stream().toList()
+            .stream()
+            .map{ TransactionListResponseDto(it) }
+            .toList()
     }
 
     @Transactional(readOnly = true)
-    fun findByDateBetween(startDate: String, endDate: String): List<Transaction> {
+    fun findByDateBetween(startDate: String, endDate: String): List<TransactionListResponseDto> {
         val start = LocalDate.parse(startDate)
         val end = LocalDate.parse(endDate)
         return transactionRepository.findAllByDateBetween(start, end)
-            .stream().toList()
+            .stream()
+            .map{ TransactionListResponseDto(it) }
+            .toList()
     }
 }
