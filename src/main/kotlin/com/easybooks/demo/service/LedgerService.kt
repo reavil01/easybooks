@@ -74,20 +74,26 @@ class LedgerService(
     }
 
     @Transactional(readOnly = true)
-    fun findAllByCompanyNameContains(companyName: String): List<Ledger> {
+    fun findAllByCompanyNameContains(companyName: String): List<LedgerListResponseDto> {
         return ledgerRepository.findAllByCompanyNameContains(companyName)
-            .stream().toList()
+            .stream()
+            .map{ LedgerListResponseDto(it) }
+            .toList()
     }
 
     @Transactional(readOnly = true)
-    fun findAllByDateBetween(start: LocalDate, end: LocalDate): List<Ledger> {
+    fun findAllByDateBetween(start: LocalDate, end: LocalDate): List<LedgerListResponseDto> {
         return ledgerRepository.findAllByDateBetween(start, end)
-            .stream().toList()
+            .stream()
+            .map{ LedgerListResponseDto(it) }
+            .toList()
     }
 
     @Transactional(readOnly = true)
-    fun findAllByCompanyNumberContains(number: String): List<Ledger> {
+    fun findAllByCompanyNumberContains(number: String): List<LedgerListResponseDto> {
         return ledgerRepository.findAllByCompanyNumberContains(number)
-            .stream().toList()
+            .stream()
+            .map{ LedgerListResponseDto(it) }
+            .toList()
     }
 }
