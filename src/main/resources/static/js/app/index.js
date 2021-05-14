@@ -274,7 +274,7 @@ var index = {
             companyNumber: $('#companyNumber').text(),
             type: $('input[name="type"]:checked').val(),
             date: $('#date').val(),
-            item: $('#price').val(),
+            price: $('#price').val(),
         };
 
         $.ajax({
