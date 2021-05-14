@@ -47,6 +47,6 @@ class LedgerRepositoryImpl(
     }
 
     override fun getSumofTotalPrcie(id: Long): Int {
-        return ledgerRepoJPA.getSumofTotalPrcie(id)
+        return ledgerRepoJPA.getSumofTotalPrcie(id) ?: 0
     }
 }

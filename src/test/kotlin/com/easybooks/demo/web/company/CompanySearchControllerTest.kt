@@ -79,7 +79,7 @@ class CompanySearchControllerTest {
     }
 
     @Test
-    fun `company 사업자번호 검색 성공하고 미수금 출력`() {
+    fun `company 사업자번호 검색 성공하고 미수금이 존재할 때 미수금 출력`() {
         // given
         val company = getTestCompany()
         val savedCompany = companyRepository.save(company)
@@ -91,6 +91,29 @@ class CompanySearchControllerTest {
         val transaction = getTestTransaction(company, paid)
         transactionRepository.save(transaction)
         val unpaid = ledger.total - paid
+
+        val keyword = "678"
+
+        // when
+        val url = "http://localhost:$port/company/search/unpaid&number=$keyword"
+        val responseEntity = restTemplate.getForEntity<String>(url, String)
+
+        // then
+        assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(responseEntity.body).contains(savedCompany.name)
+        assertThat(responseEntity.body).contains(savedCompany.number)
+        assertThat(responseEntity.body).contains(unpaid.toString())
+    }
+
+    @Test
+    fun `company 사업자번호 검색 성공하고 미수금이 없을 때 미수금 0 출력`() {
+        // given
+        val company = getTestCompany()
+        val savedCompany = companyRepository.save(company)
+
+        val ledger = getTestLedger(savedCompany)
+        ledgerRepository.save(ledger)
+        val unpaid = ledger.total
 
         val keyword = "678"
 

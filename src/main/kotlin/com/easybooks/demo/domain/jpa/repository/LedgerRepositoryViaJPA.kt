@@ -12,5 +12,5 @@ interface LedgerRepositoryViaJPA: JpaRepository<Ledger, Long> {
     fun findAllByCompanyNumberContains(number: String): List<Ledger>
 
     @Query("SELECT SUM(l.total) FROM Ledger as l WHERE l.company.id = :id")
-    fun getSumofTotalPrcie(id: Long): Int
+    fun getSumofTotalPrcie(id: Long): Int?
 }
