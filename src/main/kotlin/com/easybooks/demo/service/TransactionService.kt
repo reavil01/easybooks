@@ -27,7 +27,7 @@ class TransactionService(
     fun update(id: Long, requestDto: TransactionSaveAndUpdateDto): Long {
         getCompanyByCompanyNumber(requestDto.companyNumber)
         val transaction = transactionRepository.findById(id)
-            .orElseThrow { IllegalArgumentException("해당 입/출금 내역이 없습니다 id = $id") }
+            ?: throw IllegalArgumentException("해당 입/출금 내역이 없습니다 id = $id")
 
         transaction.update(requestDto)
 
@@ -37,7 +37,7 @@ class TransactionService(
     @Transactional
     fun delete(id: Long) {
         val transaction = transactionRepository.findById(id)
-            .orElseThrow { IllegalArgumentException("해당 입/출금 내역이 없습니다 id = $id") }
+            ?: throw IllegalArgumentException("해당 입/출금 내역이 없습니다 id = $id")
 
         transactionRepository.delete(transaction)
     }
@@ -50,7 +50,7 @@ class TransactionService(
     @Transactional(readOnly = true)
     fun findById(id: Long): TransactionResponseDto {
         val entity = transactionRepository.findById(id)
-            .orElseThrow { throw IllegalArgumentException("해당 입/출금 내역이 없습니다. transaction id = $id") }
+            ?: throw IllegalArgumentException("해당 입/출금 내역이 없습니다. transaction id = $id")
 
         return TransactionResponseDto(entity)
     }

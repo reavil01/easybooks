@@ -23,7 +23,7 @@ class LedgerService(
     @Transactional
     fun update(id: Long, requestDto: LedgerSaveAndUpdateRequestDto): Long {
         val ledger = ledgerRepository.findById(id)
-            .orElseThrow{ IllegalArgumentException("해당 송장이 없습니다. id=$id") }
+            ?: throw IllegalArgumentException("해당 송장이 없습니다. id=$id")
 
         _checkLedgerValidation(requestDto)
         ledger.update(requestDto)
@@ -31,7 +31,7 @@ class LedgerService(
         return id
     }
 
-    fun _getCompany(companyNumber: String): Company {
+    fun findCompanyByNumber(companyNumber: String): Company {
         return companyRepository.findByNumber(companyNumber)
             ?: throw IllegalArgumentException("등록되지 않은 사업자번호입니다. companyNumber=${companyNumber}")
     }
@@ -54,14 +54,14 @@ class LedgerService(
     @Transactional
     fun delete(id: Long) {
         val ledger = ledgerRepository.findById(id)
-            .orElseThrow{ IllegalArgumentException("해당 송장이 없습니다. id=$id") }
+            ?: throw IllegalArgumentException("해당 송장이 없습니다. id=$id")
 
         ledgerRepository.delete(ledger)
     }
 
     fun findById(id: Long): LedgerResponseDto {
         val entity = ledgerRepository.findById(id)
-            .orElseThrow{ IllegalArgumentException("해당 송장이 없습니다. id=$id") }
+            ?: throw IllegalArgumentException("해당 송장이 없습니다. id=$id")
 
         return LedgerResponseDto(entity)
     }

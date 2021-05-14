@@ -1,12 +1,9 @@
-package com.easybooks.demo.domain
+package com.easybooks.demo.domain.jpa.repository
 
-interface CompanyRepository {
-    fun save(company: Company): Company
-    fun delete(company: Company)
-    fun findAll(): List<Company>
-    fun deleteAll()
-    fun findById(id: Long): Company?
+import com.easybooks.demo.domain.Company
+import org.springframework.data.jpa.repository.JpaRepository
 
+interface CompanyRepositoryViaJPA: JpaRepository<Company, Long> {
     fun findByNumber(companyNumber: String): Company?
     fun findAllByOrderByIdDesc(): List<Company>
     fun findAllByNameContains(name: String): List<Company>

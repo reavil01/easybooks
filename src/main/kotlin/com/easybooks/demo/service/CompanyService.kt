@@ -1,9 +1,6 @@
 package com.easybooks.demo.service
 
-import com.easybooks.demo.domain.CompanyRepository
-import com.easybooks.demo.domain.LedgerRepository
-import com.easybooks.demo.domain.TransactionRepository
-import com.easybooks.demo.domain.update
+import com.easybooks.demo.domain.*
 import com.easybooks.demo.web.dto.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -26,7 +23,7 @@ class CompanyService (
     @Transactional
     fun update(id: Long, requestDto: CompanyUpdateRequestDto): Long {
         val company = companyRepository.findById(id)
-            .orElseThrow { IllegalArgumentException("해당 사업체가 없습니다. id=$id") }
+            ?: throw IllegalArgumentException("해당 사업체가 없습니다. id=$id")
 
         company.update(requestDto)
 
@@ -36,14 +33,15 @@ class CompanyService (
     @Transactional
     fun delete(id: Long) {
         val company = companyRepository.findById(id)
-            .orElseThrow { IllegalArgumentException("해당 사업체가 없습니다. id=$id") }
+            ?: throw IllegalArgumentException("해당 사업체가 없습니다. id=$id")
 
         companyRepository.delete(company)
     }
 
+    @Transactional(readOnly = true)
     fun findById(id: Long): CompanyResponseDto {
         val entity = companyRepository.findById(id)
-            .orElseThrow{ IllegalArgumentException("해당 사업체가 없습니다. id=$id") }
+            ?: throw IllegalArgumentException("해당 사업체가 없습니다. id=$id")
 
         return CompanyResponseDto(entity)
     }
@@ -57,21 +55,21 @@ class CompanyService (
 
     @Transactional(readOnly = true)
     fun findByNumberContains(number: String): List<CompanyResponseDto> {
-        return companyRepository.findByNumberContains(number).stream()
+        return companyRepository.findAllByNumberContains(number).stream()
             .map{CompanyResponseDto(it)}
             .collect(Collectors.toList())
     }
 
     @Transactional(readOnly = true)
     fun findByNameContains(name: String): List<CompanyResponseDto> {
-        return companyRepository.findByNameContains(name).stream()
+        return companyRepository.findAllByNameContains(name).stream()
             .map{CompanyResponseDto(it)}
             .collect(Collectors.toList())
     }
 
     @Transactional(readOnly = true)
     fun findByNumberContainsAndUnpaidPrice(number: String): List<CompanyWithUnpaidResponseDto> {
-        return companyRepository.findByNumberContains(number).stream()
+        return companyRepository.findAllByNumberContains(number).stream()
             .map{
                 val total = ledgerRepository.getSumofTotalPrcie(it.id) ?: 0
                 val paid = transactionRepository.getSumofTotalPrcie(it.id) ?: 0
@@ -83,7 +81,7 @@ class CompanyService (
 
     @Transactional(readOnly = true)
     fun findByNameContainsAndUnpaidPrice(name: String): List<CompanyWithUnpaidResponseDto> {
-        return companyRepository.findByNameContains(name).stream()
+        return companyRepository.findAllByNameContains(name).stream()
             .map{
                 val total = ledgerRepository.getSumofTotalPrcie(it.id) ?: 0
                 val paid = transactionRepository.getSumofTotalPrcie(it.id) ?: 0

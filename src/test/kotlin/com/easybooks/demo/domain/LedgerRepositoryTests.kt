@@ -1,5 +1,6 @@
 package com.easybooks.demo.domain
 
+import com.easybooks.demo.domain.jpa.repository.LedgerRepositoryImpl
 import com.easybooks.demo.web.getTestCompany
 import com.easybooks.demo.web.getTestLedger
 import org.assertj.core.api.Assertions.assertThat
@@ -13,20 +14,20 @@ import org.springframework.test.context.event.annotation.AfterTestClass
 class LedgerRepositoryTests {
 
     @Autowired
-    private lateinit var ledgerRepository: LedgerRepository
+    private lateinit var ledgerRepositoryImpl: LedgerRepositoryImpl
 
     @Autowired
     private lateinit var companyRepository: CompanyRepository
 
     @BeforeEach
     fun cleanup() {
-        ledgerRepository.deleteAll()
+        ledgerRepositoryImpl.deleteAll()
         companyRepository.deleteAll()
     }
 
     @AfterTestClass
     fun tearDown() {
-        ledgerRepository.deleteAll()
+        ledgerRepositoryImpl.deleteAll()
         companyRepository.deleteAll()
     }
 
@@ -35,10 +36,10 @@ class LedgerRepositoryTests {
         // given
         val savedCompany = companyRepository.save(getTestCompany())
         val ledger = getTestLedger(savedCompany)
-        ledgerRepository.save(ledger)
+        ledgerRepositoryImpl.save(ledger)
 
         // when
-        val ledgerList = ledgerRepository.findAll()
+        val ledgerList = ledgerRepositoryImpl.findAll()
 
         // then
         val savedLedger = ledgerList[0]
