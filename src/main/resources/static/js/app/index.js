@@ -68,7 +68,7 @@ var index = {
         });
         $('#btn-company-search').click(function () {
             window.name = "parentForm";
-            openWin = window.open("/company/search&pop=true",
+            openWin = window.open("/company/search/pop=true",
                 "childForm",
                 "width=800, height=600, location=no, toolbars=no, status=no")
         });
@@ -258,16 +258,16 @@ var index = {
     },
     searchLedgerByCompanyName: function () {
         const name = $('#search-ledger-by-company-name').val();
-        location.href = "/ledger/search&companyName=" + name;
+        location.href = "/ledger/search/companyName=" + name;
     },
     searchLedgerByCompanyNumber: function () {
         const number = $('#search-ledger-by-company-number').val();
-        location.href = "/ledger/search&companyNumber=" + number;
+        location.href = "/ledger/search/companyNumber=" + number;
     },
     searchLedgerByDate: function () {
         const start = $('#search-ledger-by-date-start').val();
         const end = $('#search-ledger-by-date-end').val();
-        location.href = "/ledger/search&startDate=" + start + "&endDate=" + end;
+        location.href = "/ledger/search/startDate=" + start + "&endDate=" + end;
     },
     saveTransaction: function () {
         var data = {
@@ -333,16 +333,16 @@ var index = {
     },
     searchTransactionByCompanyName: function () {
         const name = $('#search-transaction-by-company-name').val();
-        location.href = "/transaction/search&companyName=" + name;
+        location.href = "/transaction/search/companyName=" + name;
     },
     searchTransactionByCompanyNumber: function () {
         const number = $('#search-transaction-by-company-number').val();
-        location.href = "/transaction/search&companyNumber=" + number;
+        location.href = "/transaction/search/companyNumber=" + number;
     },
     searchTransactionByDate: function () {
         const start = $('#search-transaction-by-date-start').val();
         const end = $('#search-transaction-by-date-end').val();
-        location.href = "/transaction/search&startDate=" + start + "&endDate=" + end;
+        location.href = "/transaction/search/startDate=" + start + "&endDate=" + end;
     },
 };
 

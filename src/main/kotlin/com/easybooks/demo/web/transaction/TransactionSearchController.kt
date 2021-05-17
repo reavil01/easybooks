@@ -5,12 +5,14 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
+@RequestMapping("/transaction/search")
 class TransactionSearchController(
     val transactionService: TransactionService
 ) {
-    @GetMapping("/transaction/search&companyName={companyName}")
+    @GetMapping("/companyName={companyName}")
     fun findTransactionByCompanyName(
         @PathVariable companyName: String,
         model: Model
@@ -21,7 +23,7 @@ class TransactionSearchController(
         return "transaction-search"
     }
 
-    @GetMapping("/transaction/search&companyNumber={companyNumber}")
+    @GetMapping("/companyNumber={companyNumber}")
     fun findTransactionByCompanyNumber(
         @PathVariable companyNumber: String,
         model: Model
@@ -32,7 +34,7 @@ class TransactionSearchController(
         return "transaction-search"
     }
 
-    @GetMapping("/transaction/search&startDate={startDate}&endDate={endDate}")
+    @GetMapping("/startDate={startDate}&endDate={endDate}")
     fun findTransactionBetweenStartDateAndEndDate(
         @PathVariable startDate: String,
         @PathVariable endDate: String,

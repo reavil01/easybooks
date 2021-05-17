@@ -7,11 +7,12 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 
 @Controller
+@RequestMapping("/company/search")
 class CompanySearchController {
     @Autowired
     lateinit var companyService: CompanyService
 
-    @GetMapping("/company/search&name={name}")
+    @GetMapping("/name={name}")
     fun searchByName(@PathVariable name: String,
                      model: Model): String {
         model.addAttribute("name", name)
@@ -20,7 +21,7 @@ class CompanySearchController {
         return "company-search"
     }
 
-    @GetMapping("/company/search&number={number}")
+    @GetMapping("/number={number}")
     fun searchByNumber(@PathVariable number: String,
                      model: Model): String {
         model.addAttribute("number", number)
@@ -29,7 +30,7 @@ class CompanySearchController {
         return "company-search"
     }
 
-    @GetMapping("/company/search/unpaid&number={number}")
+    @GetMapping("/unpaid&number={number}")
     fun searchByNumberWithUnpaid(
         @PathVariable number: String,
         model: Model
@@ -40,7 +41,7 @@ class CompanySearchController {
         return "company-search"
     }
 
-    @GetMapping("/company/search/unpaid&name={name}")
+    @GetMapping("/unpaid&name={name}")
     fun searchByNameWithUnpaid(
         @PathVariable name: String,
         model: Model
@@ -51,7 +52,7 @@ class CompanySearchController {
         return "company-search"
     }
 
-    @GetMapping("/company/search&pop={isPopup}")
+    @GetMapping("/pop={isPopup}")
     fun popupSearchPage(@PathVariable isPopup: String,
                      model: Model): String {
         model.addAttribute("isPopup", isPopup)

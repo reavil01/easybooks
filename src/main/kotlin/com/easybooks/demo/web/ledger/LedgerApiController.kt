@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.*
 import java.lang.Exception
 
 @RestController
+@RequestMapping("/api/v1/ledger")
 class LedgerApiController (val ledgerService: LedgerService){
-    @PostMapping("/api/v1/ledger")
+    @PostMapping
     fun save(@RequestBody requestDto: LedgerSaveAndUpdateRequestDto): ResponseEntity<Any> {
         return try {
             val id = ledgerService.save(requestDto)
@@ -24,20 +25,20 @@ class LedgerApiController (val ledgerService: LedgerService){
         }
     }
 
-    @PostMapping("/api/v1/ledger/{id}")
+    @PostMapping("/{id}")
     fun update(@PathVariable id: Long,
                @RequestBody requestDto: LedgerSaveAndUpdateRequestDto
     ): Long {
         return ledgerService.update(id, requestDto)
     }
 
-    @DeleteMapping("/api/v1/ledger/{id}")
+    @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): Long {
         ledgerService.delete(id)
         return id
     }
 
-    @GetMapping("/api/v1/ledger/{id}")
+    @GetMapping("/{id}")
     fun findById(@PathVariable id: Long): LedgerResponseDto {
         return ledgerService.findById(id)
     }

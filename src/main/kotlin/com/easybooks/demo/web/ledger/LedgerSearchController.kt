@@ -5,11 +5,13 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
 import java.time.LocalDate
 
 @Controller
+@RequestMapping("/ledger/search")
 class LedgerSearchController(val ledgerService: LedgerService) {
-    @GetMapping("/ledger/search&companyNumber={number}")
+    @GetMapping("/companyNumber={number}")
     fun searchByCompanyNumberContains(@PathVariable number: String,
                                     model: Model): String {
         model.addAttribute("number", number)
@@ -18,7 +20,7 @@ class LedgerSearchController(val ledgerService: LedgerService) {
         return "ledger-search"
     }
 
-    @GetMapping("/ledger/search&companyName={name}")
+    @GetMapping("/companyName={name}")
     fun searchByCompanyNameContains(@PathVariable name: String,
                     model: Model): String {
         model.addAttribute("name", name)
@@ -27,7 +29,7 @@ class LedgerSearchController(val ledgerService: LedgerService) {
         return "ledger-search"
     }
 
-    @GetMapping("/ledger/search&startDate={startDate}&endDate={endDate}")
+    @GetMapping("/startDate={startDate}&endDate={endDate}")
     fun searchBetweenStartDateAndEndDate(
         @PathVariable startDate: String,
         @PathVariable endDate: String,

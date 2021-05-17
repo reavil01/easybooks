@@ -54,7 +54,7 @@ class LedgerSearchControllerTest {
         val keyword = "이퍼"
 
         // when
-        val url = "http://localhost:$port/ledger/search&companyName=$keyword"
+        val url = "http://localhost:$port/ledger/search/companyName=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
@@ -78,7 +78,7 @@ class LedgerSearchControllerTest {
         val savedLedger = ledgerRepository.save(getTestLedger(savedCompany))
 
         // when
-        val url = "http://localhost:$port/ledger/search&startDate=$startDate&endDate=$endDate"
+        val url = "http://localhost:$port/ledger/search/startDate=$startDate&endDate=$endDate"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then

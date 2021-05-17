@@ -52,7 +52,7 @@ class CompanySearchControllerTest {
         val keyword = "이퍼"
 
         // when
-        val url = "http://localhost:$port/company/search&name=$keyword"
+        val url = "http://localhost:$port/company/search/name=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
@@ -69,7 +69,7 @@ class CompanySearchControllerTest {
         val keyword = "6789"
 
         // when
-        val url = "http://localhost:$port/company/search&number=$keyword"
+        val url = "http://localhost:$port/company/search/number=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then

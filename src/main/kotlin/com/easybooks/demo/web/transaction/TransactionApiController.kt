@@ -5,21 +5,22 @@ import com.easybooks.demo.web.transaction.dto.TransactionSaveAndUpdateDto
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@RequestMapping("/api/v1/transaction")
 class TransactionApiController(
     val transactionService: TransactionService
 ) {
-    @PostMapping("/api/v1/transaction")
+    @PostMapping
     fun saveTransaction(@RequestBody requestDto: TransactionSaveAndUpdateDto): Long {
         return transactionService.save(requestDto)
     }
 
-    @PostMapping("/api/v1/transaction/{id}")
+    @PostMapping("/{id}")
     fun updateTransaction(@PathVariable id: Long,
         @RequestBody requestDto: TransactionSaveAndUpdateDto): Long {
         return transactionService.update(id, requestDto)
     }
 
-    @DeleteMapping("/api/v1/transaction/{id}")
+    @DeleteMapping("/{id}")
     fun deleteTransaction(@PathVariable id: Long): Long {
         transactionService.delete(id)
         return id

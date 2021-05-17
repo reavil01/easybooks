@@ -8,28 +8,29 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@RequestMapping("/api/v1/company")
 class CompanyApiController {
     @Autowired
     private lateinit var companyService: CompanyService
 
-    @PostMapping("/api/v1/company")
+    @PostMapping
     fun save(@RequestBody requestDto: CompanySaveRequestDto): Long {
         return companyService.save(requestDto)
     }
 
-    @PostMapping("/api/v1/company/{id}")
+    @PostMapping("/{id}")
     fun update(@PathVariable id: Long,
                @RequestBody requestDto: CompanyUpdateRequestDto): Long {
         return companyService.update(id, requestDto)
     }
 
-    @DeleteMapping("/api/v1/company/{id}")
+    @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): Long {
         companyService.delete(id)
         return id
     }
 
-    @GetMapping("/api/v1/company/{id}")
+    @GetMapping("/{id}")
     fun findById(@PathVariable id: Long): CompanyResponseDto {
         return companyService.findById(id)
     }

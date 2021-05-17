@@ -54,7 +54,7 @@ class TransactionSeearchControllerTest {
         val keyword = "이퍼"
 
         // when
-        val url = "http://localhost:$port/transaction/search&companyName=$keyword"
+        val url = "http://localhost:$port/transaction/search/companyName=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
@@ -72,7 +72,7 @@ class TransactionSeearchControllerTest {
         val keyword = "6789"
 
         // when
-        val url = "http://localhost:$port/transaction/search&companyNumber=$keyword"
+        val url = "http://localhost:$port/transaction/search/companyNumber=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
@@ -91,7 +91,7 @@ class TransactionSeearchControllerTest {
         val end = LocalDate.now()
 
         // when
-        val url = "http://localhost:$port/transaction/search&startDate=$start&endDate=$end"
+        val url = "http://localhost:$port/transaction/search/startDate=$start&endDate=$end"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
