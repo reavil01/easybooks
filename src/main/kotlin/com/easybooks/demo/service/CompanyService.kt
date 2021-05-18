@@ -2,6 +2,8 @@ package com.easybooks.demo.service
 
 import com.easybooks.demo.domain.*
 import com.easybooks.demo.web.company.dto.*
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
@@ -14,6 +16,8 @@ class CompanyService (
     val ledgerRepository: LedgerRepository,
     val transactionRepository: TransactionRepository
 ) {
+    val PAGE_BLOCK_SIZE = 10
+    val PAGE_POST_COUNT = 10
 
     @Transactional
     fun save(requestDto: CompanySaveRequestDto): Long {
@@ -83,11 +87,76 @@ class CompanyService (
     fun findByNameContainsAndUnpaidPrice(name: String): List<CompanyWithUnpaidResponseDto> {
         return companyRepository.findAllByNameContains(name).stream()
             .map{
+                // FIX: 매번 DB에서 값을 가져오는 방식은 비효율적
                 val total = ledgerRepository.getSumofTotalPrcie(it.id) ?: 0
                 val paid = transactionRepository.getSumofTotalPrcie(it.id) ?: 0
                 val unpaid = total - paid
                 CompanyWithUnpaidResponseDto(it, unpaid)
             }
             .collect(Collectors.toList())
+    }
+
+    @Transactional(readOnly = true)
+    fun getCompanyListWithUnpaid(pageNum: Int): List<CompanyWithUnpaidResponseDto> {
+        val page = companyRepository.findAll(PageRequest
+            .of(pageNum-1,
+                PAGE_POST_COUNT,
+                Sort.by(Sort.Direction.ASC, "id")
+            ))
+
+        return page.map {
+            // FIX: 매번 DB에서 값을 가져오는 방식은 비효율적
+            val total = ledgerRepository.getSumofTotalPrcie(it.id) ?: 0
+            val paid = transactionRepository.getSumofTotalPrcie(it.id) ?: 0
+            val unpaid = total - paid
+            CompanyWithUnpaidResponseDto(it, unpaid)
+        }.toList()
+    }
+
+    fun getPrevNextNum(currentPageNum: Int): Pair<Int, Int> {
+        var quotient = currentPageNum / PAGE_BLOCK_SIZE
+        var remainder = currentPageNum % PAGE_BLOCK_SIZE
+
+        if(remainder > 0) {
+            quotient++
+        }
+
+        var prev = when((quotient - 1) * PAGE_BLOCK_SIZE < 1) {
+            true -> 1
+            else -> (quotient - 1) * PAGE_BLOCK_SIZE
+        }
+
+        val lastPage = getLastPageNum()
+        val next = when(quotient * PAGE_BLOCK_SIZE + 1 > lastPage) {
+            true -> lastPage
+            else -> quotient * PAGE_BLOCK_SIZE + 1
+        }
+
+        return prev to next
+    }
+
+    fun getPageNums(currentPageNum: Int): List<Int> {
+        var quotient = currentPageNum / PAGE_BLOCK_SIZE
+        var remainder = currentPageNum % PAGE_BLOCK_SIZE
+
+        if(remainder == 0) {
+            quotient--
+        }
+
+        val start = quotient * PAGE_BLOCK_SIZE + 1
+        val end = (quotient + 1) * PAGE_BLOCK_SIZE
+        val lastPage = getLastPageNum()
+
+        return when(end > lastPage) {
+            true -> (start .. lastPage).toList()
+            else -> (start .. end).toList()
+        }
+    }
+
+    fun getLastPageNum(): Int {
+        return when(companyRepository.count() % PAGE_POST_COUNT > 0) {
+            true -> (companyRepository.count() / PAGE_POST_COUNT) + 1
+            else -> companyRepository.count() / PAGE_POST_COUNT
+        }
     }
 }

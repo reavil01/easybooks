@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 class IndexController {
@@ -20,8 +21,16 @@ class IndexController {
     lateinit var transactionService: TransactionService
 
     @GetMapping("/")
-    fun index(model: Model): String {
-        model.addAttribute("companys", companyService.findAllDesc())
+    fun index(
+        model: Model,
+        @RequestParam("page", defaultValue = "1") pageNum: Int,
+    ): String {
+        model.addAttribute("companys", companyService.getCompanyListWithUnpaid(pageNum))
+        val (prevNum, nextNum) = companyService.getPrevNextNum(pageNum)
+        model.addAttribute("prev", prevNum)
+        model.addAttribute("next", nextNum)
+        val pageNums = companyService.getPageNums(pageNum)
+        model.addAttribute("pageNums", pageNums)
         model.addAttribute("ledgers", ledgerService.findAllDesc())
         return "index"
     }
@@ -32,7 +41,13 @@ class IndexController {
     }
 
     @GetMapping("/company/search")
-    fun companySearch(): String{
+    fun companySearch(
+        @RequestParam("page", defaultValue = "1") pageNum: Int,
+        model: Model
+    ): String{
+        val companys = companyService.getCompanyListWithUnpaid(pageNum)
+        model.addAttribute("companys", companys)
+
         return "company-search"
     }
 

@@ -2,6 +2,8 @@ package com.easybooks.demo.domain.jpa.repository
 
 import com.easybooks.demo.domain.Company
 import com.easybooks.demo.domain.CompanyRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 
@@ -9,6 +11,14 @@ import org.springframework.stereotype.Repository
 class CompanyRepositoryImpl (
     val companyRepoJPA: CompanyRepositoryViaJPA
 ): CompanyRepository {
+    override fun count(): Int {
+        return companyRepoJPA.count().toInt()
+    }
+
+    override fun findAll(pageable: Pageable): Page<Company> {
+        return companyRepoJPA.findAll(pageable)
+    }
+
     override fun findById(id: Long): Company? {
         return companyRepoJPA.findByIdOrNull(id)
     }
