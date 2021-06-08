@@ -8,9 +8,9 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 
 @Repository
-class CompanyRepositoryImpl (
+class CompanyRepositoryImpl(
     val companyRepoJPA: CompanyRepositoryViaJPA
-): CompanyRepository {
+) : CompanyRepository {
     override fun count(): Int {
         return companyRepoJPA.count().toInt()
     }

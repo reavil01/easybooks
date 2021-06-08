@@ -9,7 +9,7 @@ import java.time.LocalDate
 @Repository
 class LedgerRepositoryImpl(
     val ledgerRepoJPA: LedgerRepositoryViaJPA
-): LedgerRepository {
+) : LedgerRepository {
     override fun findById(id: Long): Ledger? {
         return ledgerRepoJPA.findByIdOrNull(id)
     }

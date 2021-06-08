@@ -15,8 +15,10 @@ class TransactionApiController(
     }
 
     @PostMapping("/{id}")
-    fun updateTransaction(@PathVariable id: Long,
-        @RequestBody requestDto: TransactionSaveAndUpdateDto): Long {
+    fun updateTransaction(
+        @PathVariable id: Long,
+        @RequestBody requestDto: TransactionSaveAndUpdateDto
+    ): Long {
         return transactionService.update(id, requestDto)
     }
 

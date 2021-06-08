@@ -2,7 +2,7 @@ package com.easybooks.demo.web.company.dto
 
 import com.easybooks.demo.domain.Company
 
-class CompanyUpdateRequestDto (
+class CompanyUpdateRequestDto(
     val number: String,
     val name: String,
     val owner: String,

@@ -30,7 +30,7 @@ var company = {
         });
     },
 
-    companySave : function () {
+    companySave: function () {
         var data = {
             number: $('#number').val(),
             name: $('#name').val(),
@@ -57,7 +57,7 @@ var company = {
         });
     },
 
-    companyUpdate : function () {
+    companyUpdate: function () {
         var data = {
             number: $('#number').val(),
             name: $('#name').val(),
@@ -86,40 +86,40 @@ var company = {
         });
     },
 
-    companyDelete : function() {
-            var id = $('#id').val();
+    companyDelete: function () {
+        var id = $('#id').val();
 
-            $.ajax({
-                type: 'DELETE',
-                url: '/api/v1/company/' + id,
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-            }).done(function () {
-                alert('거래처가 삭제되었습니다.');
-                window.location.href = '/';
-            }).fail(function (error) {
-                alert(JSON.stringify(error));
-            });
+        $.ajax({
+            type: 'DELETE',
+            url: '/api/v1/company/' + id,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+        }).done(function () {
+            alert('거래처가 삭제되었습니다.');
+            window.location.href = '/';
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
     },
 
-    searchCompanyByNameWithUnpaid : function () {
+    searchCompanyByNameWithUnpaid: function () {
         const name = $('#search-by-company-name').val();
         location.href = '/company/search/unpaid&name=' + name;
     },
 
-    searchCompanyByNumberWithUnpaid : function () {
+    searchCompanyByNumberWithUnpaid: function () {
         const number = $('#search-by-company-number').val();
         location.href = '/company/search/unpaid&number=' + number;
     },
 
-    openCompanySearchPopup : function () {
+    openCompanySearchPopup: function () {
         window.name = "parentForm";
         openWin = window.open("/company/search/pop=true",
             "childForm",
             "width=800, height=600, location=no, toolbars=no, status=no")
     },
 
-    sendSelectCompanyData : function (row) {
+    sendSelectCompanyData: function (row) {
         // $(this): 현재 클릭된 Row(<tr>)
         const companyNumber = $(row).children(".company-number").text()
         const companyName = $(row).children(".company-name").text()

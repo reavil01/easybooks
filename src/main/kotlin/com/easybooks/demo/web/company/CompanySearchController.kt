@@ -13,8 +13,10 @@ class CompanySearchController {
     lateinit var companyService: CompanyService
 
     @GetMapping("/name={name}")
-    fun searchByName(@PathVariable name: String,
-                     model: Model): String {
+    fun searchByName(
+        @PathVariable name: String,
+        model: Model
+    ): String {
         model.addAttribute("name", name)
         model.addAttribute("companys", companyService.findByNameContains(name))
 
@@ -22,8 +24,10 @@ class CompanySearchController {
     }
 
     @GetMapping("/number={number}")
-    fun searchByNumber(@PathVariable number: String,
-                     model: Model): String {
+    fun searchByNumber(
+        @PathVariable number: String,
+        model: Model
+    ): String {
         model.addAttribute("number", number)
         model.addAttribute("companys", companyService.findByNumberContains(number))
 
@@ -53,8 +57,10 @@ class CompanySearchController {
     }
 
     @GetMapping("/pop={isPopup}")
-    fun popupSearchPage(@PathVariable isPopup: String,
-                     model: Model): String {
+    fun popupSearchPage(
+        @PathVariable isPopup: String,
+        model: Model
+    ): String {
         model.addAttribute("isPopup", isPopup)
 
         return "company-search"

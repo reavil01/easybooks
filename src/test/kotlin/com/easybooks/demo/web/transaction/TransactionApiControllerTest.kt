@@ -27,8 +27,10 @@ class TransactionApiControllerTest {
 
     @Autowired
     lateinit var companyRepository: CompanyRepository
+
     @Autowired
     lateinit var transactionRepository: TransactionRepository
+
     @Autowired
     lateinit var ledgerRepository: LedgerRepository
 
@@ -47,7 +49,7 @@ class TransactionApiControllerTest {
     }
 
     @Test
-    fun `transaction 등록` () {
+    fun `transaction 등록`() {
         // given
         val savedCompany = companyRepository.save(getTestCompany())
         val requestDto = TransactionSaveAndUpdateDto(
@@ -72,7 +74,7 @@ class TransactionApiControllerTest {
     }
 
     @Test
-    fun `transaction 업데이트` () {
+    fun `transaction 업데이트`() {
         // given
         val savedCompany = companyRepository.save(getTestCompany())
         val savedTransaction = transactionRepository.save(getTestTransaction(savedCompany, 100))
@@ -97,7 +99,7 @@ class TransactionApiControllerTest {
     }
 
     @Test
-    fun `transaction 삭제` () {
+    fun `transaction 삭제`() {
         // given
         val savedCompany = companyRepository.save(getTestCompany())
         val savedTransaction = transactionRepository.save(getTestTransaction(savedCompany, 100))

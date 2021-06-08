@@ -11,7 +11,7 @@ import java.util.stream.Collectors
 
 @Service
 // 생성자가 하나인 경우 @Autowired 생략해도 injection 됨
-class CompanyService (
+class CompanyService(
     val companyRepository: CompanyRepository,
     val ledgerRepository: LedgerRepository,
     val transactionRepository: TransactionRepository
@@ -53,28 +53,28 @@ class CompanyService (
     @Transactional(readOnly = true)
     fun findAllDesc(): List<CompanyListResponseDto> {
         return companyRepository.findAllByOrderByIdDesc().stream()
-            .map{ CompanyListResponseDto(it) }
+            .map { CompanyListResponseDto(it) }
             .collect(Collectors.toList())
     }
 
     @Transactional(readOnly = true)
     fun findByNumberContains(number: String): List<CompanyResponseDto> {
         return companyRepository.findAllByNumberContains(number).stream()
-            .map{ CompanyResponseDto(it) }
+            .map { CompanyResponseDto(it) }
             .collect(Collectors.toList())
     }
 
     @Transactional(readOnly = true)
     fun findByNameContains(name: String): List<CompanyResponseDto> {
         return companyRepository.findAllByNameContains(name).stream()
-            .map{ CompanyResponseDto(it) }
+            .map { CompanyResponseDto(it) }
             .collect(Collectors.toList())
     }
 
     @Transactional(readOnly = true)
     fun findByNumberContainsAndUnpaidPrice(number: String): List<CompanyWithUnpaidResponseDto> {
         return companyRepository.findAllByNumberContains(number).stream()
-            .map{
+            .map {
                 val total = ledgerRepository.getSumofTotalPrcie(it.id) ?: 0
                 val paid = transactionRepository.getSumofTotalPrcie(it.id) ?: 0
                 val unpaid = total - paid
@@ -86,7 +86,7 @@ class CompanyService (
     @Transactional(readOnly = true)
     fun findByNameContainsAndUnpaidPrice(name: String): List<CompanyWithUnpaidResponseDto> {
         return companyRepository.findAllByNameContains(name).stream()
-            .map{
+            .map {
                 // FIX: 매번 DB에서 값을 가져오는 방식은 비효율적
                 val total = ledgerRepository.getSumofTotalPrcie(it.id) ?: 0
                 val paid = transactionRepository.getSumofTotalPrcie(it.id) ?: 0
@@ -98,11 +98,14 @@ class CompanyService (
 
     @Transactional(readOnly = true)
     fun getCompanyListWithUnpaid(pageNum: Int): List<CompanyWithUnpaidResponseDto> {
-        val page = companyRepository.findAll(PageRequest
-            .of(pageNum-1,
-                PAGE_POST_COUNT,
-                Sort.by(Sort.Direction.ASC, "id")
-            ))
+        val page = companyRepository.findAll(
+            PageRequest
+                .of(
+                    pageNum - 1,
+                    PAGE_POST_COUNT,
+                    Sort.by(Sort.Direction.ASC, "id")
+                )
+        )
 
         return page.map {
             // FIX: 매번 DB에서 값을 가져오는 방식은 비효율적
@@ -117,17 +120,17 @@ class CompanyService (
         var quotient = currentPageNum / PAGE_BLOCK_SIZE
         var remainder = currentPageNum % PAGE_BLOCK_SIZE
 
-        if(remainder > 0) {
+        if (remainder > 0) {
             quotient++
         }
 
-        var prev = when((quotient - 1) * PAGE_BLOCK_SIZE < 1) {
+        var prev = when ((quotient - 1) * PAGE_BLOCK_SIZE < 1) {
             true -> 1
             else -> (quotient - 1) * PAGE_BLOCK_SIZE
         }
 
         val lastPage = getLastPageNum()
-        val next = when(quotient * PAGE_BLOCK_SIZE + 1 > lastPage) {
+        val next = when (quotient * PAGE_BLOCK_SIZE + 1 > lastPage) {
             true -> lastPage
             else -> quotient * PAGE_BLOCK_SIZE + 1
         }
@@ -139,7 +142,7 @@ class CompanyService (
         var quotient = currentPageNum / PAGE_BLOCK_SIZE
         var remainder = currentPageNum % PAGE_BLOCK_SIZE
 
-        if(remainder == 0) {
+        if (remainder == 0) {
             quotient--
         }
 
@@ -147,14 +150,14 @@ class CompanyService (
         val end = (quotient + 1) * PAGE_BLOCK_SIZE
         val lastPage = getLastPageNum()
 
-        return when(end > lastPage) {
-            true -> (start .. lastPage).toList()
-            else -> (start .. end).toList()
+        return when (end > lastPage) {
+            true -> (start..lastPage).toList()
+            else -> (start..end).toList()
         }
     }
 
     fun getLastPageNum(): Int {
-        return when(companyRepository.count() % PAGE_POST_COUNT > 0) {
+        return when (companyRepository.count() % PAGE_POST_COUNT > 0) {
             true -> (companyRepository.count() / PAGE_POST_COUNT) + 1
             else -> companyRepository.count() / PAGE_POST_COUNT
         }

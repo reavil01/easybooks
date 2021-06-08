@@ -1,5 +1,5 @@
 var transaction = {
-    init : function () {
+    init: function () {
         var _this = this;
 
         $("#btn-transaction-save").click(function () {
@@ -45,13 +45,13 @@ var transaction = {
             alert('입/출금 내역이 등록되었습니다.');
             window.location.href = '/';
         }).fail(function (error) {
-            if(errorMessageAlert(error)) {
+            if (errorMessageAlert(error)) {
                 alert(JSON.stringify(error))
             }
         });
     },
 
-    updateTransaction : function () {
+    updateTransaction: function () {
         const id = $('#id').val();
         const data = {
             companyNumber: $('#companyNumber').text(),
@@ -62,7 +62,7 @@ var transaction = {
 
         $.ajax({
             type: 'POST',
-            url: '/api/v1/transaction/'+id,
+            url: '/api/v1/transaction/' + id,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
@@ -76,12 +76,12 @@ var transaction = {
         });
     },
 
-    deleteTransaction : function () {
+    deleteTransaction: function () {
         const id = $('#id').val();
 
         $.ajax({
             type: 'DELETE',
-            url: '/api/v1/transaction/'+id,
+            url: '/api/v1/transaction/' + id,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
         }).done(function () {

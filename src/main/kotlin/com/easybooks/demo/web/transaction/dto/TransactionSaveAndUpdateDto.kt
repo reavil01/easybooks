@@ -5,7 +5,7 @@ import com.easybooks.demo.domain.Transaction
 import com.easybooks.demo.domain.TransactionType
 import java.time.LocalDate
 
-class TransactionSaveAndUpdateDto (
+class TransactionSaveAndUpdateDto(
     val companyNumber: String,
     val date: LocalDate,
     val price: Int,

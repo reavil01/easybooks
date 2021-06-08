@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam
 class IndexController {
     @Autowired
     lateinit var companyService: CompanyService
+
     @Autowired
     lateinit var ledgerService: LedgerService
+
     @Autowired
     lateinit var transactionService: TransactionService
 
@@ -44,7 +46,7 @@ class IndexController {
     fun companySearch(
         @RequestParam("page", defaultValue = "1") pageNum: Int,
         model: Model
-    ): String{
+    ): String {
         val companys = companyService.getCompanyListWithUnpaid(pageNum)
         model.addAttribute("companys", companys)
 
@@ -62,8 +64,10 @@ class IndexController {
     }
 
     @GetMapping("/company/update/{id}")
-    fun companyUpdate(@PathVariable id: Long,
-                      model: Model): String {
+    fun companyUpdate(
+        @PathVariable id: Long,
+        model: Model
+    ): String {
         val dto = companyService.findById(id)
         model.addAttribute("company", dto)
 
@@ -71,8 +75,10 @@ class IndexController {
     }
 
     @GetMapping("/ledger/update/{id}")
-    fun ledgerUpdate(@PathVariable id: Long,
-                     model: Model): String {
+    fun ledgerUpdate(
+        @PathVariable id: Long,
+        model: Model
+    ): String {
         val dto = ledgerService.findById(id)
         model.addAttribute("ledger", dto)
 
@@ -85,11 +91,13 @@ class IndexController {
     }
 
     @GetMapping("/transaction/update/{id}")
-    fun transactionUpdate(@PathVariable id: Long,
-                     model: Model): String {
+    fun transactionUpdate(
+        @PathVariable id: Long,
+        model: Model
+    ): String {
         val dto = transactionService.findById(id)
         model.addAttribute("transaction", dto)
-        when(dto.type) {
+        when (dto.type) {
             TransactionType.Deposit ->
                 model.addAttribute("depositIdDefault", true)
             TransactionType.Withdraw ->

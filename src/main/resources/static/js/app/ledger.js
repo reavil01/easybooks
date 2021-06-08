@@ -1,5 +1,5 @@
 var ledger = {
-    init : function () {
+    init: function () {
         var _this = this;
 
         $('#btn-ledger-save').on('click', function () {
@@ -27,7 +27,7 @@ var ledger = {
         });
     },
 
-    saveLedger : function() {
+    saveLedger: function () {
         var data = {
             companyNumber: $('#companyNumber').text(),
             type: $('input[name="type"]:checked').val(),
@@ -56,7 +56,7 @@ var ledger = {
         });
     },
 
-    updateLedger : function () {
+    updateLedger: function () {
         const id = $('#id').val();
         const data = {
             companyNumber: $('#companyNumber').val(),
@@ -86,7 +86,7 @@ var ledger = {
         });
     },
 
-    deleteLedger : function () {
+    deleteLedger: function () {
         const id = $('#id').val();
 
         $.ajax({

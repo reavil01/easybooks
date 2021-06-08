@@ -4,7 +4,7 @@ import com.easybooks.demo.web.company.dto.CompanyUpdateRequestDto
 import javax.persistence.*
 
 @Entity
-class Company (
+class Company(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,

@@ -60,7 +60,7 @@ class TransactionService(
     fun findByCompanyName(companyName: String): List<TransactionListResponseDto> {
         return transactionRepository.findAllByCompanyNameContains(companyName)
             .stream()
-            .map{ TransactionListResponseDto(it) }
+            .map { TransactionListResponseDto(it) }
             .toList()
     }
 
@@ -68,7 +68,7 @@ class TransactionService(
     fun findByCompanyNumber(companyNumber: String): List<TransactionListResponseDto> {
         return transactionRepository.findAllByCompanyNumberContains(companyNumber)
             .stream()
-            .map{ TransactionListResponseDto(it) }
+            .map { TransactionListResponseDto(it) }
             .toList()
     }
 
@@ -78,7 +78,7 @@ class TransactionService(
         val end = LocalDate.parse(endDate)
         return transactionRepository.findAllByDateBetween(start, end)
             .stream()
-            .map{ TransactionListResponseDto(it) }
+            .map { TransactionListResponseDto(it) }
             .toList()
     }
 }

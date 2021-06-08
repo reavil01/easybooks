@@ -9,7 +9,7 @@ import java.time.LocalDate
 @Repository
 class TransactionRepositoryImpl(
     val transactionRepoJPA: TransactionRepositoryViaJPA
-): TransactionRepository {
+) : TransactionRepository {
     override fun findById(id: Long): Transaction? {
         return transactionRepoJPA.findByIdOrNull(id)
     }

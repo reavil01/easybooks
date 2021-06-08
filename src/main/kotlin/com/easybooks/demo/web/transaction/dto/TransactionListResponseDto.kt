@@ -2,7 +2,7 @@ package com.easybooks.demo.web.transaction.dto
 
 import com.easybooks.demo.domain.Transaction
 
-class TransactionListResponseDto (transaction: Transaction) {
+class TransactionListResponseDto(transaction: Transaction) {
     val id = transaction.id
     val company = transaction.company
     val date = transaction.date

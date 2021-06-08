@@ -19,8 +19,10 @@ class CompanyApiController {
     }
 
     @PostMapping("/{id}")
-    fun update(@PathVariable id: Long,
-               @RequestBody requestDto: CompanyUpdateRequestDto): Long {
+    fun update(
+        @PathVariable id: Long,
+        @RequestBody requestDto: CompanyUpdateRequestDto
+    ): Long {
         return companyService.update(id, requestDto)
     }
 

@@ -33,8 +33,10 @@ class LedgerApiControllerTest {
 
     @Autowired
     lateinit var companyRepository: CompanyRepository
+
     @Autowired
     lateinit var transactionRepository: TransactionRepository
+
     @Autowired
     lateinit var ledgerRepository: LedgerRepository
 

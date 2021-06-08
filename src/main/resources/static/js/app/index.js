@@ -15,16 +15,20 @@ function calcVATandTotal() {
 }
 
 var index = {
-    init : function () {
+    init: function () {
         var _this = this;
-        $('#unitPrice').focusout(function () { calcPrice(); });
+        $('#unitPrice').focusout(function () {
+            calcPrice();
+        });
 
-        $('#quantity').focusout(function () { calcPrice(); });
+        $('#quantity').focusout(function () {
+            calcPrice();
+        });
 
         $('#price').focusout(function () {
             const price = $(this).val();
             const calcedPrice = $('#unitPrice').val() * $('#quantity').val();
-            if(calcedPrice != price) {
+            if (calcedPrice != price) {
                 $('#unitPrice').val(null);
                 $('#quantity').val(null);
             }
@@ -32,12 +36,11 @@ var index = {
         });
 
 
-
         $("tbody tr").mouseover(function () {
-            $(this).css('background-color' , '#f0f0f0');
+            $(this).css('background-color', '#f0f0f0');
         });
         $("tbody tr").mouseout(function () {
-            $(this).css('background-color' , '#FFFFFF');
+            $(this).css('background-color', '#FFFFFF');
         });
     },
 };

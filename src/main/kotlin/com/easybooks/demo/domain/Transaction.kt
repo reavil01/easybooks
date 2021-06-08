@@ -5,7 +5,7 @@ import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
-class Transaction (
+class Transaction(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
@@ -29,7 +29,7 @@ enum class TransactionType {
     Deposit, Withdraw
 }
 
-fun Transaction.update(requestDto: TransactionSaveAndUpdateDto ) {
+fun Transaction.update(requestDto: TransactionSaveAndUpdateDto) {
     date = requestDto.date
     price = requestDto.price
     type = requestDto.type
