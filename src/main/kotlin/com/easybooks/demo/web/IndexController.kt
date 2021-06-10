@@ -49,7 +49,12 @@ class IndexController {
     ): String {
         val companys = companyService.getCompanyListWithUnpaid(pageNum)
         model.addAttribute("companys", companys)
-
+        val (prevNum, nextNum) = companyService.getPrevNextNum(pageNum)
+        model.addAttribute("prev", prevNum)
+        model.addAttribute("next", nextNum)
+        val pageNums = companyService.getPageNums(pageNum)
+        model.addAttribute("pageNums", pageNums)
+        model.addAttribute("ledgers", ledgerService.findAllDesc())
         return "company-search"
     }
 

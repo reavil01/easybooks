@@ -51,7 +51,15 @@ class CompanyRepositoryImpl(
         return companyRepoJPA.findAllByNameContains(name)
     }
 
+    override fun findAllByNameContains(name: String, page: Pageable): Page<Company> {
+        return companyRepoJPA.findAllByNameContains(name, page)
+    }
+
     override fun findAllByNumberContains(companyNumber: String): List<Company> {
         return companyRepoJPA.findAllByNumberContains(companyNumber)
+    }
+
+    override fun findAllByNumberContains(companyNumber: String, page: Pageable): Page<Company> {
+        return companyRepoJPA.findAllByNumberContains(companyNumber, page)
     }
 }

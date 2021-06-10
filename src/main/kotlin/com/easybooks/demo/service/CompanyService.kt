@@ -2,7 +2,9 @@ package com.easybooks.demo.service
 
 import com.easybooks.demo.domain.*
 import com.easybooks.demo.web.company.dto.*
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -69,6 +71,16 @@ class CompanyService(
         return companyRepository.findAllByNameContains(name).stream()
             .map { CompanyResponseDto(it) }
             .collect(Collectors.toList())
+    }
+    fun findByNameContains(name: String, page: Pageable): Page<CompanyWithUnpaidResponseDto> {
+        val companyPage = companyRepository.findAllByNameContains(name, page)
+        return companyPage.map {
+            // FIX: 매번 DB에서 값을 가져오는 방식은 비효율적?
+            val total = ledgerRepository.getSumofTotalPrcie(it.id)
+            val paid = transactionRepository.getSumofTotalPrcie(it.id)
+            val unpaid = total - paid
+            CompanyWithUnpaidResponseDto(it, unpaid)
+        }
     }
 
     @Transactional(readOnly = true)
