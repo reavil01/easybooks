@@ -26,18 +26,18 @@
     <nav>
         <ul class="pagination justify-content-center">
             <li class="page-item">
-                <a class="page-link" href="/?page={{prev}}" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Previous</span>
+                <a class="page-link" href="{{#prevUrl}}{{prevUrl}}{{/prevUrl}}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
                 </a>
             </li>
-            {{#pageNums}}
-                <li class="page-item"><a class="page-link" href="/?page={{.}}">{{.}}</a></li>
-            {{/pageNums}}
+            {{#pageUrls}}
+                <li class="page-item"><a class="page-link" href="{{url}}">{{pageNum}}</a></li>
+            {{/pageUrls}}
             <li class="page-item">
-                <a class="page-link" href="/?page={{next}}" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Next</span>
+                <a class="page-link" href="{{#nextUrl}}{{nextUrl}}{{/nextUrl}}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
                 </a>
             </li>
         </ul>

@@ -3,13 +3,18 @@ package com.easybooks.demo.web
 import com.easybooks.demo.domain.TransactionType
 import com.easybooks.demo.service.CompanyService
 import com.easybooks.demo.service.LedgerService
+import com.easybooks.demo.service.PageService
+import com.easybooks.demo.service.PageService.addNavigationInfoToModel
 import com.easybooks.demo.service.TransactionService
+import com.easybooks.demo.web.company.dto.NavigationDto
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 class IndexController {
@@ -25,15 +30,17 @@ class IndexController {
     @GetMapping("/")
     fun index(
         model: Model,
-        @RequestParam("page", defaultValue = "1") pageNum: Int,
+        @PageableDefault(page = 1, size = 10, sort = ["id"], direction = Sort.Direction.ASC) page: Pageable,
     ): String {
-        model.addAttribute("companys", companyService.getCompanyListWithUnpaid(pageNum))
-        val (prevNum, nextNum) = companyService.getPrevNextNum(pageNum)
-        model.addAttribute("prev", prevNum)
-        model.addAttribute("next", nextNum)
-        val pageNums = companyService.getPageNums(pageNum)
-        model.addAttribute("pageNums", pageNums)
+        val baseUrl = "/?page="
+        val companyPage = companyService.findAll(PageService.convertToZeroBasedPage(page))
+        model.addAttribute("companys", companyPage.content)
+
+        val naviDto = NavigationDto(companyPage, baseUrl)
+        addNavigationInfoToModel(model, naviDto)
+
         model.addAttribute("ledgers", ledgerService.findAllDesc())
+
         return "index"
     }
 
