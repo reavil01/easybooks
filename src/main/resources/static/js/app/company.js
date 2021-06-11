@@ -22,11 +22,11 @@ var company = {
         });
 
         $('#btn-company-name-search').click(function () {
-            _this.searchCompanyByNameWithUnpaid();
+            _this.searchCompanyByName();
         });
 
         $('#btn-company-number-search').click(function () {
-            _this.searchCompanyByNumberWithUnpaid();
+            _this.searchCompanyByNumber();
         });
     },
 
@@ -102,14 +102,14 @@ var company = {
         });
     },
 
-    searchCompanyByNameWithUnpaid: function () {
+    searchCompanyByName: function () {
         const name = $('#search-by-company-name').val();
-        location.href = '/company/search/unpaid&name=' + name;
+        location.href = '/company/search/name=' + name;
     },
 
-    searchCompanyByNumberWithUnpaid: function () {
+    searchCompanyByNumber: function () {
         const number = $('#search-by-company-number').val();
-        location.href = '/company/search/unpaid&number=' + number;
+        location.href = '/company/search/number=' + number;
     },
 
     openCompanySearchPopup: function () {

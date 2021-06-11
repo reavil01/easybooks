@@ -1,9 +1,9 @@
 package com.easybooks.demo.service
 
 import com.easybooks.demo.web.navigation.dto.NavigationDto
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
-import org.springframework.ui.Model
 
 object PageService {
     private const val MAX_VIEW_PAGE_NUMS = 10
