@@ -1,18 +1,24 @@
 package com.easybooks.demo.web.navigation
 
+import com.easybooks.demo.service.CompanyService
+import com.easybooks.demo.service.PageService
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
-class NavigationController {
+class NavigationController(val companyService: CompanyService) {
+
     @GetMapping("/ledger/save")
     fun ledgerSave(): String {
         return "ledger-save"
     }
 
     @GetMapping("/ledger/search")
-    fun ledgerSearch(): String {
+    fun ledgerSearch(model: Model): String {
         return "ledger-search"
     }
 
@@ -22,7 +28,7 @@ class NavigationController {
     }
 
     @GetMapping("/transaction/search")
-    fun transactionSearch(): String {
+    fun transactionSearch(model: Model): String {
         return "transaction-search"
     }
 
@@ -33,16 +39,16 @@ class NavigationController {
 
     @GetMapping("/company/search")
     fun companySearch(
+        @PageableDefault(page = 1, size = 10, sort = ["id"], direction = Sort.Direction.ASC) page: Pageable,
         model: Model
     ): String {
-//        val companys = companyService.getCompanyListWithUnpaid(pageNum)
-//        model.addAttribute("companys", companys)
-//        val (prevNum, nextNum) = companyService.getPrevNextNum(pageNum)
-//        model.addAttribute("prev", prevNum)
-//        model.addAttribute("next", nextNum)
-//        val pageNums = companyService.getPageNums(pageNum)
-//        model.addAttribute("pageNums", pageNums)
-//        model.addAttribute("ledgers", ledgerService.findAllDesc())
+        val baseUrl = "/company/search/?page="
+        val companyPage = companyService.findAll(PageService.convertToZeroBasedPage(page))
+        model.addAttribute("companies", companyPage.content)
+
+        val pagenavigationDto = PageService.getPageNavigationInfo(companyPage, baseUrl)
+        model.addAttribute("pagenavigation", pagenavigationDto)
+
         return "company-search"
     }
 }

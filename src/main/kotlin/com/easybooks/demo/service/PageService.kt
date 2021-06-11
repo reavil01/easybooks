@@ -16,11 +16,11 @@ object PageService {
         }
     }
 
-    fun getStartNumOfThisPage(currentPageNum: Int): Int {
+    private fun getStartNumOfThisPage(currentPageNum: Int): Int {
         return ((currentPageNum / MAX_VIEW_PAGE_NUMS) * MAX_VIEW_PAGE_NUMS) + 1
     }
 
-    fun getPageUrls(startNumOfThisPage: Int, totalPages: Int, baseUrl: String): List<PageUrl> {
+    private fun getPageUrls(startNumOfThisPage: Int, totalPages: Int, baseUrl: String): List<PageUrl> {
         val minNum = startNumOfThisPage
         val maxNum = if (minNum + MAX_VIEW_PAGE_NUMS < totalPages) minNum + MAX_VIEW_PAGE_NUMS else totalPages + 1
         val pageNums = minNum until maxNum
@@ -28,25 +28,28 @@ object PageService {
         return pageNums.map { PageUrl(baseUrl + (it), it) }.toList()
     }
 
-    fun getPrevUrl(startNumOfThisPage: Int, baseUrl: String): String {
+    private fun getPrevUrl(startNumOfThisPage: Int, baseUrl: String): String {
         val prevNumCandidate = startNumOfThisPage - 1
         val prevNum = if (prevNumCandidate > 0) prevNumCandidate else 1
 
         return baseUrl + prevNum
     }
 
-    fun getNextUrl(startNumOfThisPage: Int, totalPages: Int, baseUrl: String): String {
+    private fun getNextUrl(startNumOfThisPage: Int, totalPages: Int, baseUrl: String): String {
         val nextNumCandidate = startNumOfThisPage + MAX_VIEW_PAGE_NUMS
         val nextNum = if (nextNumCandidate < totalPages) nextNumCandidate else totalPages
 
         return baseUrl + nextNum
     }
 
-    fun addNavigationInfoToModel(model: Model, navigationDto: NavigationDto): Model {
-        model.addAttribute("pageUrls", navigationDto.pageUrls)
-        model.addAttribute("prevUrl", navigationDto.prevUrl)
-        model.addAttribute("nextUrl", navigationDto.nextUrl)
-        return model
+    fun getPageNavigationInfo(page: Page<*>, baseUrl: String): NavigationDto {
+        val currentPageNum = page.number
+        val startNumOfThisPage = getStartNumOfThisPage(currentPageNum)
+        val prevUrl = getPrevUrl(startNumOfThisPage, baseUrl)
+        val nextUrl = getNextUrl(startNumOfThisPage, page.totalPages, baseUrl)
+        val pageUrls = getPageUrls(startNumOfThisPage, page.totalPages, baseUrl)
+        println(pageUrls)
+        return NavigationDto(prevUrl, nextUrl, pageUrls)
     }
 }
 

@@ -2,9 +2,6 @@ package com.easybooks.demo.web.company
 
 import com.easybooks.demo.service.CompanyService
 import com.easybooks.demo.service.PageService
-import com.easybooks.demo.service.PageService.addNavigationInfoToModel
-import com.easybooks.demo.web.navigation.dto.NavigationDto
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
@@ -52,18 +49,6 @@ class CompanySearchController {
         return "company-search"
     }
 
-    fun showAllCompanies(
-        page: Pageable,
-        baseUrl: String,
-        model: Model
-    ) {
-        val companyPage = companyService.findAll(PageService.convertToZeroBasedPage(page))
-        model.addAttribute("companys", companyPage.content)
-
-        val naviDto = NavigationDto(companyPage, baseUrl)
-        addNavigationInfoToModel(model, naviDto)
-    }
-
     @GetMapping("/company/update/{id}")
     fun companyUpdate(
         @PathVariable id: Long,
@@ -74,15 +59,4 @@ class CompanySearchController {
 
         return "company-update"
     }
-
-    @GetMapping("/pop={isPopup}")
-    fun popupSearchPage(
-        @PathVariable isPopup: String,
-        model: Model
-    ): String {
-        model.addAttribute("isPopup", isPopup)
-
-        return "company-search"
-    }
-
 }

@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/company")
-class CompanyApiController {
-    @Autowired
-    private lateinit var companyService: CompanyService
+class CompanyApiController(val companyService: CompanyService) {
 
     @PostMapping
     fun save(@RequestBody requestDto: CompanySaveRequestDto): Long {
