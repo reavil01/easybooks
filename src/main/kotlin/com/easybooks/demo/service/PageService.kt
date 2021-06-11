@@ -48,7 +48,7 @@ object PageService {
         val prevUrl = getPrevUrl(startNumOfThisPage, baseUrl)
         val nextUrl = getNextUrl(startNumOfThisPage, page.totalPages, baseUrl)
         val pageUrls = getPageUrls(startNumOfThisPage, page.totalPages, baseUrl)
-        println(pageUrls)
+
         return NavigationDto(prevUrl, nextUrl, pageUrls)
     }
 }

@@ -1,7 +1,11 @@
 package com.easybooks.demo.web.transaction
 
 import com.easybooks.demo.domain.TransactionType
+import com.easybooks.demo.service.PageService
 import com.easybooks.demo.service.TransactionService
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,10 +20,18 @@ class TransactionSearchController(
     @GetMapping("/companyName={companyName}")
     fun findTransactionByCompanyName(
         @PathVariable companyName: String,
+        @PageableDefault(page = 1, sort = ["id"], direction = Sort.Direction.DESC) page: Pageable,
         model: Model
     ): String {
-        val transactions = transactionService.findByCompanyName(companyName)
-        model.addAttribute("transactions", transactions)
+        val baseUrl = "/transaction/search/companyName=$companyName"
+        model.addAttribute("companyName", companyName)
+
+        val transactionPage =
+            transactionService.findAllByCompanyName(companyName, PageService.convertToZeroBasedPage(page))
+        model.addAttribute("transactions", transactionPage.content)
+
+        val pagenavigationDto = PageService.getPageNavigationInfo(transactionPage, baseUrl)
+        model.addAttribute("pagenavigation", pagenavigationDto)
 
         return "transaction-search"
     }
@@ -27,10 +39,18 @@ class TransactionSearchController(
     @GetMapping("/companyNumber={companyNumber}")
     fun findTransactionByCompanyNumber(
         @PathVariable companyNumber: String,
+        @PageableDefault(page = 1, sort = ["id"], direction = Sort.Direction.DESC) page: Pageable,
         model: Model
     ): String {
-        val transactions = transactionService.findByCompanyNumber(companyNumber)
-        model.addAttribute("transactions", transactions)
+        val baseUrl = "/transaction/search/companyNumber=$companyNumber"
+        model.addAttribute("companyNumber", companyNumber)
+
+        val transactionPage =
+            transactionService.findAllByCompanyNumber(companyNumber, PageService.convertToZeroBasedPage(page))
+        model.addAttribute("transactions", transactionPage.content)
+
+        val pagenavigationDto = PageService.getPageNavigationInfo(transactionPage, baseUrl)
+        model.addAttribute("pagenavigation", pagenavigationDto)
 
         return "transaction-search"
     }
@@ -39,10 +59,19 @@ class TransactionSearchController(
     fun findTransactionBetweenStartDateAndEndDate(
         @PathVariable startDate: String,
         @PathVariable endDate: String,
+        @PageableDefault(page = 1, sort = ["id"], direction = Sort.Direction.DESC) page: Pageable,
         model: Model
     ): String {
-        val transactions = transactionService.findByDateBetween(startDate, endDate)
-        model.addAttribute("transactions", transactions)
+        val baseUrl = "/transaction/search/startDate=$startDate&endDate=$endDate"
+        model.addAttribute("startDate", startDate)
+        model.addAttribute("endDate", endDate)
+
+        val transactionPage =
+            transactionService.findAllByDateBetween(startDate, endDate, PageService.convertToZeroBasedPage(page))
+        model.addAttribute("transactions", transactionPage.content)
+
+        val pagenavigationDto = PageService.getPageNavigationInfo(transactionPage, baseUrl)
+        model.addAttribute("pagenavigation", pagenavigationDto)
 
         return "transaction-search"
     }

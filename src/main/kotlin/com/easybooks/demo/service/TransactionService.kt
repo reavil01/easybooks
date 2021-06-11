@@ -5,11 +5,12 @@ import com.easybooks.demo.web.transaction.dto.TransactionListResponseDto
 import com.easybooks.demo.web.transaction.dto.TransactionResponseDto
 import com.easybooks.demo.web.transaction.dto.TransactionSaveAndUpdateDto
 import com.easybooks.demo.web.transaction.dto.toEntity
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
 import java.time.LocalDate
-import kotlin.streams.toList
 
 @Service
 class TransactionService(
@@ -56,29 +57,22 @@ class TransactionService(
         return TransactionResponseDto(entity)
     }
 
-    @Transactional(readOnly = true)
-    fun findByCompanyName(companyName: String): List<TransactionListResponseDto> {
-        return transactionRepository.findAllByCompanyNameContains(companyName)
-            .stream()
-            .map { TransactionListResponseDto(it) }
-            .toList()
+    fun findAllByCompanyName(companyName: String, page: Pageable): Page<TransactionListResponseDto> {
+        val transactionPage = transactionRepository.findAllByCompanyNameContains(companyName, page)
+        return transactionPage.map { TransactionListResponseDto(it) }
     }
 
     @Transactional(readOnly = true)
-    fun findByCompanyNumber(companyNumber: String): List<TransactionListResponseDto> {
-        return transactionRepository.findAllByCompanyNumberContains(companyNumber)
-            .stream()
-            .map { TransactionListResponseDto(it) }
-            .toList()
+    fun findAllByCompanyNumber(companyNumber: String, page: Pageable): Page<TransactionListResponseDto> {
+        val transactionPage = transactionRepository.findAllByCompanyNumberContains(companyNumber, page)
+        return transactionPage.map { TransactionListResponseDto(it) }
     }
 
     @Transactional(readOnly = true)
-    fun findByDateBetween(startDate: String, endDate: String): List<TransactionListResponseDto> {
+    fun findAllByDateBetween(startDate: String, endDate: String, page: Pageable): Page<TransactionListResponseDto> {
         val start = LocalDate.parse(startDate)
         val end = LocalDate.parse(endDate)
-        return transactionRepository.findAllByDateBetween(start, end)
-            .stream()
-            .map { TransactionListResponseDto(it) }
-            .toList()
+        val transactionPage = transactionRepository.findAllByDateBetween(start, end, page)
+        return transactionPage.map { TransactionListResponseDto(it) }
     }
 }

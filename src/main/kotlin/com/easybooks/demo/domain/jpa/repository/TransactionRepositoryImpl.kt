@@ -2,6 +2,8 @@ package com.easybooks.demo.domain.jpa.repository
 
 import com.easybooks.demo.domain.Transaction
 import com.easybooks.demo.domain.TransactionRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
@@ -34,12 +36,24 @@ class TransactionRepositoryImpl(
         return transactionRepoJPA.findAllByCompanyNumberContains(companyNumber)
     }
 
+    override fun findAllByCompanyNumberContains(companyNumber: String, page: Pageable): Page<Transaction> {
+        return transactionRepoJPA.findAllByCompanyNumberContains(companyNumber, page)
+    }
+
     override fun findAllByCompanyNameContains(companyName: String): List<Transaction> {
         return transactionRepoJPA.findAllByCompanyNameContains(companyName)
     }
 
+    override fun findAllByCompanyNameContains(companyName: String, page: Pageable): Page<Transaction> {
+        return transactionRepoJPA.findAllByCompanyNameContains(companyName, page)
+    }
+
     override fun findAllByDateBetween(start: LocalDate, end: LocalDate): List<Transaction> {
         return transactionRepoJPA.findAllByDateBetween(start, end)
+    }
+
+    override fun findAllByDateBetween(start: LocalDate, end: LocalDate, page: Pageable): Page<Transaction> {
+        return transactionRepoJPA.findAllByDateBetween(start, end, page)
     }
 
     override fun getSumofTotalPrcie(id: Long): Int {
