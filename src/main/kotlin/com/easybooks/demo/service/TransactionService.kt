@@ -17,7 +17,6 @@ class TransactionService(
     val transactionRepository: TransactionRepository,
     val companyRepository: CompanyRepository
 ) {
-    @Transactional
     fun save(requestDto: TransactionSaveAndUpdateDto): Long {
         val company = getCompanyByCompanyNumber(requestDto.companyNumber)
         val transaction = requestDto.toEntity(company)
@@ -25,7 +24,6 @@ class TransactionService(
         return transactionRepository.save(transaction).id
     }
 
-    @Transactional
     fun update(id: Long, requestDto: TransactionSaveAndUpdateDto): Long {
         getCompanyByCompanyNumber(requestDto.companyNumber)
         val transaction = transactionRepository.findById(id)
@@ -36,7 +34,6 @@ class TransactionService(
         return id
     }
 
-    @Transactional
     fun delete(id: Long) {
         val transaction = transactionRepository.findById(id)
             ?: throw IllegalArgumentException("해당 입/출금 내역이 없습니다 id = $id")
@@ -49,7 +46,6 @@ class TransactionService(
             ?: throw IllegalArgumentException("해당 사업체가 없습니다. company number = ${companyNumber}")
     }
 
-    @Transactional(readOnly = true)
     fun findById(id: Long): TransactionResponseDto {
         val entity = transactionRepository.findById(id)
             ?: throw IllegalArgumentException("해당 입/출금 내역이 없습니다. transaction id = $id")
@@ -62,13 +58,11 @@ class TransactionService(
         return transactionPage.map { TransactionListResponseDto(it) }
     }
 
-    @Transactional(readOnly = true)
     fun findAllByCompanyNumber(companyNumber: String, page: Pageable): Page<TransactionListResponseDto> {
         val transactionPage = transactionRepository.findAllByCompanyNumberContains(companyNumber, page)
         return transactionPage.map { TransactionListResponseDto(it) }
     }
 
-    @Transactional(readOnly = true)
     fun findAllByDateBetween(startDate: String, endDate: String, page: Pageable): Page<TransactionListResponseDto> {
         val start = LocalDate.parse(startDate)
         val end = LocalDate.parse(endDate)

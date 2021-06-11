@@ -58,7 +58,6 @@ class CompanyService(
 
     private fun companyToCompanyWithUnpaidResponseDto(page: Page<Company>): Page<CompanyWithUnpaidResponseDto> {
         return page.map {
-            // FIX: 매번 DB에서 값을 가져오는 방식은 비효율적?
             val total = ledgerRepository.getSumofTotalPrcie(it.id)
             val paid = transactionRepository.getSumofTotalPrcie(it.id)
             val unpaid = total - paid

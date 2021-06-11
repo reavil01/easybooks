@@ -5,19 +5,17 @@ import com.easybooks.demo.web.ledger.dto.LedgerListResponseDto
 import com.easybooks.demo.web.ledger.dto.LedgerResponseDto
 import com.easybooks.demo.web.ledger.dto.LedgerSaveAndUpdateRequestDto
 import com.easybooks.demo.web.ledger.dto.toEntity
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
 import java.time.LocalDate
-import java.util.stream.Collectors
-import kotlin.streams.toList
 
 @Service
 class LedgerService(
     val ledgerRepository: LedgerRepository,
     val companyRepository: CompanyRepository
 ) {
-    @Transactional
     fun save(requestDto: LedgerSaveAndUpdateRequestDto): Long {
         _checkLedgerValidation(requestDto)
         return ledgerRepository.save(requestDto.toEntity(company)).id
@@ -28,7 +26,7 @@ class LedgerService(
         val ledger = ledgerRepository.findById(id)
             ?: throw IllegalArgumentException("해당 송장이 없습니다. id=$id")
 
-        _checkLedgerValidation(requestDto)
+        checkingValidationOfLedger(requestDto)
         ledger.update(requestDto)
 
         return id
@@ -39,7 +37,7 @@ class LedgerService(
             ?: throw IllegalArgumentException("등록되지 않은 사업자번호입니다. companyNumber=${companyNumber}")
     }
 
-    fun _checkLedgerValidation(requestDto: LedgerSaveAndUpdateRequestDto) {
+    fun checkingValidationOfLedger(requestDto: LedgerSaveAndUpdateRequestDto) {
         if(requestDto.unitPrice > 0 &&
             requestDto.price != requestDto.unitPrice * requestDto.quantity) {
             throw IllegalArgumentException("단가와 수량의 곱과 가격이 일치하지 않습니다.")
@@ -54,7 +52,6 @@ class LedgerService(
         }
     }
 
-    @Transactional
     fun delete(id: Long) {
         val ledger = ledgerRepository.findById(id)
             ?: throw IllegalArgumentException("해당 송장이 없습니다. id=$id")
@@ -69,34 +66,18 @@ class LedgerService(
         return LedgerResponseDto(entity)
     }
 
-    @Transactional(readOnly = true)
-    fun findAllDesc(): List<LedgerListResponseDto> {
-        return ledgerRepository.findAllByOrderByIdDesc().stream()
-            .map{ LedgerListResponseDto(it) }
-            .collect(Collectors.toList())
+    fun findAllByCompanyNumberContains(number: String, page: Pageable): Page<LedgerListResponseDto> {
+        val ledgerPage = ledgerRepository.findAllByCompanyNumberContains(number, page)
+        return ledgerPage.map { LedgerListResponseDto(it) }
     }
 
-    @Transactional(readOnly = true)
-    fun findAllByCompanyNameContains(companyName: String): List<LedgerListResponseDto> {
-        return ledgerRepository.findAllByCompanyNameContains(companyName)
-            .stream()
-            .map{ LedgerListResponseDto(it) }
-            .toList()
+    fun findAllByCompanyNameContains(companyName: String, page: Pageable): Page<LedgerListResponseDto> {
+        val ledgerPage = ledgerRepository.findAllByCompanyNameContains(companyName, page)
+        return ledgerPage.map { LedgerListResponseDto(it) }
     }
 
-    @Transactional(readOnly = true)
-    fun findAllByDateBetween(start: LocalDate, end: LocalDate): List<LedgerListResponseDto> {
-        return ledgerRepository.findAllByDateBetween(start, end)
-            .stream()
-            .map{ LedgerListResponseDto(it) }
-            .toList()
-    }
-
-    @Transactional(readOnly = true)
-    fun findAllByCompanyNumberContains(number: String): List<LedgerListResponseDto> {
-        return ledgerRepository.findAllByCompanyNumberContains(number)
-            .stream()
-            .map{ LedgerListResponseDto(it) }
-            .toList()
+    fun findAllByDateBetween(start: LocalDate, end: LocalDate, page: Pageable): Page<LedgerListResponseDto> {
+        val ledgerPage = ledgerRepository.findAllByDateBetween(start, end, page)
+        return ledgerPage.map { LedgerListResponseDto(it) }
     }
 }
