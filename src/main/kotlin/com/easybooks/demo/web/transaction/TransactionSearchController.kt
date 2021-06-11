@@ -1,5 +1,6 @@
 package com.easybooks.demo.web.transaction
 
+import com.easybooks.demo.domain.TransactionType
 import com.easybooks.demo.service.TransactionService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -44,5 +45,22 @@ class TransactionSearchController(
         model.addAttribute("transactions", transactions)
 
         return "transaction-search"
+    }
+
+    @GetMapping("/transaction/update/{id}")
+    fun transactionUpdate(
+        @PathVariable id: Long,
+        model: Model
+    ): String {
+        val dto = transactionService.findById(id)
+        model.addAttribute("transaction", dto)
+        when (dto.type) {
+            TransactionType.Deposit ->
+                model.addAttribute("depositIdDefault", true)
+            TransactionType.Withdraw ->
+                model.addAttribute("withdrawIsDefault", true)
+        }
+
+        return "transaction-update"
     }
 }

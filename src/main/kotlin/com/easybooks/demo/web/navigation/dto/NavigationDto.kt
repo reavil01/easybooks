@@ -1,9 +1,9 @@
-package com.easybooks.demo.web.company.dto
+package com.easybooks.demo.web.navigation.dto
 
 import com.easybooks.demo.service.PageService
 import org.springframework.data.domain.Page
 
-data class NavigationDto (
+data class NavigationDto(
     val page: Page<*>,
     val baseUrl: String,
 ) {

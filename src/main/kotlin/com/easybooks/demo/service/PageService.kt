@@ -1,7 +1,6 @@
 package com.easybooks.demo.service
 
-import com.easybooks.demo.web.company.PageUrl
-import com.easybooks.demo.web.company.dto.NavigationDto
+import com.easybooks.demo.web.navigation.dto.NavigationDto
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.ui.Model
@@ -50,3 +49,7 @@ object PageService {
         return model
     }
 }
+
+data class PageUrl(
+    val url: String, val pageNum: Int
+)

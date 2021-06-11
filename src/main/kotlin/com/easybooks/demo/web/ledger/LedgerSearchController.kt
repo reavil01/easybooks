@@ -12,8 +12,10 @@ import java.time.LocalDate
 @RequestMapping("/ledger/search")
 class LedgerSearchController(val ledgerService: LedgerService) {
     @GetMapping("/companyNumber={number}")
-    fun searchByCompanyNumberContains(@PathVariable number: String,
-                                    model: Model): String {
+    fun searchByCompanyNumberContains(
+        @PathVariable number: String,
+        model: Model
+    ): String {
         model.addAttribute("number", number)
         model.addAttribute("ledgers", ledgerService.findAllByCompanyNumberContains(number))
 
@@ -21,8 +23,10 @@ class LedgerSearchController(val ledgerService: LedgerService) {
     }
 
     @GetMapping("/companyName={name}")
-    fun searchByCompanyNameContains(@PathVariable name: String,
-                    model: Model): String {
+    fun searchByCompanyNameContains(
+        @PathVariable name: String,
+        model: Model
+    ): String {
         model.addAttribute("name", name)
         model.addAttribute("ledgers", ledgerService.findAllByCompanyNameContains(name))
 
@@ -44,4 +48,16 @@ class LedgerSearchController(val ledgerService: LedgerService) {
 
         return "ledger-search"
     }
+
+    @GetMapping("/ledger/update/{id}")
+    fun ledgerUpdate(
+        @PathVariable id: Long,
+        model: Model
+    ): String {
+        val dto = ledgerService.findById(id)
+        model.addAttribute("ledger", dto)
+
+        return "ledger-update"
+    }
+
 }

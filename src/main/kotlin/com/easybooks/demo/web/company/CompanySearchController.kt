@@ -3,7 +3,7 @@ package com.easybooks.demo.web.company
 import com.easybooks.demo.service.CompanyService
 import com.easybooks.demo.service.PageService
 import com.easybooks.demo.service.PageService.addNavigationInfoToModel
-import com.easybooks.demo.web.company.dto.NavigationDto
+import com.easybooks.demo.web.navigation.dto.NavigationDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
@@ -18,15 +18,19 @@ class CompanySearchController {
     @Autowired
     lateinit var companyService: CompanyService
 
-    val MAX_VIEW_PAGE_NUMS = 10
-
     @GetMapping("/unpaid&number={number}")
-    fun searchByNumberWithUnpaid(
+    fun searchByNumber(
         @PathVariable number: String,
+        @PageableDefault(page = 1, size = 1, sort = ["id"], direction = Sort.Direction.ASC) page: Pageable,
         model: Model
     ): String {
+        val baseUrl = "/company/search/unpaid&number=$number?page="
         model.addAttribute("number", number)
-        model.addAttribute("companys", companyService.findByNumberContainsAndUnpaidPrice(number))
+        val companyPage = companyService.findByNumberContains(number, PageService.convertToZeroBasedPage(page))
+        model.addAttribute("companys", companyPage.content)
+
+        val naviDto = NavigationDto(companyPage, baseUrl)
+        addNavigationInfoToModel(model, naviDto)
 
         return "company-search"
     }
@@ -39,13 +43,36 @@ class CompanySearchController {
     ): String {
         val baseUrl = "/company/search/unpaid&name=$name?page="
         model.addAttribute("name", name)
-        val companyWithUnpaidDtoPage = companyService.findByNameContains(name, PageService.convertToZeroBasedPage(page))
-        model.addAttribute("companys", companyWithUnpaidDtoPage.content)
+        val companyPage = companyService.findByNameContains(name, PageService.convertToZeroBasedPage(page))
+        model.addAttribute("companys", companyPage.content)
 
-        val naviDto = NavigationDto(companyWithUnpaidDtoPage, baseUrl)
+        val naviDto = NavigationDto(companyPage, baseUrl)
         addNavigationInfoToModel(model, naviDto)
 
         return "company-search"
+    }
+
+    fun showAllCompanies(
+        page: Pageable,
+        baseUrl: String,
+        model: Model
+    ) {
+        val companyPage = companyService.findAll(PageService.convertToZeroBasedPage(page))
+        model.addAttribute("companys", companyPage.content)
+
+        val naviDto = NavigationDto(companyPage, baseUrl)
+        addNavigationInfoToModel(model, naviDto)
+    }
+
+    @GetMapping("/company/update/{id}")
+    fun companyUpdate(
+        @PathVariable id: Long,
+        model: Model
+    ): String {
+        val dto = companyService.findById(id)
+        model.addAttribute("company", dto)
+
+        return "company-update"
     }
 
     @GetMapping("/pop={isPopup}")
@@ -59,7 +86,3 @@ class CompanySearchController {
     }
 
 }
-
-data class PageUrl(
-    val url: String, val pageNum: Int
-)

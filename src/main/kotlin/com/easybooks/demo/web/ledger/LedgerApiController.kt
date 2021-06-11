@@ -10,7 +10,7 @@ import java.lang.Exception
 
 @RestController
 @RequestMapping("/api/v1/ledger")
-class LedgerApiController (val ledgerService: LedgerService){
+class LedgerApiController(val ledgerService: LedgerService) {
     @PostMapping
     fun save(@RequestBody requestDto: LedgerSaveAndUpdateRequestDto): ResponseEntity<Any> {
         return try {
@@ -26,8 +26,9 @@ class LedgerApiController (val ledgerService: LedgerService){
     }
 
     @PostMapping("/{id}")
-    fun update(@PathVariable id: Long,
-               @RequestBody requestDto: LedgerSaveAndUpdateRequestDto
+    fun update(
+        @PathVariable id: Long,
+        @RequestBody requestDto: LedgerSaveAndUpdateRequestDto
     ): Long {
         return ledgerService.update(id, requestDto)
     }
