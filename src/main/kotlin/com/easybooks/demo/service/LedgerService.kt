@@ -17,7 +17,9 @@ class LedgerService(
     val companyRepository: CompanyRepository
 ) {
     fun save(requestDto: LedgerSaveAndUpdateRequestDto): Long {
-        _checkLedgerValidation(requestDto)
+        val company = findCompanyByNumber(requestDto.companyNumber)
+        println("company number is ${requestDto.companyNumber}")
+        checkingValidationOfLedger(requestDto)
         return ledgerRepository.save(requestDto.toEntity(company)).id
     }
 
@@ -38,16 +40,17 @@ class LedgerService(
     }
 
     fun checkingValidationOfLedger(requestDto: LedgerSaveAndUpdateRequestDto) {
-        if(requestDto.unitPrice > 0 &&
-            requestDto.price != requestDto.unitPrice * requestDto.quantity) {
+        if (requestDto.unitPrice > 0 &&
+            requestDto.price != requestDto.unitPrice * requestDto.quantity
+        ) {
             throw IllegalArgumentException("단가와 수량의 곱과 가격이 일치하지 않습니다.")
         }
 
-        if(requestDto.price / 10 != requestDto.vat) {
+        if (requestDto.price / 10 != requestDto.vat) {
             throw IllegalArgumentException("부가세가 ${requestDto.price} + ${requestDto.vat} 잘못되었습니다.")
         }
 
-        if(requestDto.price + requestDto.vat != requestDto.total) {
+        if (requestDto.price + requestDto.vat != requestDto.total) {
             throw IllegalArgumentException("총액이 잘못되었습니다.")
         }
     }
@@ -76,8 +79,16 @@ class LedgerService(
         return ledgerPage.map { LedgerListResponseDto(it) }
     }
 
-    fun findAllByDateBetween(start: LocalDate, end: LocalDate, page: Pageable): Page<LedgerListResponseDto> {
-        val ledgerPage = ledgerRepository.findAllByDateBetween(start, end, page)
+    fun findAllByDateBetween(start: String, end: String, page: Pageable): Page<LedgerListResponseDto> {
+        val startDate = LocalDate.parse(start)
+        val endDate = LocalDate.parse(end)
+        val ledgerPage = ledgerRepository.findAllByDateBetween(startDate, endDate, page)
         return ledgerPage.map { LedgerListResponseDto(it) }
     }
+
+    fun findAll(page: Pageable): Page<LedgerListResponseDto> {
+        val ledgerPage = ledgerRepository.findAll(page)
+        return ledgerPage.map { LedgerListResponseDto(it) }
+    }
+
 }

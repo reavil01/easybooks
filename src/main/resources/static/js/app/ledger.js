@@ -104,18 +104,18 @@ var ledger = {
 
     searchLedgerByCompanyName: function () {
         const name = $('#search-ledger-by-company-name').val();
-        location.href = "/ledger/search/companyName=" + name;
+        location.href = "/ledger/search?companyName=" + name;
     },
 
     searchLedgerByCompanyNumber: function () {
         const number = $('#search-ledger-by-company-number').val();
-        location.href = "/ledger/search/companyNumber=" + number;
+        location.href = "/ledger/search?companyNumber=" + number;
     },
 
     searchLedgerByDate: function () {
         const start = $('#search-ledger-by-date-start').val();
         const end = $('#search-ledger-by-date-end').val();
-        location.href = "/ledger/search/startDate=" + start + "&endDate=" + end;
+        location.href = "/ledger/search?startDate=" + start + "&endDate=" + end;
     },
 }
 

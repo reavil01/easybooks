@@ -8,6 +8,7 @@ interface LedgerRepository {
     fun save(ledger: Ledger): Ledger
     fun delete(ledger: Ledger)
     fun findAll(): List<Ledger>
+    fun findAll(page: Pageable): Page<Ledger>
     fun deleteAll()
     fun findById(id: Long): Ledger?
 

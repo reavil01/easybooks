@@ -20,9 +20,12 @@ import java.time.LocalDate
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
-class LedgerSearchControllerTest {
+class LedgerControllerTest {
     @LocalServerPort
     lateinit var port: java.lang.Integer
+
+    lateinit var baseUrl: String
+
     val restTemplate = TestRestTemplate()
 
     @Autowired
@@ -36,6 +39,7 @@ class LedgerSearchControllerTest {
 
     @BeforeEach
     fun setup() {
+        baseUrl = "http://localhost:$port/ledger"
         ledgerRepository.deleteAll()
         transactionRepository.deleteAll()
         companyRepository.deleteAll()
@@ -56,7 +60,7 @@ class LedgerSearchControllerTest {
         val keyword = "이퍼"
 
         // when
-        val url = "http://localhost:$port/ledger/search/companyName=$keyword"
+        val url = "${baseUrl}/search?companyName=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
@@ -75,17 +79,16 @@ class LedgerSearchControllerTest {
         val savedCompany = companyRepository.save(getTestCompany())
         val pastLedger = getTestLedger(savedCompany)
         pastLedger.date = startDate
-        pastLedger.item = "아무것도안샀는데!"
+
         ledgerRepository.save(pastLedger)
         val savedLedger = ledgerRepository.save(getTestLedger(savedCompany))
 
         // when
-        val url = "http://localhost:$port/ledger/search/startDate=$startDate&endDate=$endDate"
+        val url = "${baseUrl}/search?startDate=$startDate&endDate=$endDate"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
         assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(responseEntity.body).contains(pastLedger.item)
         assertThat(responseEntity.body).contains(savedLedger.item)
         assertThat(responseEntity.body).contains(savedLedger.price.toString())
         assertThat(responseEntity.body).contains(savedLedger.total.toString())

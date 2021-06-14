@@ -20,6 +20,10 @@ class LedgerRepositoryImpl(
         return ledgerRepoJPA.findAll()
     }
 
+    override fun findAll(page: Pageable): Page<Ledger> {
+        return ledgerRepoJPA.findAll(page)
+    }
+
     override fun delete(ledger: Ledger) {
         return ledgerRepoJPA.delete(ledger)
     }

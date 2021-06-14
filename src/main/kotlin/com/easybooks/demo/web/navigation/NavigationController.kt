@@ -12,15 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping
 @Controller
 class NavigationController(val companyService: CompanyService) {
 
-    @GetMapping("/ledger/save")
-    fun ledgerSave(): String {
-        return "ledger-save"
-    }
-
-    @GetMapping("/ledger/search")
-    fun ledgerSearch(model: Model): String {
-        return "ledger-search"
-    }
 
     @GetMapping("/transaction/save")
     fun transactionSave(): String {
