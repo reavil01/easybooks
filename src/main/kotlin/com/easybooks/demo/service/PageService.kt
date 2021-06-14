@@ -43,11 +43,12 @@ object PageService {
     }
 
     fun getPageNavigationInfo(page: Page<*>, baseUrl: String): NavigationDto {
+        val basePageUrl = "$baseUrl&page="
         val currentPageNum = page.number
         val startNumOfThisPage = getStartNumOfThisPage(currentPageNum)
-        val prevUrl = getPrevUrl(startNumOfThisPage, baseUrl)
-        val nextUrl = getNextUrl(startNumOfThisPage, page.totalPages, baseUrl)
-        val pageUrls = getPageUrls(startNumOfThisPage, page.totalPages, baseUrl)
+        val prevUrl = getPrevUrl(startNumOfThisPage, basePageUrl)
+        val nextUrl = getNextUrl(startNumOfThisPage, page.totalPages, basePageUrl)
+        val pageUrls = getPageUrls(startNumOfThisPage, page.totalPages, basePageUrl)
 
         return NavigationDto(prevUrl, nextUrl, pageUrls)
     }

@@ -18,7 +18,7 @@ import org.springframework.test.context.event.annotation.AfterTestClass
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
-class CompanySearchControllerTest {
+class CompanyControllerTest {
     @LocalServerPort
     lateinit var port: java.lang.Integer
     val restTemplate = TestRestTemplate()

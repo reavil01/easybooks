@@ -32,23 +32,4 @@ class NavigationController(val companyService: CompanyService) {
         return "transaction-search"
     }
 
-    @GetMapping("/company/save")
-    fun companySave(): String {
-        return "company-save"
-    }
-
-    @GetMapping("/company/search")
-    fun companySearch(
-        @PageableDefault(page = 1, size = 10, sort = ["id"], direction = Sort.Direction.ASC) page: Pageable,
-        model: Model
-    ): String {
-        val baseUrl = "/company/search/?page="
-        val companyPage = companyService.findAll(PageService.convertToZeroBasedPage(page))
-        model.addAttribute("companies", companyPage.content)
-
-        val pagenavigationDto = PageService.getPageNavigationInfo(companyPage, baseUrl)
-        model.addAttribute("pagenavigation", pagenavigationDto)
-
-        return "company-search"
-    }
 }

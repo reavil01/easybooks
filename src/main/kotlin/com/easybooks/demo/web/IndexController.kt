@@ -17,7 +17,7 @@ class IndexController(val companyService: CompanyService) {
         @PageableDefault(page = 1, size = 10, sort = ["id"], direction = Sort.Direction.ASC) page: Pageable,
         model: Model
     ): String {
-        val baseUrl = "/?page="
+        val baseUrl = "/?"
         val companyPage = companyService.findAll(PageService.convertToZeroBasedPage(page))
         model.addAttribute("companies", companyPage.content)
 

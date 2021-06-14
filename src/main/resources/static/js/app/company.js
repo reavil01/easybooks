@@ -104,12 +104,12 @@ var company = {
 
     searchCompanyByName: function () {
         const name = $('#search-by-company-name').val();
-        location.href = '/company/search/name=' + name;
+        location.href = '/company/search?name=' + name;
     },
 
     searchCompanyByNumber: function () {
         const number = $('#search-by-company-number').val();
-        location.href = '/company/search/number=' + number;
+        location.href = '/company/search?number=' + number;
     },
 
     openCompanySearchPopup: function () {
