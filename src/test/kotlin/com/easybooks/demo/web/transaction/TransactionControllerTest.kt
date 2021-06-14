@@ -20,9 +20,12 @@ import java.time.LocalDate
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
-class TransactionSeearchControllerTest {
+class TransactionControllerTest {
     @LocalServerPort
     lateinit var port: java.lang.Integer
+
+    lateinit var baseUrl: String
+
     val restTemplate = TestRestTemplate()
 
     @Autowired
@@ -36,6 +39,7 @@ class TransactionSeearchControllerTest {
 
     @BeforeEach
     fun setup() {
+        baseUrl = "http://localhost:$port/transaction"
         ledgerRepository.deleteAll()
         transactionRepository.deleteAll()
         companyRepository.deleteAll()
@@ -56,7 +60,7 @@ class TransactionSeearchControllerTest {
         val keyword = "이퍼"
 
         // when
-        val url = "http://localhost:$port/transaction/search/companyName=$keyword"
+        val url = "${baseUrl}/search?companyName=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
@@ -71,10 +75,10 @@ class TransactionSeearchControllerTest {
         // given
         val savedCompany = companyRepository.save(getTestCompany())
         val savedTransaction = transactionRepository.save(getTestTransaction(savedCompany, 100))
-        val keyword = "6789"
+        val keyword = savedCompany.number
 
         // when
-        val url = "http://localhost:$port/transaction/search/companyNumber=$keyword"
+        val url = "${baseUrl}/search?companyNumber=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
@@ -93,7 +97,7 @@ class TransactionSeearchControllerTest {
         val end = LocalDate.now()
 
         // when
-        val url = "http://localhost:$port/transaction/search/startDate=$start&endDate=$end"
+        val url = "${baseUrl}/search?startDate=$start&endDate=$end"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then

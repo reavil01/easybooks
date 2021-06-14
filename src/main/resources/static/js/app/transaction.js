@@ -94,18 +94,18 @@ var transaction = {
 
     searchTransactionByCompanyName: function () {
         const name = $('#search-transaction-by-company-name').val();
-        location.href = "/transaction/search/companyName=" + name;
+        location.href = "/transaction/search?companyName=" + name;
     },
 
     searchTransactionByCompanyNumber: function () {
         const number = $('#search-transaction-by-company-number').val();
-        location.href = "/transaction/search/companyNumber=" + number;
+        location.href = "/transaction/search?companyNumber=" + number;
     },
 
     searchTransactionByDate: function () {
         const start = $('#search-transaction-by-date-start').val();
         const end = $('#search-transaction-by-date-end').val();
-        location.href = "/transaction/search/startDate=" + start + "&endDate=" + end;
+        location.href = "/transaction/search?startDate=" + start + "&endDate=" + end;
     },
 }
 

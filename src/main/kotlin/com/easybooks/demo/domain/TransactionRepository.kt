@@ -8,6 +8,7 @@ interface TransactionRepository {
     fun save(transaction: Transaction): Transaction
     fun delete(transaction: Transaction)
     fun findAll(): List<Transaction>
+    fun findAll(page: Pageable): Page<Transaction>
     fun deleteAll()
     fun findById(id: Long): Transaction?
 

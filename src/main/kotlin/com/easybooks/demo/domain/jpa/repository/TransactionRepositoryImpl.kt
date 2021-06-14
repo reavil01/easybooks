@@ -28,6 +28,10 @@ class TransactionRepositoryImpl(
         return transactionRepoJPA.findAll()
     }
 
+    override fun findAll(page: Pageable): Page<Transaction> {
+        return transactionRepoJPA.findAll(page)
+    }
+
     override fun deleteAll() {
         return transactionRepoJPA.deleteAll()
     }

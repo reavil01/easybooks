@@ -53,12 +53,17 @@ class TransactionService(
         return TransactionResponseDto(entity)
     }
 
-    fun findAllByCompanyName(companyName: String, page: Pageable): Page<TransactionListResponseDto> {
+    fun findAll(page: Pageable): Page<TransactionListResponseDto> {
+        val transactionPgae = transactionRepository.findAll(page)
+        return transactionPgae.map { TransactionListResponseDto(it) }
+    }
+
+    fun findAllByCompanyNameContains(companyName: String, page: Pageable): Page<TransactionListResponseDto> {
         val transactionPage = transactionRepository.findAllByCompanyNameContains(companyName, page)
         return transactionPage.map { TransactionListResponseDto(it) }
     }
 
-    fun findAllByCompanyNumber(companyNumber: String, page: Pageable): Page<TransactionListResponseDto> {
+    fun findAllByCompanyNumberContains(companyNumber: String, page: Pageable): Page<TransactionListResponseDto> {
         val transactionPage = transactionRepository.findAllByCompanyNumberContains(companyNumber, page)
         return transactionPage.map { TransactionListResponseDto(it) }
     }
