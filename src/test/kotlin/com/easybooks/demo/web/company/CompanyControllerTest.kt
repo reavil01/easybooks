@@ -21,6 +21,9 @@ import org.springframework.test.context.event.annotation.AfterTestClass
 class CompanyControllerTest {
     @LocalServerPort
     lateinit var port: java.lang.Integer
+
+    lateinit var baseUrl: String
+
     val restTemplate = TestRestTemplate()
 
     @Autowired
@@ -34,6 +37,7 @@ class CompanyControllerTest {
 
     @BeforeEach
     fun setup() {
+        baseUrl = "http://localhost:$port/company"
         ledgerRepository.deleteAll()
         transactionRepository.deleteAll()
         companyRepository.deleteAll()
@@ -54,7 +58,7 @@ class CompanyControllerTest {
         val keyword = "이퍼"
 
         // when
-        val url = "http://localhost:$port/company/search/name=$keyword"
+        val url = "${baseUrl}/search?name=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
@@ -71,7 +75,7 @@ class CompanyControllerTest {
         val keyword = "6789"
 
         // when
-        val url = "http://localhost:$port/company/search/number=$keyword"
+        val url = "${baseUrl}/search?number=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
@@ -97,7 +101,7 @@ class CompanyControllerTest {
         val keyword = "678"
 
         // when
-        val url = "http://localhost:$port/company/search/unpaid&number=$keyword"
+        val url = "${baseUrl}/search?number=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
@@ -120,7 +124,7 @@ class CompanyControllerTest {
         val keyword = "678"
 
         // when
-        val url = "http://localhost:$port/company/search/unpaid&number=$keyword"
+        val url = "${baseUrl}/search?number=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
@@ -147,7 +151,7 @@ class CompanyControllerTest {
         val keyword = "이퍼"
 
         // when
-        val url = "http://localhost:$port/company/search/unpaid&name=$keyword"
+        val url = "${baseUrl}/search?name=$keyword"
         val responseEntity = restTemplate.getForEntity<String>(url, String)
 
         // then
