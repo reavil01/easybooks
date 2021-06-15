@@ -30,6 +30,7 @@ class LedgerService(
 
         checkingValidationOfLedger(requestDto)
         ledger.update(requestDto)
+        ledgerRepository.save(ledger)
 
         return id
     }

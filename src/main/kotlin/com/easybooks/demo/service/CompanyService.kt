@@ -23,6 +23,7 @@ class CompanyService(
         val company = companyRepository.findById(id)
             ?: throw IllegalArgumentException("해당 사업체가 없습니다. id=$id")
         company.update(requestDto)
+        companyRepository.save(company)
 
         return id
     }

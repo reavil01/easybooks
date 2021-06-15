@@ -8,7 +8,6 @@ import com.easybooks.demo.web.transaction.dto.toEntity
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import java.lang.IllegalArgumentException
 import java.time.LocalDate
 
@@ -30,6 +29,7 @@ class TransactionService(
             ?: throw IllegalArgumentException("해당 입/출금 내역이 없습니다 id = $id")
 
         transaction.update(requestDto)
+        transactionRepository.save(transaction)
 
         return id
     }
