@@ -2,9 +2,13 @@ package com.easybooks.demo.web
 
 import com.easybooks.demo.domain.Company
 import com.easybooks.demo.domain.CompanyRepository
+import com.easybooks.demo.domain.LedgerRepository
+import com.easybooks.demo.domain.TransactionRepository
 import com.easybooks.demo.web.company.dto.CompanySaveRequestDto
 import com.easybooks.demo.web.company.dto.toEntity
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -14,17 +18,28 @@ import org.springframework.data.domain.Sort
 
 @SpringBootTest
 class PageServiceTest() {
-//    @SpringBootTest(
-//        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
-//    )
-//    class CompanyApiControllerTest {
-//        @LocalServerPort
-//        lateinit var port: java.lang.Integer
-//
-//        // @Autowired가 왜 안되지?
-//        val restTemplate = TestRestTemplate()
     @Autowired
     lateinit var companyRepository: CompanyRepository
+
+    @Autowired
+    lateinit var ledgerRepository: LedgerRepository
+
+    @Autowired
+    lateinit var transactionRepository: TransactionRepository
+
+    @BeforeEach
+    fun setup() {
+        ledgerRepository.deleteAll()
+        transactionRepository.deleteAll()
+        companyRepository.deleteAll()
+    }
+
+    @AfterEach
+    fun tearDown() {
+        ledgerRepository.deleteAll()
+        transactionRepository.deleteAll()
+        companyRepository.deleteAll()
+    }
 
     @Test
     fun `사업체 명을 검색했을 때, 페이징 성공`() {
