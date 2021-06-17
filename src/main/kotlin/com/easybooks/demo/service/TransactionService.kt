@@ -68,10 +68,25 @@ class TransactionService(
         return transactionPage.map { TransactionListResponseDto(it) }
     }
 
-    fun findAllByDateBetween(startDate: String, endDate: String, page: Pageable): Page<TransactionListResponseDto> {
-        val start = LocalDate.parse(startDate)
-        val end = LocalDate.parse(endDate)
-        val transactionPage = transactionRepository.findAllByDateBetween(start, end, page)
+    fun findAllByDateBetween(startDate: LocalDate, endDate: LocalDate, page: Pageable): Page<TransactionListResponseDto> {
+        val transactionPage = transactionRepository.findAllByDateBetween(startDate, endDate, page)
         return transactionPage.map { TransactionListResponseDto(it) }
+    }
+
+    fun findAllByDateBetween(start: String, end: String, page: Pageable): Page<TransactionListResponseDto> {
+        val startDate = LocalDate.parse(start)
+        val endDate = LocalDate.parse(end)
+        return findAllByDateBetween(startDate, endDate, page)
+    }
+
+    fun findAllByDateBetween(startDate: LocalDate, endDate: LocalDate): List<TransactionListResponseDto> {
+        val transactionPage = transactionRepository.findAllByDateBetween(startDate, endDate)
+        return transactionPage.map { TransactionListResponseDto(it) }
+    }
+
+    fun findAllByDateBetween(start: String, end: String): List<TransactionListResponseDto> {
+        val startDate = LocalDate.parse(start)
+        val endDate = LocalDate.parse(end)
+        return findAllByDateBetween(startDate, endDate)
     }
 }

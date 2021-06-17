@@ -83,8 +83,23 @@ class LedgerService(
     fun findAllByDateBetween(start: String, end: String, page: Pageable): Page<LedgerListResponseDto> {
         val startDate = LocalDate.parse(start)
         val endDate = LocalDate.parse(end)
+        return findAllByDateBetween(startDate, endDate, page)
+    }
+
+    fun findAllByDateBetween(startDate: LocalDate, endDate: LocalDate, page: Pageable): Page<LedgerListResponseDto> {
         val ledgerPage = ledgerRepository.findAllByDateBetween(startDate, endDate, page)
         return ledgerPage.map { LedgerListResponseDto(it) }
+    }
+
+    fun findAllByDateBetween(start: String, end: String): List<LedgerListResponseDto> {
+        val startDate = LocalDate.parse(start)
+        val endDate = LocalDate.parse(end)
+        return findAllByDateBetween(startDate, endDate)
+    }
+
+    fun findAllByDateBetween(startDate: LocalDate, endDate: LocalDate): List<LedgerListResponseDto> {
+        val ledgers = ledgerRepository.findAllByDateBetween(startDate, endDate)
+        return ledgers.map { LedgerListResponseDto(it) }
     }
 
     fun findAll(page: Pageable): Page<LedgerListResponseDto> {
