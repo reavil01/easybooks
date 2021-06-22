@@ -12,7 +12,6 @@
                     <option value="{{value}}" {{#select}}selected{{/select}}>{{text}}</option>
                 {{/yearData}}
             </select>
-
             <label>월:</label>
             <select id="month" name="month">
                 <option value="">month</option>
@@ -25,8 +24,41 @@
     </div>
 </div>
 
+<div class="col-md-8">
+    <table id="summary-report" class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>총 송장 수</th>
+            <th>총 입/출금 수</th>
+            <th>총 매출액</th>
+            <th>총 수금액</th>
+            <th>총 미수금액</th>
+            <th>총 매입액</th>
+            <th>총 지불액</th>
+            <th>총 미지불액</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#report}}
+            {{#summary}}
+                <tr>
+                    <td>{{totalLedger}}</td>
+                    <td>{{totalTransaction}}</td>
+                    <td>{{totalSell}}</td>
+                    <td>{{totalReceived}}</td>
+                    <td>{{totalUnreceived}}</td>
+                    <td>{{totalBuy}}</td>
+                    <td>{{totalPaid}}</td>
+                    <td>{{totalUnpaid}}</td>
+                </tr>
+            {{/summary}}
+        {{/report}}
+        </tbody>
+    </table>
+</div>
+
 <div class="col-md-12">
-    <table id="company-select-table" class="table table-horizontal table-bordered">
+    <table id="company-summary-report" class="table table-horizontal table-bordered">
         <thead class="thead-strong">
         <tr>
             <th>ID</th>

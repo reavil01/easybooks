@@ -51,12 +51,12 @@ class MonthlyReportTest {
 
     @Test
     fun `집계기능 확인`() {
-        val (startDate, endDate) = reportService.getFirstDateAndLastDateWhenGivenYear(2021)
+        val (startDate, endDate) = reportService.getFirstDateAndLastDate(2021)
 
         val ledgers = ledgerService.findAllByDateBetween(startDate, endDate)
         val transactions = transactionService.findAllByDateBetween(startDate, endDate)
 
-        val result = reportService.yearSummaryReport(ledgers, transactions)
+        val result = reportService.makeSummaryReport(ledgers, transactions)
 
         assertThat(result.totalLedger).isEqualTo(7)
         assertThat(result.totalTransaction).isEqualTo(5)
@@ -70,7 +70,7 @@ class MonthlyReportTest {
 
     @Test
     fun `사업체별 집계 기능 확인`() {
-        val summary = reportService.getYearlyReport("2021")
+        val summary = reportService.getReport("2021")
         for (report in summary.companyReport) {
             println(report)
         }
@@ -117,85 +117,26 @@ class MonthlyReportTest {
         println(ss)
     }
 
-//    @LocalServerPort
-//    lateinit var port: java.lang.Integer
-//
-//    @Autowired
-//    lateinit var reportService: ReportService
-//
-//    @Autowired
-//    lateinit var companyService: CompanyService
-//
-//
-//    @Autowired
-//    lateinit var transactionService: TransactionService
-//
-//    @Test
-//    fun `사업체별 월별 요약정보 표기에 성공`() {
-//        // given
-//        val savedForReportTransactions = ArrayList<TransactionSaveAndUpdateDto>()
-//        savedForReportTransactions.add(
-//            TransactionSaveAndUpdateDto(
-//                companyNumber = "111",
-//                date = LocalDate.of(2021, 6, 1),
-//                price = 1,
-//                type = TransactionType.Deposit
-//            )
-//        )
-//        savedForReportTransactions.add(
-//            TransactionSaveAndUpdateDto(
-//                companyNumber = "111",
-//                date = LocalDate.of(2021, 6, 2),
-//                price = 10,
-//                type = TransactionType.Deposit
-//            )
-//        )
-//        savedForReportTransactions.add(
-//            TransactionSaveAndUpdateDto(
-//                companyNumber = "111",
-//                date = LocalDate.of(2021, 6, 30),
-//                price = 100,
-//                type = TransactionType.Deposit
-//            )
-//        )
-//
-//        val savedForExceptionTransaction = ArrayList<TransactionSaveAndUpdateDto>()
-//        savedForExceptionTransaction.add(
-//            TransactionSaveAndUpdateDto(
-//                companyNumber = "111",
-//                date = LocalDate.of(2021, 5, 31),
-//                price = 1000,
-//                type = TransactionType.Deposit
-//            )
-//        )
-//        savedForExceptionTransaction.add(
-//            TransactionSaveAndUpdateDto(
-//                companyNumber = "111",
-//                date = LocalDate.of(2021, 7, 1),
-//                price = 10000,
-//                type = TransactionType.Deposit
-//            )
-//        )
-//        savedForExceptionTransaction.add(
-//            TransactionSaveAndUpdateDto(
-//                companyNumber = "111",
-//                date = LocalDate.of(2021, 6, 31),
-//                price = 100000,
-//                type = TransactionType.Deposit
-//            )
-//        )
-//
-//        savedForReportTransactions.forEach { transactionService.save(it) }
-//        savedForExceptionTransaction.forEach { transactionService.save(it) }
-//
-//        // when
-//        val year = 2021
-//        val month = 6
-//        val report = reportService.getMonthlyReport(yesr, month)
-//
-//         then
-//        assertThat(report.unpaid).isEqualTo()
-//        assertThat(report.content)
-//    }
+    @Test
+    fun `연, 월이 주어졌을 때 첫 날과 마지막 날 구하기`() {
+        var year = 2021
+        var month = 2
+        val (first, last) = reportService.getFirstDateAndLastDate(year, month)
+        assertThat(first).isEqualTo("2021-02-01")
+        assertThat(last).isEqualTo("2021-02-28")
+
+        year = 2021
+        month = 5
+        val (first2, last2) = reportService.getFirstDateAndLastDate(year, month)
+        assertThat(first2).isEqualTo("2021-05-01")
+        assertThat(last2).isEqualTo("2021-05-31")
+
+        year = 2021
+        month = 6
+        val (first3, last3) = reportService.getFirstDateAndLastDate(year, month)
+        assertThat(first3).isEqualTo("2021-06-01")
+        assertThat(last3).isEqualTo("2021-06-30")
+    }
+
 
 }
