@@ -114,7 +114,7 @@ var company = {
 
     openCompanySearchPopup: function () {
         window.name = "parentForm";
-        openWin = window.open("/company/search/pop=true",
+        openWin = window.open("/company/search?popup=true",
             "childForm",
             "width=800, height=600, location=no, toolbars=no, status=no")
     },

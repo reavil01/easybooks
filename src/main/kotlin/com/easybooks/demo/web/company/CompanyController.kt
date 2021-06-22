@@ -17,20 +17,22 @@ class CompanyController(val companyService: CompanyService) {
     fun search(
         @RequestParam(name = "number", required = false) number: String?,
         @RequestParam(name = "name", required = false) name: String?,
+        @RequestParam(name = "popup", required = false, defaultValue = "false") isPopup: Boolean,
         @PageableDefault(page = 1, size = 1, sort = ["id"], direction = Sort.Direction.ASC) page: Pageable,
         model: Model
     ): String {
-        var baseUrl = "/company/search"
+        var baseUrl = "/company/search?popup=$isPopup"
         model.addAttribute("number", number)
         model.addAttribute("name", name)
+        model.addAttribute("isPopup", isPopup)
 
         val companyPage = when {
             number != null -> {
-                baseUrl += "?number=$number"
+                baseUrl += "&number=$number"
                 companyService.findByNumberContains(number, PageService.convertToZeroBasedPage(page))
             }
             name != null -> {
-                baseUrl += "?name=$name"
+                baseUrl += "&name=$name"
                 companyService.findByNameContains(name, PageService.convertToZeroBasedPage(page))
             }
             else -> {
@@ -39,7 +41,6 @@ class CompanyController(val companyService: CompanyService) {
         }.apply {
             addContentOnModel(model, this.content)
         }
-
 
         PageService.getPageNavigationInfo(companyPage, baseUrl).apply {
             addPagenavigationOnModel(model, this)
