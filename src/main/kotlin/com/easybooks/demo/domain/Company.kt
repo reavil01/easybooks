@@ -1,6 +1,6 @@
 package com.easybooks.demo.domain
 
-import com.easybooks.demo.web.company.dto.CompanyUpdateRequestDto
+import com.easybooks.demo.web.dto.company.CompanyUpdateRequestDto
 import javax.persistence.*
 
 @Entity

@@ -2,9 +2,9 @@ package com.easybooks.demo.service
 
 import com.easybooks.demo.domain.LedgerType
 import com.easybooks.demo.domain.TransactionType
-import com.easybooks.demo.web.company.dto.CompanyResponseDto
-import com.easybooks.demo.web.ledger.dto.LedgerListResponseDto
-import com.easybooks.demo.web.transaction.dto.TransactionListResponseDto
+import com.easybooks.demo.web.dto.company.CompanyResponseDto
+import com.easybooks.demo.web.dto.ledger.LedgerListResponseDto
+import com.easybooks.demo.web.dto.transaction.TransactionListResponseDto
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
@@ -21,9 +21,9 @@ import java.time.LocalDate
  */
 @Service
 class ReportService(
-    val ledgerService: LedgerService,
-    val transactionService: TransactionService,
-    val companyService: CompanyService,
+    val ledgerRepositoryService: LedgerRepositoryService,
+    val transactionRepositoryService: TransactionRepositoryService,
+    val companyRepositoryService: CompanyRepositoryService,
 ) {
     fun getReport(year: String, month: String = ""): Report {
         val (start, end) = if (month == "")
@@ -46,11 +46,11 @@ class ReportService(
     }
 
     private fun getLedgers(startDate: LocalDate, endDate: LocalDate): List<LedgerListResponseDto> {
-        return ledgerService.findAllByDateBetween(startDate, endDate)
+        return ledgerRepositoryService.findAllByDateBetween(startDate, endDate)
     }
 
     private fun getTransactions(startDate: LocalDate, endDate: LocalDate): List<TransactionListResponseDto> {
-        return transactionService.findAllByDateBetween(startDate, endDate)
+        return transactionRepositoryService.findAllByDateBetween(startDate, endDate)
     }
 
     fun makeSummaryReport(
@@ -100,7 +100,7 @@ class ReportService(
 
         val companySummary = ArrayList<CompanySummaryReport>()
         for (key in totalKeys) {
-            val companyResponseDto = companyService.findById(key)
+            val companyResponseDto = companyRepositoryService.findById(key)
 
             companySummary.add(
                 CompanySummaryReport(

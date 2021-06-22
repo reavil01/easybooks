@@ -1,6 +1,6 @@
 package com.easybooks.demo.domain
 
-import com.easybooks.demo.web.transaction.dto.TransactionSaveAndUpdateDto
+import com.easybooks.demo.web.dto.transaction.TransactionSaveAndUpdateDto
 import java.time.LocalDate
 import javax.persistence.*
 

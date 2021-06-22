@@ -22,10 +22,10 @@ class MonthlyReportTest {
     lateinit var reportService: ReportService
 
     @Autowired
-    lateinit var ledgerService: LedgerService
+    lateinit var ledgerRepositoryService: LedgerRepositoryService
 
     @Autowired
-    lateinit var transactionService: TransactionService
+    lateinit var transactionRepositoryService: TransactionRepositoryService
 
     @Test
     fun `람다 groupingBy 기능 테스트`() {
@@ -53,8 +53,8 @@ class MonthlyReportTest {
     fun `집계기능 확인`() {
         val (startDate, endDate) = reportService.getFirstDateAndLastDate(2021)
 
-        val ledgers = ledgerService.findAllByDateBetween(startDate, endDate)
-        val transactions = transactionService.findAllByDateBetween(startDate, endDate)
+        val ledgers = ledgerRepositoryService.findAllByDateBetween(startDate, endDate)
+        val transactions = transactionRepositoryService.findAllByDateBetween(startDate, endDate)
 
         val result = reportService.makeSummaryReport(ledgers, transactions)
 
@@ -95,11 +95,6 @@ class MonthlyReportTest {
 
         println(b.keys)
         println(b.values)
-
-
-//        val ledgerGroup = ledgerRepository.findAll().groupingBy { it.company.number }
-//        val transactionGroup = transactionRepository.findAll().groupingBy{it.company.number}
-//        println(setOf(ledgerGroup))
     }
 
     @Test
@@ -137,6 +132,4 @@ class MonthlyReportTest {
         assertThat(first3).isEqualTo("2021-06-01")
         assertThat(last3).isEqualTo("2021-06-30")
     }
-
-
 }

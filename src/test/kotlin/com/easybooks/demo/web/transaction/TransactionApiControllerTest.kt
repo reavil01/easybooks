@@ -3,7 +3,7 @@ package com.easybooks.demo.web.transaction
 import com.easybooks.demo.domain.*
 import com.easybooks.demo.web.getTestCompany
 import com.easybooks.demo.web.getTestTransaction
-import com.easybooks.demo.web.transaction.dto.TransactionSaveAndUpdateDto
+import com.easybooks.demo.web.dto.transaction.TransactionSaveAndUpdateDto
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

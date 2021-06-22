@@ -5,8 +5,8 @@ import com.easybooks.demo.domain.LedgerRepository
 import com.easybooks.demo.domain.TransactionRepository
 import com.easybooks.demo.web.getTestCompany
 import com.easybooks.demo.web.getTestLedgerSaveRequestDto
-import com.easybooks.demo.web.ledger.dto.LedgerSaveAndUpdateRequestDto
-import com.easybooks.demo.web.ledger.dto.toEntity
+import com.easybooks.demo.web.dto.ledger.LedgerSaveAndUpdateRequestDto
+import com.easybooks.demo.web.dto.ledger.toEntity
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
