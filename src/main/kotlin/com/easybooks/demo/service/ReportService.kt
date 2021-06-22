@@ -71,6 +71,25 @@ class ReportService(
         return report
     }
 
+    private fun getLedgers(year: String): List<LedgerListResponseDto> {
+        val (startDate, endDate) = getFirstDateAndLastDate(year.toInt())
+        return ledgerService.findAllByDateBetween(startDate, endDate)
+    }
+
+    private fun getLedgers(year: String, month: String) {
+
+    }
+
+    private fun getTransactions(year: String): List<TransactionListResponseDto> {
+        val (startDate, endDate) = getFirstDateAndLastDate(year.toInt())
+        return transactionService.findAllByDateBetween(startDate, endDate)
+
+    }
+
+    private fun getTransactions(year: String, month: String) {
+
+    }
+
     fun yearSummaryReport(
         ledgers: List<LedgerListResponseDto>,
         transactions: List<TransactionListResponseDto>
@@ -84,8 +103,8 @@ class ReportService(
         val totalTransaction = transactions.size
         val totalReceived =
             getTotalReceivedOfEachCompany(transactions).asIterable().fold(0) { acc, entry -> acc + entry.value }
-        val totalUnreceived =
-            getTotalUnreceivedOfEachCompany(transactions).asIterable().fold(0) { acc, entry -> acc + entry.value }
+        val totalPaid =
+            getTotalPaidOfEachCompany(transactions).asIterable().fold(0) { acc, entry -> acc + entry.value }
 
         val summary = SummaryReport(
             totalLedger = totalLedger,
@@ -93,45 +112,132 @@ class ReportService(
             totalSell = totalSell,
             totalBuy = totalBuy,
             totalReceived = totalReceived,
-            totalUnreceived = totalUnreceived
+            totalUnreceived = totalSell - totalReceived,
+            totalPaid = totalPaid,
+            totalUnpaid = totalBuy - totalPaid,
         )
         return summary
     }
 
+    fun companySummaryReport(year: String): List<CompanySummaryReport> {
+        val (startDate, endDate) = getFirstDateAndLastDate(year.toInt())
+
+        val ledgers = ledgerService.findAllByDateBetween(startDate, endDate)
+        val transactions = transactionService.findAllByDateBetween(startDate, endDate)
+
+        val companyBuying = getTotalBuyingPriceOfEachCompany(ledgers)
+        val companySelling = getTotalSellingPriceOfEachComapny(ledgers)
+        val companyReceive = getTotalReceivedOfEachCompany(transactions)
+        val companyPaid = getTotalPaidOfEachCompany(transactions)
+        val companyNumOfTransaction = transactions.groupingBy { it.company.id }.eachCount()
+        val companyNumOfLeger = ledgers.groupingBy { it.company.id }.eachCount()
+
+        val totalKeys = HashSet<Long>()
+        totalKeys.addAll(companyBuying.keys)
+        totalKeys.addAll(companySelling.keys)
+        totalKeys.addAll(companyReceive.keys)
+        totalKeys.addAll(companyPaid.keys)
+
+        val companySummary = ArrayList<CompanySummaryReport>()
+        for (key in totalKeys) {
+            val companyResponseDto =  companyService.findById(key)
+
+            companySummary.add(
+                CompanySummaryReport(
+                    company = companyResponseDto,
+                    totalLedger = companyNumOfLeger[key] ?: 0,
+                    totalTransaction = companyNumOfTransaction[key] ?: 0,
+                    totalSell = companySelling[key] ?: 0,
+                    totalBuy = companyBuying[key] ?: 0,
+                    totalReceived = companyReceive[key] ?: 0,
+                    totalUnreceived = (companySelling[key] ?: 0) - (companyReceive[key] ?: 0),
+                    totalPaid = companyPaid[key] ?: 0,
+                    totalUnpaid = (companyBuying[key] ?: 0) - (companyPaid[key] ?: 0)
+                )
+            )
+        }
+
+        return companySummary
+    }
     private fun getTotalReceivedOfEachCompany(transactions: List<TransactionListResponseDto>) =
         transactions.filter { it.type == TransactionType.Deposit }
-            .groupingBy { it.company.number }
+            .groupingBy { it.company.id }
             .aggregate { _, deposit: Int?, transaction, _ -> (deposit ?: 0) + transaction.price }
 
-    private fun getTotalUnreceivedOfEachCompany(transactions: List<TransactionListResponseDto>) =
+    private fun getTotalPaidOfEachCompany(transactions: List<TransactionListResponseDto>) =
         transactions.filter { it.type == TransactionType.Withdraw }
-            .groupingBy { it.company.number }
+            .groupingBy { it.company.id }
             .aggregate { _, withdraw: Int?, transaction, _ -> (withdraw ?: 0) + transaction.price }
 
     private fun getTotalBuyingPriceOfEachCompany(ledgers: List<LedgerListResponseDto>) =
         ledgers.filter { it.type == LedgerType.Purchase }
-            .groupingBy { it.company.number }
+            .groupingBy { it.company.id }
             .aggregate { _, buy: Int?, ledger, _ -> (buy ?: 0) + ledger.total }
 
     private fun getTotalSellingPriceOfEachComapny(ledgers: List<LedgerListResponseDto>) =
         ledgers.filter { it.type == LedgerType.Sell }
-            .groupingBy { it.company.number }
+            .groupingBy { it.company.id }
             .aggregate { _, sell: Int?, ledger, _ -> (sell ?: 0) + ledger.total }
 
-    fun getFirstDateAndLastDateWhenGivenYear(year: Int): Pair<LocalDate, LocalDate> {
+    fun getFirstDateAndLastDate(year: Int): Pair<LocalDate, LocalDate> {
         val initDate = LocalDate.now().withYear(year)
         val firstDate = initDate.withDayOfYear(1)
         val lastDate = initDate.withDayOfYear(initDate.lengthOfYear())
         return firstDate to lastDate
     }
+
+    fun getFirstDateAndLastDate(year: Int, month: Int): Pair<LocalDate, LocalDate> {
+        val initDate = LocalDate.now().withYear(year).withMonth(month)
+        val firstDate = initDate.withDayOfMonth(1)
+        val lastDate = initDate.withDayOfMonth(initDate.lengthOfMonth())
+        return firstDate to lastDate
+    }
+
+    fun getYearData(selectYear: String?): List<YearDto> {
+        val currentYear = LocalDate.now().year
+        val yearDtoList = ArrayList<YearDto>()
+
+        for(year in currentYear-5..currentYear+5) {
+            if(selectYear?.toInt() == year)
+                yearDtoList.add(YearDto(year, year.toString(), true))
+            else
+                yearDtoList.add(YearDto(year, year.toString()))
+        }
+
+        return yearDtoList
+    }
+
+    fun getMonthData(selectMonth: String?): List<MonthDto> {
+        val monthDtoList = ArrayList<MonthDto>()
+
+        for(month in 1..12) {
+            if(selectMonth?.toInt() == month)
+                monthDtoList.add(MonthDto(month, month.toString()+"월", true))
+            else
+                monthDtoList.add(MonthDto(month, month.toString()+"월"))
+        }
+
+        return monthDtoList
+    }
 }
 
+data class YearDto(
+    val value: Int,
+    val text: String,
+    val select: Boolean = false
+)
+
+data class MonthDto(
+    val value: Int,
+    val text: String,
+    val select: Boolean = false
+)
 
 data class Report(
     val year: Int,
     val month: Int,
     val summary: SummaryReport,
-    val companyReport: HashMap<String, SummaryReport>
+    val companyReport: List<CompanySummaryReport>
 )
 
 data class SummaryReport(
@@ -140,5 +246,18 @@ data class SummaryReport(
     val totalSell: Int,
     val totalBuy: Int,
     val totalReceived: Int,
-    val totalUnreceived: Int
+    val totalUnreceived: Int,
+    val totalPaid: Int,
+    val totalUnpaid: Int,
+)
+data class CompanySummaryReport(
+    val company: CompanyResponseDto,
+    val totalLedger: Int,
+    val totalTransaction: Int,
+    val totalSell: Int,
+    val totalBuy: Int,
+    val totalReceived: Int,
+    val totalUnreceived: Int,
+    val totalPaid: Int,
+    val totalUnpaid: Int,
 )

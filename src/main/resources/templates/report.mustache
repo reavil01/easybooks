@@ -1,0 +1,66 @@
+{{>layout/header}}
+{{>layout/navigation}}
+
+
+<div class="col-md-12">
+    <div class="form-group">
+        <form>
+            <label for="name">연도:</label>
+            <select id="year" name="year">
+                <option value="">year</option>
+                {{#yearData}}
+                    <option value="{{value}}" {{#select}}selected{{/select}}>{{text}}</option>
+                {{/yearData}}
+            </select>
+
+            <label>월:</label>
+            <select id="month" name="month">
+                <option value="">month</option>
+                {{#monthData}}
+                    <option value="{{value}}" {{#select}}selected{{/select}}>{{text}}</option>
+                {{/monthData}}
+            </select>
+            <button type="button" class="btn btn-primary" id="btn-report-search">검색</button>
+        </form>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <table id="company-select-table" class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>ID</th>
+            <th>사업자번호</th>
+            <th>사업자명</th>
+            <th>대표</th>
+            <th>총 판매액</th>
+            <th>총 수금액</th>
+            <th>총 미수금액</th>
+            <th>총 구매액</th>
+            <th>총 지불액</th>
+            <th>총 미지불액</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#report}}
+            {{#companyReport}}
+                <tr>
+                    <td>{{company.id}}</td>
+                    <td>{{company.number}}</td>
+                    <td>{{company.name}}</td>
+                    <td>{{company.owner}}</td>
+                    <td>{{totalSell}}</td>
+                    <td>{{totalReceived}}</td>
+                    <td>{{totalUnreceived}}</td>
+                    <td>{{totalBuy}}</td>
+                    <td>{{totalPaid}}</td>
+                    <td>{{totalUnpaid}}</td>
+                </tr>
+            {{/companyReport}}
+        {{/report}}
+        </tbody>
+    </table>
+    {{>layout/pagination}}
+</div>
+
+{{>layout/footer}}

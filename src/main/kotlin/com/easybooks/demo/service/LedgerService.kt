@@ -23,7 +23,6 @@ class LedgerService(
         return ledgerRepository.save(requestDto.toEntity(company)).id
     }
 
-    @Transactional
     fun update(id: Long, requestDto: LedgerSaveAndUpdateRequestDto): Long {
         val ledger = ledgerRepository.findById(id)
             ?: throw IllegalArgumentException("해당 송장이 없습니다. id=$id")

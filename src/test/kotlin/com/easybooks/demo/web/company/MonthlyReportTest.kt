@@ -63,13 +63,15 @@ class MonthlyReportTest {
         assertThat(result.totalSell).isEqualTo(11110)
         assertThat(result.totalBuy).isEqualTo(9955)
         assertThat(result.totalReceived).isEqualTo(300)
-        assertThat(result.totalUnreceived).isEqualTo(200)
+        assertThat(result.totalUnreceived).isEqualTo(11110 - 300)
+        assertThat(result.totalPaid).isEqualTo(200)
+        assertThat(result.totalUnpaid).isEqualTo(9955 - 200)
     }
 
     @Test
     fun `사업체별 집계 기능 확인`() {
         val summary = reportService.getYearlyReport("2021")
-        for(report in summary.companyReport) {
+        for (report in summary.companyReport) {
             println(report)
         }
     }
@@ -87,8 +89,8 @@ class MonthlyReportTest {
         println(a.keys)
         println(a.values)
         val b = transactions.groupingBy { it.company.number }
-            .foldTo(mutableMapOf(), 0) {
-                acc, e -> acc + e.price
+            .foldTo(mutableMapOf(), 0) { acc, e ->
+                acc + e.price
             }
 
         println(b.keys)
