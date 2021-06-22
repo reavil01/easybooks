@@ -27,11 +27,11 @@ class CompanyController(val companyService: CompanyService) {
         model.addAttribute("isPopup", isPopup)
 
         val companyPage = when {
-            number != null -> {
+            !number.isNullOrEmpty() -> {
                 baseUrl += "&number=$number"
                 companyService.findByNumberContains(number, PageService.convertToZeroBasedPage(page))
             }
-            name != null -> {
+            !name.isNullOrEmpty() -> {
                 baseUrl += "&name=$name"
                 companyService.findByNameContains(name, PageService.convertToZeroBasedPage(page))
             }

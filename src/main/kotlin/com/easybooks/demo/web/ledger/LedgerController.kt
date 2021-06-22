@@ -32,15 +32,15 @@ class LedgerController(val ledgerService: LedgerService) {
         model.addAttribute("endDate", endDate)
 
         val ledgerPage = when {
-            number != null -> {
+            !number.isNullOrEmpty() -> {
                 baseUrl += "?companyNumber=$number"
                 ledgerService.findAllByCompanyNumberContains(number, PageService.convertToZeroBasedPage(page))
             }
-            name != null -> {
+            !name.isNullOrEmpty() -> {
                 baseUrl += "?companyName=$name"
                 ledgerService.findAllByCompanyNameContains(name, PageService.convertToZeroBasedPage(page))
             }
-            startDate != null && endDate != null -> {
+            !startDate.isNullOrEmpty() && !endDate.isNullOrEmpty() -> {
                 baseUrl += "?startDate=$startDate&endDate=$endDate"
                 ledgerService.findAllByDateBetween(startDate, endDate, PageService.convertToZeroBasedPage(page))
             }

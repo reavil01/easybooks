@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam
 @Controller
 @RequestMapping("/transaction")
 class TransactionController(
-    val transactionService: TransactionService
+    val transactionService: TransactionService,
 ) {
     @GetMapping("/search*")
     fun search(
@@ -25,7 +25,7 @@ class TransactionController(
         @RequestParam(name = "startDate", required = false) startDate: String?,
         @RequestParam(name = "endDate", required = false) endDate: String?,
         @PageableDefault(page = 1, size = 1, sort = ["id"], direction = Sort.Direction.ASC) page: Pageable,
-        model: Model
+        model: Model,
     ): String {
         var baseUrl = "/transaction/search"
         model.addAttribute("number", number)
@@ -34,15 +34,15 @@ class TransactionController(
         model.addAttribute("endDate", endDate)
 
         val transactionPage = when {
-            number != null -> {
+            !number.isNullOrEmpty() -> {
                 baseUrl += "?companyNumber=$number"
                 transactionService.findAllByCompanyNumberContains(number, PageService.convertToZeroBasedPage(page))
             }
-            name != null -> {
+            !name.isNullOrEmpty() -> {
                 baseUrl += "?companyName=$name"
                 transactionService.findAllByCompanyNameContains(name, PageService.convertToZeroBasedPage(page))
             }
-            startDate != null && endDate != null -> {
+            !startDate.isNullOrEmpty() && !endDate.isNullOrEmpty() -> {
                 baseUrl += "?startDate=$startDate&endDate=$endDate"
                 transactionService.findAllByDateBetween(startDate, endDate, PageService.convertToZeroBasedPage(page))
             }
@@ -63,7 +63,7 @@ class TransactionController(
     @GetMapping("/update/{id}")
     fun transactionUpdate(
         @PathVariable id: Long,
-        model: Model
+        model: Model,
     ): String {
         val dto = transactionService.findById(id)
         model.addAttribute("transaction", dto)
