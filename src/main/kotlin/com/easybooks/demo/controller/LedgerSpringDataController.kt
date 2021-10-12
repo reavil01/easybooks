@@ -10,9 +10,11 @@ import java.lang.Exception
 
 @RestController
 @RequestMapping("/api/v1/ledger")
-class LedgerApiController(val ledgerRepositoryService: LedgerRepositoryService) {
+class LedgerApiController(
+    val ledgerRepositoryService: LedgerRepositoryService
+) : LedgerDataController {
     @PostMapping
-    fun save(@RequestBody requestDto: LedgerSaveAndUpdateRequestDto): ResponseEntity<Any> {
+    override fun save(@RequestBody requestDto: LedgerSaveAndUpdateRequestDto): ResponseEntity<Any> {
         return try {
             val id = ledgerRepositoryService.save(requestDto)
             ResponseEntity
@@ -26,7 +28,7 @@ class LedgerApiController(val ledgerRepositoryService: LedgerRepositoryService) 
     }
 
     @PostMapping("/{id}")
-    fun update(
+    override fun update(
         @PathVariable id: Long,
         @RequestBody requestDto: LedgerSaveAndUpdateRequestDto
     ): Long {
@@ -34,13 +36,13 @@ class LedgerApiController(val ledgerRepositoryService: LedgerRepositoryService) 
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Long): Long {
+    override fun delete(@PathVariable id: Long): Long {
         ledgerRepositoryService.delete(id)
         return id
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long): LedgerResponseDto {
+    override fun findById(@PathVariable id: Long): LedgerResponseDto {
         return ledgerRepositoryService.findById(id)
     }
 }

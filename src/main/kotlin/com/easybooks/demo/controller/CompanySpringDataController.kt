@@ -8,15 +8,19 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/company")
-class CompanyApiController(val companyRepositoryService: CompanyRepositoryService) {
+class CompanySpringDataController(
+    val companyRepositoryService: CompanyRepositoryService
+) : CompanyDataController {
 
     @PostMapping
-    fun save(@RequestBody requestDto: CompanySaveRequestDto): Long {
+    override fun save(
+        @RequestBody requestDto: CompanySaveRequestDto
+    ): Long {
         return companyRepositoryService.save(requestDto)
     }
 
     @PostMapping("/{id}")
-    fun update(
+    override fun update(
         @PathVariable id: Long,
         @RequestBody requestDto: CompanyUpdateRequestDto
     ): Long {
@@ -24,13 +28,17 @@ class CompanyApiController(val companyRepositoryService: CompanyRepositoryServic
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Long): Long {
+    override fun delete(
+        @PathVariable id: Long
+    ): Long {
         companyRepositoryService.delete(id)
         return id
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long): CompanyResponseDto {
+    override fun findById(
+        @PathVariable id: Long
+    ): CompanyResponseDto {
         return companyRepositoryService.findById(id)
     }
 }
