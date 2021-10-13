@@ -5,55 +5,55 @@
 
 <div class="col-md-12">
     <div class="col-md-4">
-        <form>
+        <form id="company-save-form">
             <div class="form-group">
                 <label for="number">사업자 번호</label>
                 <input type="text" class="form-control"
-                       id="number" placeholder="123-456-7890">
+                       id="number" name="number" placeholder="123-456-7890">
             </div>
             <div class="form-group">
                 <label for="name">상호</label>
                 <input type="text" class="form-control"
-                       id="name">
+                       id="name" name="name">
             </div>
             <div class="form-group">
                 <label for="owner">대표자 이름</label>
                 <input type="text" class="form-control"
-                       id="owner">
+                       id="owner" name="owner">
             </div>
             <div class="form-group">
                 <label for="address">사업장 주소</label>
                 <input type="text" class="form-control"
-                       id="address">
+                       id="address" name="address">
             </div>
             <div class="form-group">
                 <label for="type">업태</label>
                 <input type="text" class="form-control"
-                       id="type">
+                       id="type" name="type">
             </div>
             <div class="form-group">
                 <label for="items">품목</label>
                 <input type="text" class="form-control"
-                       id="items">
+                       id="items" name="items">
             </div>
             <div class="form-group">
                 <label for="email">이메일</label>
                 <input type="text" class="form-control"
-                       id="email">
+                       id="email" name="email">
             </div>
             <div class="form-group">
                 <label for="phone">전화번호</label>
                 <input type="text" class="form-control"
-                       id="phone">
+                       id="phone" name="phone">
             </div>
             <div class="form-group">
                 <label for="fax">팩스번호</label>
                 <input type="text" class="form-control"
-                       id="fax">
+                       id="fax" name="fax">
             </div>
+            <a href="/" role="button" class="btn btn-secondary">취소</a>
+            <button type="submit" class="btn btn-primary" id="btn-save">등록</button>
         </form>
-        <a href="/" role="button" class="btn btn-secondary">취소</a>
-        <button type="button" class="btn btn-primary" id="btn-save">등록</button>
     </div>
 </div>
 {{>layout/footer}}
