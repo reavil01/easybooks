@@ -28,44 +28,34 @@ var transaction = {
     },
 
     saveTransaction: function () {
-        var data = {
-            companyNumber: $('#companyNumber').text(),
-            type: $('input[name="type"]:checked').val(),
-            date: $('#date').val(),
-            price: $('#price').val(),
-        };
+        const data = readFormToJson();
 
         $.ajax({
             type: 'POST',
             url: '/api/v1/transaction',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(data),
+            data: data,
         }).done(function () {
             alert('입/출금 내역이 등록되었습니다.');
             window.location.href = '/';
         }).fail(function (error) {
-            if (errorMessageAlert(error)) {
+            // if (errorMessageAlert(error)) {
                 alert(JSON.stringify(error))
-            }
+            // }
         });
     },
 
     updateTransaction: function () {
         const id = $('#id').val();
-        const data = {
-            companyNumber: $('#companyNumber').text(),
-            type: $('input[name="type"]:checked').val(),
-            date: $('#date').val(),
-            price: $('#price').val(),
-        };
+        const data = readFormToJson();
 
         $.ajax({
             type: 'POST',
             url: '/api/v1/transaction/' + id,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(data)
+            data: data,
         }).done(function () {
             alert('입/출금 내역이 수정되었습니다.');
             window.location.href = '/';

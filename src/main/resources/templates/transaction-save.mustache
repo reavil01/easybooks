@@ -7,44 +7,9 @@
         <button id="btn-company-search">사업자 찾기</button>
     </div>
     <div class="col-md-12">
-        <table class="table table-bordered">
-            <thead class="thead-strong">
-            <tr>
-                <th>사업자번호</th>
-                <th>사업자명</th>
-                <th>대표</th>
-            </tr>
-            </thead>
-            <tbody id="tbody">
-            <tr>
-                <td id="companyNumber"></td>
-                <td id="companyName"></td>
-                <td id="companyOwner"></td>
-            </tr>
-            </tbody>
-        </table>
         <form>
-            <div class="form-check-inline">
-                <label class="form-check-label" for="type">타입</label>
-                <label class="form-check-label" for="sell">입금</label>
-                <input class="form-check-input" type="radio" id="sell" name="type" value="Deposit" checked>
-                <label class="form-check-label" for="purchase">출금</label>
-                <input class="form-check-input" type="radio" id="purchase" name="type" value="Withdraw">
-            </div>
-            <table class="table table-horizontal table-bordered">
-                <thead class="thead-strong">
-                <tr>
-                    <th>날짜</th>
-                    <th>가격</th>
-                </tr>
-                </thead>
-                <tbody id="tbody">
-                <tr>
-                    <td><input type="date" id="date"></td>
-                    <td><input type="text" id="price"></td>
-                </tr>
-                </tbody>
-            </table>
+            {{>layout/company-info}}
+            {{>layout/transaction-info}}
         </form>
         <a href="/" role="button" class="btn btn-secondary">취소</a>
         <button type="button" class="btn btn-primary" id="btn-transaction-save">등록</button>

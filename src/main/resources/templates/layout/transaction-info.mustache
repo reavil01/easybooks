@@ -1,0 +1,33 @@
+<div class="form-group">
+    {{#transaction}}
+    <div class="form-group">
+        <label for="id">ID</label>
+        <input type="text" class="form-control"
+               id="id" name="id" value="{{transaction.id}}" readonly>
+    </div>
+    {{/transaction}}
+
+    <div class="form-check-inline">
+        <label class="form-check-label" for="type">타입</label>
+        <label class="form-check-label" for="deposit">입금</label>
+        <input class="form-check-input" type="radio" id="deposit" name="type" value="Deposit"
+               {{^withdrawIsDefault}}checked{{/withdrawIsDefault}}>
+        <label class="form-check-label" for="withdraw">출금</label>
+        <input class="form-check-input" type="radio" id="withdraw" name="type" value="Withdraw"
+               {{#withdrawIsDefault}}checked{{/withdrawIsDefault}}>
+    </div>
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>날짜</th>
+            <th>가격</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        <tr>
+            <td><input type="date" id="date" name="date" {{#transaction}}value="{{transaction.date}}"{{/transaction}}></td>
+            <td><input type="text" id="price" name="price" {{#transaction}}value="{{transaction.price}}"{{/transaction}}></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

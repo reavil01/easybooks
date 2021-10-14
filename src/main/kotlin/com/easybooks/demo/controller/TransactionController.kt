@@ -36,15 +36,25 @@ class TransactionController(
         val transactionPage = when {
             !number.isNullOrEmpty() -> {
                 baseUrl += "?companyNumber=$number"
-                transactionRepositoryService.findAllByCompanyNumberContains(number, PageNavigationService.convertToZeroBasedPage(page))
+                transactionRepositoryService.findAllByCompanyNumberContains(
+                    number,
+                    PageNavigationService.convertToZeroBasedPage(page)
+                )
             }
             !name.isNullOrEmpty() -> {
                 baseUrl += "?companyName=$name"
-                transactionRepositoryService.findAllByCompanyNameContains(name, PageNavigationService.convertToZeroBasedPage(page))
+                transactionRepositoryService.findAllByCompanyNameContains(
+                    name,
+                    PageNavigationService.convertToZeroBasedPage(page)
+                )
             }
             !startDate.isNullOrEmpty() && !endDate.isNullOrEmpty() -> {
                 baseUrl += "?startDate=$startDate&endDate=$endDate"
-                transactionRepositoryService.findAllByDateBetween(startDate, endDate, PageNavigationService.convertToZeroBasedPage(page))
+                transactionRepositoryService.findAllByDateBetween(
+                    startDate,
+                    endDate,
+                    PageNavigationService.convertToZeroBasedPage(page)
+                )
             }
             else -> {
                 transactionRepositoryService.findAll(PageNavigationService.convertToZeroBasedPage(page))
@@ -67,11 +77,10 @@ class TransactionController(
     ): String {
         val dto = transactionRepositoryService.findById(id)
         model.addAttribute("transaction", dto)
-        when (dto.type) {
-            TransactionType.Deposit ->
-                model.addAttribute("depositIdDefault", true)
-            TransactionType.Withdraw ->
-                model.addAttribute("withdrawIsDefault", true)
+        model.addAttribute("company", dto.company)
+
+        if (dto.type == TransactionType.Withdraw) {
+            model.addAttribute("withdrawIsDefault", true)
         }
 
         return "transaction-update"
