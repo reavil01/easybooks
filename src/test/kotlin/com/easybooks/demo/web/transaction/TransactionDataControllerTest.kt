@@ -19,7 +19,7 @@ import java.time.LocalDate
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
-class TransactionApiControllerTest {
+class TransactionDataControllerTest {
     @LocalServerPort
     lateinit var port: java.lang.Integer
 

@@ -6,16 +6,19 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/transaction")
-class TransactionApiController(
+class TransactionSpringDataController(
     val transactionRepositoryService: TransactionRepositoryService
-) {
+) : TransactionDataController {
+
     @PostMapping
-    fun saveTransaction(@RequestBody requestDto: TransactionSaveAndUpdateDto): Long {
+    override fun saveTransaction(
+        @RequestBody requestDto: TransactionSaveAndUpdateDto
+    ): Long {
         return transactionRepositoryService.save(requestDto)
     }
 
     @PostMapping("/{id}")
-    fun updateTransaction(
+    override fun updateTransaction(
         @PathVariable id: Long,
         @RequestBody requestDto: TransactionSaveAndUpdateDto
     ): Long {
@@ -23,7 +26,9 @@ class TransactionApiController(
     }
 
     @DeleteMapping("/{id}")
-    fun deleteTransaction(@PathVariable id: Long): Long {
+    override fun deleteTransaction(
+        @PathVariable id: Long
+    ): Long {
         transactionRepositoryService.delete(id)
         return id
     }
