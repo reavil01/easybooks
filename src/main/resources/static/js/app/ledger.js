@@ -28,24 +28,14 @@ var ledger = {
     },
 
     saveLedger: function () {
-        var data = {
-            companyNumber: $('#companyNumber').text(),
-            type: $('input[name="type"]:checked').val(),
-            date: $('#date').val(),
-            item: $('#item').val(),
-            unitPrice: $('#unitPrice').val(),
-            quantity: $('#quantity').val(),
-            price: $('#price').val(),
-            vat: $('#vat').val(),
-            total: $('#total').val(),
-        };
+        const data = readFormToJson();
 
         $.ajax({
             type: 'POST',
             url: '/api/v1/ledger',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(data),
+            data: data,
         }).done(function () {
             alert('송장이 등록되었습니다.');
             window.location.href = '/';
@@ -57,25 +47,15 @@ var ledger = {
     },
 
     updateLedger: function () {
+        const data = readFormToJson();
         const id = $('#id').val();
-        const data = {
-            companyNumber: $('#companyNumber').val(),
-            type: $('input[name="type"]:checked').val(),
-            date: $('#date').val(),
-            item: $('#item').val(),
-            unitPrice: $('#unitPrice').val(),
-            quantity: $('#quantity').val(),
-            price: $('#price').val(),
-            vat: $('#vat').val(),
-            total: $('#total').val(),
-        };
 
         $.ajax({
             type: 'POST',
             url: '/api/v1/ledger/' + id,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(data)
+            data: data
         }).done(function () {
             alert('송장이 수정되었습니다.');
             window.location.href = '/';

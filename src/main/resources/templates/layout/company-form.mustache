@@ -1,0 +1,47 @@
+<div class="form-group">
+    <form>
+        {{#company}}
+        <label for="id">ID</label>
+        <input type="text" class="form-control"
+               id="id" name="id"
+               value="{{company.id}}" readonly>
+        {{/company}}
+        <label for="number">사업자 번호</label>
+        <input type="text" class="form-control"
+               id="number" name="number"
+               {{^company}}placeholder="123-456-7890"{{/company}}
+               {{#company}}value="{{company.number}}"{{/company}}>
+        <label for="name">상호</label>
+        <input type="text" class="form-control"
+               id="name" name="name"
+               {{#company}}value="{{company.name}}"{{/company}}>
+        <label for="owner">대표자 이름</label>
+        <input type="text" class="form-control"
+               id="owner" name="owner"
+               {{#company}}value="{{company.owner}}"{{/company}}>
+        <label for="address">사업장 주소</label>
+        <input type="text" class="form-control"
+               id="address" name="address"
+               {{#company}}value="{{company.address}}"{{/company}}>
+        <label for="type">업태</label>
+        <input type="text" class="form-control"
+               id="type" name="type"
+               {{#company}}value="{{company.type}}"{{/company}}>
+        <label for="items">품목</label>
+        <input type="text" class="form-control"
+               id="items" name="items"
+               {{#company}}value="{{company.items}}"{{/company}}>
+        <label for="email">이메일</label>
+        <input type="text" class="form-control"
+               id="email" name="email"
+               {{#company}}value="{{company.email}}"{{/company}}>
+        <label for="phone">전화번호</label>
+        <input type="text" class="form-control"
+               id="phone" name="phone"
+               {{#company}}value="{{company.phone}}"{{/company}}>
+        <label for="fax">팩스번호</label>
+        <input type="text" class="form-control"
+               id="fax" name="fax"
+               {{#company}}value="{{company.fax}}"{{/company}}>
+    </form>
+</div>

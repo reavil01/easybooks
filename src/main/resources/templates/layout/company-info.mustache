@@ -1,0 +1,27 @@
+ <div>
+    <table class="table table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>사업자번호</th>
+            <th>사업자명</th>
+            <th>대표</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        <tr>
+            <td>
+                <input id="companyNumber" name="companyNumber"
+                    {{#company}}value="{{company.number}}" readonly{{/company}}>
+            </td>
+            <td>
+                <input id="companyName" name="companyName"
+                    {{#company}}value="{{company.name}}" readonly{{/company}}>
+            </td>
+            <td>
+                <input id="companyOwner" name="companyOwner"
+                    {{#company}}value="{{company.owner}}" readonly{{/company}}>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

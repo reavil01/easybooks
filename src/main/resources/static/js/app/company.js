@@ -31,13 +31,15 @@ var company = {
     },
 
     companySave: function () {
+        const json = readFormToJson();
+
         $.ajax({
             type: 'POST',
             url: '/api/v1/company',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
-            data: readFormToJson()
-        }).done(function () {
+            data: json
+        }).done(function (saved) {
             alert('거래처가 등록되었습니다.');
             window.location.href = '/';
         }).fail(function (error) {
@@ -46,26 +48,15 @@ var company = {
     },
 
     companyUpdate: function () {
-        var data = {
-            number: $('#number').val(),
-            name: $('#name').val(),
-            owner: $('#owner').val(),
-            address: $('#address').val(),
-            type: $('#type').val(),
-            items: $('#items').val(),
-            email: $('#email').val(),
-            phone: $('#phone').val(),
-            fax: $('#fax').val()
-        };
-
-        var id = $('#id').val();
+        const json = readFormToJson();
+        const id = $('#id').val();
 
         $.ajax({
             type: 'POST',
             url: '/api/v1/company/' + id,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(data)
+            data: json
         }).done(function () {
             alert('거래처가 수정되었습니다.');
             window.location.href = '/';
@@ -75,7 +66,7 @@ var company = {
     },
 
     companyDelete: function () {
-        var id = $('#id').val();
+        const id = $('#id').val();
 
         $.ajax({
             type: 'DELETE',
@@ -112,17 +103,12 @@ var company = {
         const companyNumber = $(row).children(".company-number").text()
         const companyName = $(row).children(".company-name").text()
         const companyOwner = $(row).children(".company-owner").text()
-        opener.$('#companyNumber').text(companyNumber)
-        opener.$('#companyName').text(companyName)
-        opener.$('#companyOwner').text(companyOwner)
+        opener.$('#companyNumber').val(companyNumber)
+        opener.$('#companyName').val(companyName)
+        opener.$('#companyOwner').val(companyOwner)
         window.close();
-    }
+    },
+
 }
 
-function readFormToJson() {
-    const data = $('form')
-        .serializeArray()
-        .reduce((data, kv) => ({...data, [kv.name]: kv.value}), {});
-    return JSON.stringify(data)
-}
 company.init();

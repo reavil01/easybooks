@@ -1,67 +1,16 @@
 {{>layout/header}}
 {{>layout/navigation}}
-<h1>송장 등록</h1>
+<h1>송장 수정</h1>
 
 <div class="col-md-12">
     <div class="col-md-8">
-        <table class="table table-bordered">
-            <thead class="thead-strong">
-            <tr>
-                <th>사업자번호</th>
-                <th>사업자명</th>
-                <th>대표</th>
-            </tr>
-            </thead>
-            <tbody id="tbody">
-            <tr>
-                <td id="companyNumber">{{ledger.company.number}}</td>
-                <td id="companyName">{{ledger.company.name}}</td>
-                <td id="companyOwner">{{ledger.company.owner}}</td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="col-md-4">
-            <form>
-                <div class="form-group">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control"
-                           id="id" value="{{ledger.id}}" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="type">타입</label>
-                    <input type="radio" id="sell" class="form-control" name="type" value="Sell" checked>
-                    <label for="sell">매출</label>
-                    <input type="radio" id="purchase" class="form-control" name="type" value="Purchase">
-                    <label for="purchase">매입</label>
-                </div>
-                <table class="table table-horizontal table-bordered">
-                    <thead class="thead-strong">
-                    <tr>
-                        <th>날짜</th>
-                        <th>품명</th>
-                        <th>단가</th>
-                        <th>수량</th>
-                        <th>가격</th>
-                        <th>부가세</th>
-                        <th>총액</th>
-                    </tr>
-                    </thead>
-                    <tbody id="tbody">
-                    <tr>
-                        <td><input type="date" id="date" value="{{ledger.date}}"></td>
-                        <td><input type="text" id="item" value="{{ledger.item}}"></td>
-                        <td><input type="text" id="unitPrice" value="{{ledger.unitPrice}}"></td>
-                        <td><input type="text" id="quantity" value="{{ledger.quantity}}"></td>
-                        <td><input type="text" id="price" value="{{ledger.price}}"></td>
-                        <td><input type="text" id="vat" value="{{ledger.vat}}" readonly></td>
-                        <td><input type="text" id="total" value="{{ledger.total}}" readonly></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </form>
-            <a href="/" role="button" class="btn btn-secondary">취소</a>
-            <button type="button" class="btn btn-primary" id="btn-ledger-update">등록</button>
-            <button type="button" class="btn btn-danger" id="btn-ledger-delete">삭제</button>
-        </div>
+        <form>
+            {{>layout/company-info}}
+            {{>layout/ledger-info}}
+        </form>
+        <a href="/" role="button" class="btn btn-secondary">취소</a>
+        <button type="button" class="btn btn-primary" id="btn-ledger-update">등록</button>
+        <button type="button" class="btn btn-danger" id="btn-ledger-delete">삭제</button>
     </div>
+</div>
 {{>layout/footer}}

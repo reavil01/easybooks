@@ -69,6 +69,7 @@ class LedgerController(val ledgerRepositoryService: LedgerRepositoryService) {
     ): String {
         val dto = ledgerRepositoryService.findById(id)
         model.addAttribute("ledger", dto)
+        model.addAttribute("company", dto.company)
 
         return "ledger-update"
     }

@@ -1,0 +1,47 @@
+<div class="col-md-4">
+    <div class="form-group">
+        {{#ledger}}
+        <label for="id">ID</label>
+        <input type="text" class="form-control"
+               id="id" value="{{ledger.id}}" readonly>
+        {{/ledger}}
+    </div>
+    <div class="form-group">
+        <label for="type">타입</label>
+        <input type="radio" id="sell" class="form-control" name="type" value="Sell" checked>
+        <label for="sell">매출</label>
+        <input type="radio" id="purchase" class="form-control" name="type" value="Purchase">
+        <label for="purchase">매입</label>
+    </div>
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>날짜</th>
+            <th>품명</th>
+            <th>단가</th>
+            <th>수량</th>
+            <th>가격</th>
+            <th>부가세</th>
+            <th>총액</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        <tr>
+            <td><input type="date" id="date" name="date"
+                       {{#ledger}}value="{{ledger.date}}"{{/ledger}}></td>
+            <td><input type="text" id="item" name="item"
+                       {{#ledger}}value="{{ledger.item}}"{{/ledger}}></td>
+            <td><input type="text" id="unitPrice" name="unitPrice"
+                       {{#ledger}}value="{{ledger.unitPrice}}"{{/ledger}}></td>
+            <td><input type="text" id="quantity" name="quantity"
+                       {{#ledger}}value="{{ledger.quantity}}"{{/ledger}}></td>
+            <td><input type="text" id="price" name="price"
+                       {{#ledger}}value="{{ledger.price}}"{{/ledger}}></td>
+            <td><input type="text" id="vat" name="vat"
+                {{#ledger}}value="{{ledger.vat}}" readonly{{/ledger}}></td>
+            <td><input type="text" id="total" name="total"
+                {{#ledger}}value="{{ledger.total}}" readonly{{/ledger}}></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

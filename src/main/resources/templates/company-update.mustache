@@ -4,58 +4,7 @@
 
 <div class="col-md-12">
     <div class="col-md-4">
-        <form>
-            <div class="form-group">
-                <label for="id">ID</label>
-                <input type="text" class="form-control"
-                       id="id" value="{{company.id}}" readonly>
-            </div>
-            <div class="form-group">
-                <label for="number">사업자 번호</label>
-                <input type="text" class="form-control"
-                       id="number" value="{{company.number}}">
-            </div>
-            <div class="form-group">
-                <label for="name">상호</label>
-                <input type="text" class="form-control"
-                       id="name" value="{{company.name}}">
-            </div>
-            <div class="form-group">
-                <label for="owner">대표자 이름</label>
-                <input type="text" class="form-control"
-                       id="owner" value="{{company.owner}}">
-            </div>
-            <div class="form-group">
-                <label for="address">사업장 주소</label>
-                <input type="text" class="form-control"
-                       id="address" value="{{company.address}}">
-            </div>
-            <div class="form-group">
-                <label for="type">업태</label>
-                <input type="text" class="form-control"
-                       id="type" value="{{company.type}}">
-            </div>
-            <div class="form-group">
-                <label for="items">품목</label>
-                <input type="text" class="form-control"
-                       id="items" value="{{company.items}}">
-            </div>
-            <div class="form-group">
-                <label for="email">이메일</label>
-                <input type="text" class="form-control"
-                       id="email" value="{{company.email}}">
-            </div>
-            <div class="form-group">
-                <label for="phone">전화번호</label>
-                <input type="text" class="form-control"
-                       id="phone" value="{{company.phone}}">
-            </div>
-            <div class="form-group">
-                <label for="fax">팩스번호</label>
-                <input type="text" class="form-control"
-                       id="fax" value="{{company.fax}}">
-            </div>
-        </form>
+        {{>layout/company-form}}
         <a href="/" role="button" class="btn btn-secondary">취소</a>
         <button type="button" class="btn btn-primary" id="btn-update">수정완료</button>
         <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
